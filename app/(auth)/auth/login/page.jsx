@@ -52,7 +52,7 @@ export default function Page() {
    };
 
    return (
-      <main className="flex-1 p-4 bg-white flex flex-col justify-between">
+      <main className="flex-1 main flex flex-col justify-between">
          <form
             onSubmit={handleSubmit}
             className="px-4 flex flex-col gap-4 relative">
@@ -65,7 +65,7 @@ export default function Page() {
                {/* <i className="bx bx-user"></i> */}
                <b className="p-1">Email</b>
                <input
-                  type="text"
+                  type="email"
                   className="w-full h-9 px-3 py-2 !bg-transparent border relative border-tertiary shadow shadow-tertiary rounded-2xl outline-none"
                   required
                   placeholder="example@emegen.com"

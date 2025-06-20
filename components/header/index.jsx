@@ -12,7 +12,7 @@ export const Header = async () => {
    const user = await useAuthUser();
 
    return (
-      <header className="h-20 px-8 flex items-center justify-between ">
+      <header className="h-24 sm:px-0 flex items-center justify-between bg-headerBackground dark:!text-white dark:bg-[#1c1d22] sticky top-0 z-50">
          <section className="flex-1 flex items-center gap-4">
             <Link href="/" className="sm:hidden">
                <Logo />
@@ -21,18 +21,18 @@ export const Header = async () => {
             <Search />
          </section>
 
-         <section className="flex-1 flex items-center justify-end gap-4">
-            {Object.keys(user).length > 0 ? (
+         <section className=" p-1 flex items-center justify-end gap-4 overflow-hidden">
+            {user && Object.keys(user).length > 0 ? (
                <>
-                  <button className="bx bx-message-rounded-dots text-secondary text-2xl "></button>
-                  <button className="bx bx-bell text-secondary text-2xl "></button>
+                  <button className="bx bx-message-rounded-dots text-secondary dark:!text-inherit text-2xl "></button>
+                  <button className="bx bx-bell text-secondary dark:!text-inherit text-2xl "></button>
                   <Avatar
                      userAvatar={user?.avatar}
                      name={`${user.name} `}
                      userName={user.userName}
+                     src={user?.profilePicture}
                      className="sm:flex hidden"
                   />
-                  <i className="bx bx-search text-2xl sm:hidden"></i>
                </>
             ) : (
                <>

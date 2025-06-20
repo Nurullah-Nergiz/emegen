@@ -7,6 +7,23 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
    const menu = {
+      "Dış görünüş": [
+         {
+            icon: "bx bx-cog",
+            text: "Genel ayarlar",
+            link: "/settings/general",
+         },
+         {
+            icon: "bx bx-palette",
+            text: "Tema ayarları",
+            link: "/settings/theme",
+         },
+         {
+            icon: "",
+            text: "",
+            // link: "/settings/",
+         },
+      ],
       Hesap: [
          {
             icon: "bx bx-user",
@@ -19,22 +36,29 @@ export default async function RootLayout({ children }) {
             link: "/settings/change-password",
          },
          {
-            icon: "",
-            text: "",
-            link: "/settings/",
+            icon: "bx bx-shield",
+            text: "Gizlilik ayarları",
+            link: "/settings/privacy",
          },
+         // {
+         //    icon: "bx bx-bell",
+         //    text: "Bildirim ayarları",
+         //    link: "/settings/notifications",
+         // },
       ],
-      "Dış görünüş": [
+      "": [
+         // {},
          {
-            icon: "bx bx-palette",
-            text: "Tema ayarları",
-            link: "/settings/theme",
+            icon: "bx bx-trash",
+            text: "Hesabı Sil",
+            link: "/settings/delete-account",
+            className: "text-primary",
          },
       ],
    };
    return (
       <>
-         <Nav menu={menu} />
+         <Nav menu={menu} prefix="/setting" />
          <section className="w-full flex-1">
             <Header />
             <section className="h-full px-8 flex gap-4">{children}</section>

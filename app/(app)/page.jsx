@@ -7,7 +7,7 @@ import Link from "next/link";
 import { RecommendedPeopleWidget } from "@/components/widgets/RecommendedPeople";
 import { getExplore } from "@/services/explore";
 import { useEffect, useState } from "react";
-import Posts from "@/components/post";
+import Posts from "@/components/widgets/post";
 
 export default function Home() {
    const [posts, setPosts] = useState([]);
@@ -19,17 +19,20 @@ export default function Home() {
 
    return (
       <>
-         <main className="w-full h-h-full mb-4 flex gap-4">
+         <main className="w-full h-h-full mb-4 flex gap-8">
             <section className="flex-1 mx-auto ">
-               <div className="w-full h-52 mb-4 p-4 bg-secondary text-white rounded-xl">
-                  Premium masaüstü
+               <div className="w-full !pt-[30%] mb-4 !bg-secondary text-white main">
+                  {/* Premium masaüstü 
+                  475 */}
                </div>
                <Posts posts={posts} />
             </section>
          </main>
-         <aside className=" min-w-96 pl-4 w-1/3 flex flex-col gap-4">
-             {/* <Ad /> */}
-            <RecommendedPeopleWidget />
+         <aside className=" min-w-96 lg:w-1/3 ">
+            <div className=" sticky top-10 transition-all">
+               <Ad />
+               <RecommendedPeopleWidget />
+            </div>
          </aside>
       </>
    );

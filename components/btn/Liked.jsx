@@ -40,7 +40,8 @@ export default function BtnLiked({ children, isLiked, id }) {
          <button
             className={`bx ${like ? "bxs" : "bx"}-heart ${
                like ? "text-primary" : ""
-            } `}
+               } `}
+         data-like-id={id}
             onClick={toggleLike}></button>
       </>
    );

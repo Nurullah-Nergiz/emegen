@@ -6,8 +6,7 @@ import { userInstance } from "./index";
  */
 export const getUser = (userName) => userInstance("users/" + userName);
 
+export const getUserPosts = (userName) =>
+   userInstance(`users/${userName}/posts`);
 
-export const getUserPosts = (userName) => userInstance(`users/${userName}/posts`);
-
-
-
+export const putUser = (data) => userInstance.put(`users/me`, data);

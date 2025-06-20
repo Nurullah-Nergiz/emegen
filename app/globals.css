@@ -15,18 +15,29 @@
       --secondary: "#717489";
       --tertiary: "#f5f6ff";
       --main: "#26262e";
+      --headerBackground: "#1c1d22";
+   }
+}
+
+@theme inline {
+   :root {
+      --headerBackground: "#1c1d22";
+      --secondary: "#717489";
+      --tertiary: "#f5f6ff";
+      --main: "#26262e";
    }
 }
 
 html {
    font-size: clamp(12px, 1vw, 32px);
 
-   @apply w-screen bg-[#f2f2f2] overflow-x-hidden dark:bg-[#1c1d22] dark:text-[#f5f6ff];
+   @apply w-screen bg-headerBackground overflow-x-hidden dark:bg-[#1c1d22] dark:text-[#f5f6ff] ;
 }
 
 body {
-   /* background: url("../img/layout.jpg") no-repeat; */
+   /* background: url("../img/settings.jpg") no-repeat; */
    /* background-size: cover; */
+   /* background-inset: 2; */
    @apply flex;
 }
 
@@ -113,8 +124,17 @@ details.WidgetsPopup[open] > summary > span {
    @apply !hidden;
 }
 
+input[type="number"]::-webkit-inner-spin-button {
+   -webkit-appearance: none;
+   margin: 0;
+}
+
 @layer utilities {
    .text-balance {
       text-wrap: balance;
+   }
+
+   .h-screen {
+      height: 100svh;
    }
 }

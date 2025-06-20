@@ -1,4 +1,4 @@
-import { AvatarImg } from "@/components/widgets/avatar";
+import { AvatarImg, CoverImage } from "@/components/widgets/avatar";
 import Link from "next/link";
 import { PrimaryBtn, SecondaryBtn } from "@/components/btn";
 import { RecommendedPeopleWidget } from "../../../components/widgets/RecommendedPeople";
@@ -21,7 +21,7 @@ export default async function Layout({ children, params }) {
    const { status, data: user } = await getUser(
       username.replace(/%40/g, "").trim()
    );
-   // console.log("user:", user);
+   console.log("user:", user);
 
    // console.log(await useAuthUser());
    const isAuthenticatedUser = (await useAuthUser())?._id === user?._id;
@@ -32,41 +32,18 @@ export default async function Layout({ children, params }) {
       <>
          <section className="flex-1">
             <header className="">
-               <section className="bg-secondary relative">
-                  <Image
-                     src="https://picsum.photos/600/200"
-                     width={600}
-                     height={200}
-                     alt=""
-                     className="w-full max-h-52"
+               <CoverImage src={user?.coverPicture} />
+
+               <section className="py-4 flex flex-wrap items-stretch  gap-4 overflow-hidden">
+                  <AvatarImg
+                     src={user?.profilePicture}
+                     className="w-auto h-full max-w-40 max-h-80 p-1 "
+                     width={240}
                   />
-                  <div className="px-4 flex items-end justify-between absolute right-0 bottom-0 left-0 translate-y-16">
-                     <AvatarImg className="w-32 h-32 max-w-40 max-h-40 p-1 " />
-                     <div className="mb-5 flex items-center gap-4">
-                        {isAuthenticatedUser ? (
-                           <>
-                              <Link href="/settings/edit-profile">
-                                 <PrimaryBtn>
-                                    <i className="bx bx-edit"></i>
-                                    Edit profile
-                                 </PrimaryBtn>
-                              </Link>
-                           </>
-                        ) : (
-                           <>
-                              <SecondaryBtn>
-                                 <i className="bx bx-send"></i>
-                                 Message
-                              </SecondaryBtn>
-                              <FollowBtn />
-                           </>
-                        )}
-                     </div>
-                  </div>
-               </section>
-               <section className="mt-12 py-4 flex flex-wrap gap-4 overflow-hidden">
-                  <section className="flex-1 flex gap-4">
-                     <div className="flex flex-col gap-4">
+                  {/* <div className="px-4 flex items-end justify-between ">
+                  </div> */}
+                  <section className="flex-1 flex flex-wrap gap-4">
+                     <div className="flex flex-col gap-2">
                         <div className="flex items-center">
                            <div className="whitespace-nowrap">
                               <h1 className="inline-flex items-center gap-2 text-2xl font-bolds ">
@@ -76,13 +53,13 @@ export default async function Layout({ children, params }) {
                            </div>
                         </div>
                         <p className=" text-base">@{user?.userName}</p>
-                        <p className="max-h-10 text-sm overflow-hidden text-ellipsis">
+                        {/* <p className="max-h-10 text-sm overflow-hidden text-ellipsis">
                            {user?.bio} Lorem ipsum, dolor sit amet consectetur
                            adipisicing elit. Ex impedit nihil doloremque
                            voluptas itaque laboriosam nesciunt, quam error quo
                            cum dolores perferendis in quisquam? Consequatur sit
                            recusandae sed praesentium non!
-                        </p>
+                        </p> */}
                         {/* </div>
                      <div className="flex flex-col gap-4"> */}
                         <div className="flex items-center gap-4">
@@ -94,15 +71,21 @@ export default async function Layout({ children, params }) {
                            </span>
                         </div>
                         <div className="flex items-center gap-4">
-                           <p className="px-1 border-b border-tertiary whitespace-nowrap">
-                              <i className="bx bx-map"></i>
-                              Location
-                           </p>
-                           <p className="px-1 border-b border-tertiary whitespace-nowrap">
-                              <i className="bx bx-link"></i>
-                              {user?.website}
-                              Website
-                           </p>
+                           {user?.location && (
+                              <p className="bx bx-map px-1 border-b border-tertiary whitespace-nowrap">
+                                 {user?.location}
+                              </p>
+                           )}
+                           {user?.website && (
+                              <a
+                                 className="bx bx-link px-1 border-b border-tertiary whitespace-nowrap hover:underline"
+                                 href={user?.website}
+                                 target="_blank"
+                                 rel="noopener noreferrer"
+                                 title="Website">
+                                 Website
+                              </a>
+                           )}
                            <p className="px-1 border-b border-tertiary whitespace-nowrap">
                               <i className="bx bx-phone"></i>
                               {user?.phoneNumber}
@@ -114,25 +97,49 @@ export default async function Layout({ children, params }) {
                            </p> */}
                         </div>
                         <div className="flex items-center gap-2">
-                           {[
-                              "#react",
-                              "#nextjs",
-                              "#tailwindcss",
-                              "nodejs",
-                              "vuejs",
-                           ].map((tag) => (
+                           {(typeof user?.tags[0] === "object"
+                              ? user.tags[0]
+                              : user.tags
+                           )?.map((tag) => (
                               <span
                                  key={tag}
-                                 className="text-xs px-2 py-1 bg-primary text-white rounded-lg">
-                                 {tag}
+                                 className="text-xs px-2 py-1 bg-secondary text-white rounded-lg underline">
+                                 #{tag}
                               </span>
                            ))}
                         </div>
                         <div className="justify-items-end flex gap-4"></div>
                      </div>
                   </section>
+                  <div className="mb-5 flex items-center gap-4">
+                     {isAuthenticatedUser ? (
+                        <>
+                           <Link href="/settings/edit-profile" className="bx bx-edit">
+                              <PrimaryBtn >
+                                 Profili Düzenle
+                              </PrimaryBtn>
+                           </Link>
+                           <SecondaryBtn>
+                              
+                           </SecondaryBtn>
+                        </>
+                     ) : (
+                        <>
+                           <FollowBtn type="secondary" />
+                           <PrimaryBtn className="">Teklif Al</PrimaryBtn>
+                        </>
+                     )}
+                  </div>
                </section>
+               <div className="">
+                  <h2 className="text-xl font-semibold mb-2">Hakkında </h2>
+                  <p className="text-sm text-secondary">
+                     {user?.bio ||
+                        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, doloremque."}
+                  </p>
+               </div>
             </header>
+
             <nav className="py-1 flex gap-4 border-b border-secondary">
                {[
                   { name: "Home", href: "" },
@@ -140,18 +147,18 @@ export default async function Layout({ children, params }) {
                   { name: "About", href: "about" },
                ].map(({ name, href }) => (
                   <Link
-                     href={`/${user?.userName}/${href}`}
+                     href={`/@${user?.userName}/${href}`}
                      className="hover:underline"
-                     key={name}>
+                     key={"profil-navbar-" + name}>
                      {name}
                   </Link>
                ))}
             </nav>
             {children}
          </section>
-         <aside className="min-w-96 w-1/3 px-2 hiddens lg:block">
+         <aside className="min-w-96 w-1/3 hidden lg:flex flex-col gap-4">
             <Ad />
-            {/* <Ad /> */}
+
             <RecommendedPeopleWidget />
          </aside>
       </>

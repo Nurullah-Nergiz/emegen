@@ -6,6 +6,7 @@ const headers = {
    authorization: getAuthenticationToken(),
    // "Access"
 };
+   console.log("file: index.js:9 => getAuthenticationToken=>", getAuthenticationToken);
 
 export const searchInstance = axios.create({
    baseURL: process.env.NEXT_PUBLIC_BACKEND_HOSTNAME,
@@ -18,6 +19,11 @@ export const authInstance = axios.create({
 });
 
 export const userInstance = axios.create({
+   baseURL: process.env.NEXT_PUBLIC_BACKEND_HOSTNAME,
+   headers,
+});
+
+export const userFallowInstance = axios.create({
    baseURL: process.env.NEXT_PUBLIC_BACKEND_HOSTNAME,
    headers,
 });

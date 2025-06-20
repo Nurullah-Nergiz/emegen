@@ -13,7 +13,10 @@ export const authSlice = createSlice({
    reducers: {
       loginSuccess: (state, action) => {
          Cookies.set("user", JSON.stringify(action.payload), {
-            expires: 7,
+            expires: 364,
+            // secure: true,
+            // sameSite: "strict",
+            // httpOnly: true,
          });
          state.isLoading = action.payload?.authentication;
          state.user = action.payload?.user;

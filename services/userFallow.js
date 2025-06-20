@@ -1,0 +1,12 @@
+import { userFallowInstance } from "./index";
+
+export const setUserFallowing = (id) =>
+   userFallowInstance(`users/${id}/follow`, {
+      method: "POST",
+   });
+
+   export const setUserUnFallowing = (id) =>
+    userFallowInstance(`users/${id}/unfollow`, {
+       method: "POST",
+    });
+ 

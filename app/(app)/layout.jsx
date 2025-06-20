@@ -4,8 +4,8 @@ import useAuthUser from "@/hooks/auth";
 
 export default async function RootLayout({ children }) {
    const user = await useAuthUser();
-   const isAuthenticated = typeof user._id === "string" ? true : false;
-   
+   const isAuthenticated = user && typeof user?._id === "string" ? true : false;
+
    const menu = {
       Menu: [
          {
@@ -14,14 +14,19 @@ export default async function RootLayout({ children }) {
             link: "/",
          },
          {
-            icon: "bx bx-bookmark",
-            text: "Yer işareti",
-            link: "/bookmarks",
+            icon: "bx bx-plus-circle",
+            text: "Yeni gönderi",
+            link: "/new-post",
          },
          {
             icon: "bx bx-bar-chart-alt-2",
             text: "Analitik",
             link: "/analytics",
+         },
+         {
+            icon: "bx bx-bookmark",
+            text: "Yer işareti",
+            link: "/bookmarks",
          },
       ],
       Genel: [
@@ -44,15 +49,17 @@ export default async function RootLayout({ children }) {
    };
 
    if (!isAuthenticated) {
-      delete menu.General;
+      menu.Genel = undefined;
+      delete menu.Genel;
+      console.log("file: layout.jsx:55 => menu=>", menu);
    }
 
    return (
       <>
          <Nav menu={menu} />
-         <section className="w-full px-4 flex-1">
+         <section className="w-full px-10 flex-1 ">
             <Header />
-            <section className="h-full sm:px-8 flex flex-col lg:flex-row gap-4">
+            <section className="h-full sm:px-0 flex flex-col lg:flex-row gap-8">
                {children}
             </section>
          </section>

@@ -11,3 +11,8 @@ export const loginServices = (data) => authInstance("auth/login", {
     method: "post",
     data,
 });
+
+export const registerServices = (data) => authInstance("auth/register", {
+    method: "post",
+    data,
+});
