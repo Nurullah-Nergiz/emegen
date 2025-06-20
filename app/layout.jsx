@@ -11,6 +11,7 @@ export default async function Layout({ children }) {
    const currentTheme = await useTheme();
 
    return (
+
       <html lang="tr" className={`${currentTheme} `}>
          <head>
             <meta
@@ -35,6 +36,7 @@ export default async function Layout({ children }) {
                name="google-adsense-account"
                content="ca-pub-1933557350242575"
             />
+
          </head>
          <ReduxProvider>
             <body className={`${inter.className} `}>
