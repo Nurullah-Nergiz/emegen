@@ -19,6 +19,11 @@ export default async function RootLayout({ children }) {
             link: "/new-post",
          },
          {
+            icon: "bx bx-gift",
+            text: "Teklifler",
+            link: "/tenders",
+         },
+         {
             icon: "bx bx-bar-chart-alt-2",
             text: "Analitik",
             link: "/analytics",
@@ -51,7 +56,6 @@ export default async function RootLayout({ children }) {
    if (!isAuthenticated) {
       menu.Genel = undefined;
       delete menu.Genel;
-      console.log("file: layout.jsx:55 => menu=>", menu);
    }
 
    return (
@@ -59,7 +63,7 @@ export default async function RootLayout({ children }) {
          <Nav menu={menu} />
          <section className="w-full px-10 flex-1 ">
             <Header />
-            <section className="h-full sm:px-0 flex flex-col lg:flex-row gap-8">
+            <section className="h-full sm:px-0 flex flex-col lg:flex-row gap-6">
                {children}
             </section>
          </section>

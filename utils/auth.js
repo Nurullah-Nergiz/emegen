@@ -2,7 +2,8 @@ import Cookies from "js-cookie";
 
 export const getAuthenticationToken = () => {
    const token = Cookies.get("user");
-   return token ? JSON.parse(token)?.authentication : "";
+   console.log();
+   return token ? JSON.parse(token)?.authorization : "";
 };
 
 export const getAuthenticationUser = () => {
@@ -11,7 +12,7 @@ export const getAuthenticationUser = () => {
 };
 
 export const setAuthenticationUser = (user) => {
-   const authInfo = { user, authentication: getAuthenticationToken() };
+   const authInfo = { user, authorization: getAuthenticationToken() };
    Cookies.set("user", JSON.stringify(authInfo), {
       expires: 364,
    });

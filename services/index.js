@@ -6,7 +6,6 @@ const headers = {
    authorization: getAuthenticationToken(),
    // "Access"
 };
-   console.log("file: index.js:9 => getAuthenticationToken=>", getAuthenticationToken);
 
 export const searchInstance = axios.create({
    baseURL: process.env.NEXT_PUBLIC_BACKEND_HOSTNAME,
@@ -53,6 +52,10 @@ export const bookmarkInstance = axios.create({
    headers,
 });
 
+export const TendersInstance = axios.create({
+   baseURL: process.env.NEXT_PUBLIC_BACKEND_HOSTNAME,
+   headers,
+});
 
 [
    searchInstance,

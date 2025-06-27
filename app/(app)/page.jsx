@@ -1,6 +1,6 @@
 "use client";
 
-import { Ad } from "@/components/Ad";
+import { Ad } from "@/components/AdBanner";
 import { Avatar } from "@/components/widgets/avatar";
 import Post from "@/components/widgets/post";
 import Link from "next/link";

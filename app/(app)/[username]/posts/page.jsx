@@ -1,6 +1,5 @@
 import { getUserPosts } from "@/services/user";
-import Post from "@/components/widgets/post";
-import Posts from "@/components/post/index";
+import Posts from "@/components/widgets/post";
 
 export default async function Page({ params }) {
    const { username } = await params;
