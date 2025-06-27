@@ -11,7 +11,6 @@ export default async function Layout({ children }) {
    const currentTheme = await useTheme();
 
    return (
-
       <html lang="tr" className={`${currentTheme} `}>
          <head>
             <meta
@@ -36,7 +35,14 @@ export default async function Layout({ children }) {
                name="google-adsense-account"
                content="ca-pub-1933557350242575"
             />
-
+            {/* <script
+               async
+               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1933557350242575"
+               crossorigin="anonymous"></script> */}
+            <script
+               async
+               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1933557350242575"
+               crossorigin="anonymous"></script>
          </head>
          <ReduxProvider>
             <body className={`${inter.className} `}>
