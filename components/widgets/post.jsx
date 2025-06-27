@@ -7,7 +7,10 @@ export default function Posts({ posts = [] }) {
       <>
          {/* <WindowVirtualizer className="!h-full"> */}
          {posts.map((post, index) => (
-            <Post key={post._id} post={post} />
+            <>
+               <Post key={`post-${post._id}-${index}`} post={post} />
+               
+            </>
          ))}
          {/* </WindowVirtualizer> */}
       </>

@@ -16,7 +16,8 @@ export const ItemLink = ({
    link = "",
    icon,
    text,
-   mode = "row",
+   mode = "full",
+   type = "row",
    className = "",
 }) => {
    const pathName = usePathname();
@@ -47,12 +48,12 @@ export const ItemLink = ({
             className={`${
                active ? icon.replace("bx-", "bxs-") + " sm:text-primary" : icon
             } text-2xl`}></i>
-         {mode !== "col" ? (
+         {type !== "col" ? (
             <p
                className={`${
                   active ? "font-black" : ""
                } w-max pr-10 bg-slate-00 whitespace-nowrap xl:block transition-all text-base ${
-                  navbar ? "block" : "!hidden"
+                  mode === "full" ? "block" : "!hidden"
                }`}>
                {text} <br />
             </p>

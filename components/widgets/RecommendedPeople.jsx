@@ -5,12 +5,16 @@ import { getExploreByUser } from "@/services/explore";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export const RecommendedPeopleWidget = () => {
+export const RecommendedPeopleWidget = ({ mode = "recommended" }) => {
    const [users, setUsers] = useState([]);
 
+   // mode: recommended, following, followers
+   // mode: trending by user
+   
+   
    useEffect(() => {
       getExploreByUser()
-         .then(({data,status}) => {
+         .then(({ data, status }) => {
             // { status, data = [] }
             // console.log(status, data);
 

@@ -43,7 +43,11 @@ export const AvatarImg = ({
 }) => {
    return (
       <Image
-         src={src ? `http://cdn.emegen.com.tr/${src}` : ""}
+         src={
+            src
+               ? `http://cdn.emegen.com.tr/${src}`
+               : "http://cdn.emegen.com.tr/avatars/user.png"
+         }
          width={width}
          height={width}
          className={twMerge(
@@ -68,7 +72,7 @@ export const CoverImage = ({
          src={src ? `http://cdn.emegen.com.tr/${src}` : ""}
          width={600}
          height={200}
-         className={twMerge("w-full max-h-52 object-cover", className)}
+         className={twMerge("w-full max-h-52 object-cover rounded-xl", className)}
          alt={alt}
          // onError={(e) => {
          //    e.target.src = "https://picsum.photos/seed/picsum/600/200";
