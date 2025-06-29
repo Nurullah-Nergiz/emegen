@@ -9,7 +9,7 @@ export default function LogoutPage({ children }) {
    const router = useRouter();
    useEffect(() => {
       dispatch(logout());
-      router.push("/");
+      router.push("/auth/login");
    },[]);
    return <>logout page</>;
 }

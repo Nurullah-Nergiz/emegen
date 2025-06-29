@@ -3,23 +3,28 @@
 import { PrimaryBtn } from "@/components/btn";
 import AuthHeaderContext from "@/components/provider/authHeader";
 import { registerServices } from "@/services/auth";
+import { loginSuccess } from "@/store/authStore";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
-export default function RegisterPage({ children }) {
-   const [authHeaderData, setAuthHeaderData] = useContext(AuthHeaderContext);
+export default function RegisterPage() {
+   const router = useRouter();
+   const [, setAuthHeaderData] = useContext(AuthHeaderContext);
 
+   const dispatch = useDispatch();
+   
    useEffect(() => {
       setAuthHeaderData({
-         title: "Register",
-         description: "Please fill the your details",
+         title: "Kayıt olmak",
+         description: "Lütfen bilgilerinizi doldurun",
       });
    }, []);
 
    const handleSubmit = (e) => {
       e.preventDefault();
-      const router = useRouter();
-      
+
       if (e.target[4].checked === true) {
          if (e.target[2].value === e.target[3].value) {
             registerServices({
@@ -29,7 +34,13 @@ export default function RegisterPage({ children }) {
                // confirmPassword: e.target[2].value,
             })
                .then((res) => {
+                  
                   console.log("file: page.jsx:24 => res", res);
+                  if (res.status !== 201) {
+                     console.error("Registration failed", res);
+                     // Handle registration error
+                     return;
+                  }
                   dispatch(loginSuccess(res.data));
                   router.push("/settings/edit-profile");
                   // Handle successful registration
@@ -52,10 +63,10 @@ export default function RegisterPage({ children }) {
    };
 
    return (
-      <main className="flex-1 p-4 bg-white flex flex-col justify-between">
+      <main className="flex-1 p-4 bg-main flex flex-col justify-between">
          <form onSubmit={handleSubmit} className="flex flex-col gap-4 relative">
             <label>
-               <b className="mb-1 block">Kullanıcı Adı</b>
+               <b className="mb-1 block">İsim</b>
                <input
                   type="text"
                   className="w-full h-9 px-3 py-2 !bg-transparent border relative border-tertiary shadow shadow-tertiary rounded-2xl outline-none"
@@ -68,7 +79,7 @@ export default function RegisterPage({ children }) {
                {/* <i className="bx bx-user"></i> */}
                <b className="mb-1 block">E -posta</b>
                <input
-                  type="text"
+                  type="email"
                   className="w-full h-9 px-3 py-2 !bg-transparent border relative border-tertiary shadow shadow-tertiary rounded-2xl outline-none"
                   required
                   placeholder="example@emegen.com"

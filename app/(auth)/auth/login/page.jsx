@@ -52,7 +52,7 @@ export default function Page() {
    };
 
    return (
-      <main className="flex-1 main flex flex-col justify-between">
+      <main className="flex-1 flex flex-col justify-between">
          <form
             onSubmit={handleSubmit}
             className="px-4 flex flex-col gap-4 relative">
@@ -74,7 +74,7 @@ export default function Page() {
                />
             </label>
             <label className="">
-               <b className="">Password</b>
+               <b className="">Şifre</b>
                {/* <i className="bx bx-lock-alt"></i> */}
                <input
                   type="password"
@@ -87,9 +87,9 @@ export default function Page() {
             <div className="flex justify-between items-center text-xs select-none">
                <label className=" flex items-center gap-2">
                   <input type="checkbox" />
-                  <span className="whitespace-nowrap">Remember Me</span>
+                  <span className="whitespace-nowrap">Beni Hatırla</span>
                </label>
-               <Link href="./forgot-password" className="underline underline-offset-4">Forgot Password?</Link>
+               <Link href="./forgot-password" className="underline underline-offset-4">Parolanızı mı unuttunuz?</Link>
             </div>
             <PrimaryBtn type="submit" className="h-9 bg-primary">
                Login
@@ -97,9 +97,9 @@ export default function Page() {
             {/* <br />  */}
          </form>
          <p className="text-sm text-center whitespace-nowrap select-none">
-            Don't have an account? &nbsp;
+            Hesabınız yok mu? &nbsp;
             <Link href="register" className="text-primary">
-               Register
+               Kayıt ol
             </Link>
          </p>
       </main>
