@@ -31,7 +31,7 @@
 html {
    font-size: clamp(12px, 1vw, 32px);
 
-   @apply w-screen bg-headerBackground overflow-x-hidden dark:bg-[#1c1d22] dark:text-[#f5f6ff] ;
+   @apply w-screen bg-headerBackground overflow-x-hidden dark:bg-[#1c1d22] dark:text-[#f5f6ff];
 }
 
 body {
@@ -54,7 +54,7 @@ body > section > section {
 } */
 
 h1 {
-   @apply text-3xl font-bold;
+   @apply text-2xl font-bold;
 }
 
 hr {
@@ -64,6 +64,10 @@ hr {
 a,
 .bx button {
    @apply text-black dark:text-white;
+}
+
+.bx {
+   @apply text-2xl;
 }
 
 nav > section > div > ul.General {
@@ -136,5 +140,9 @@ input[type="number"]::-webkit-inner-spin-button {
 
    .h-screen {
       height: 100svh;
+   }
+
+   .text-main {
+      @apply text-black dark:text-white;
    }
 }

@@ -39,7 +39,7 @@ export const AvatarImg = ({
    src = "",
    alt = "user avatar",
    className = "",
-   width = 64,
+   size = 48,
 }) => {
    return (
       <Image
@@ -48,10 +48,10 @@ export const AvatarImg = ({
                ? `http://cdn.emegen.com.tr/${src}`
                : "http://cdn.emegen.com.tr/avatars/user.png"
          }
-         width={width}
-         height={width}
+         width={size}
+         height={size}
          className={twMerge(
-            `w-12 h-12 p-[2px] rounded-full border-2 border-primary border-r-transparent border-b-transparent`,
+            `p-[2px] rounded-full border-2 border-primary border-r-transparent border-b-transparent aspect-square`,
             className
          )}
          alt={alt}
@@ -68,16 +68,21 @@ export const CoverImage = ({
    className = "",
 }) => {
    return (
-      <Image
-         src={src ? `http://cdn.emegen.com.tr/${src}` : ""}
-         width={600}
-         height={200}
-         className={twMerge("w-full max-h-52 object-cover rounded-xl", className)}
-         alt={alt}
-         // onError={(e) => {
-         //    e.target.src = "https://picsum.photos/seed/picsum/600/200";
-         //    e.preventDefault();
-         // }}
-      />
+      <div className="before:block before:pt-[25%] main h-min !bg-secondary relative">
+         <Image
+            src={src ? `http://cdn.emegen.com.tr/${src}` : ""}
+            width={600}
+            height={200}
+            className={twMerge(
+               "w-full h-full object-cover rounded-xl absolute top-0 right-0 bottom-0 left-0",
+               className
+            )}
+            alt={alt}
+            // onError={(e) => {
+            //    e.target.src = "https://picsum.photos/seed/picsum/600/200";
+            //    e.preventDefault();
+            // }}
+         />
+      </div>
    );
 };

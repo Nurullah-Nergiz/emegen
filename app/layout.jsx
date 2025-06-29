@@ -24,7 +24,6 @@ export default async function Layout({ children }) {
             />
             <meta name="theme-color" content="#ffffff" />
             <link rel="icon" href="/favicon.ico" />
-            <title>Emegen</title>
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link
                rel="preconnect"
@@ -35,10 +34,6 @@ export default async function Layout({ children }) {
                name="google-adsense-account"
                content="ca-pub-1933557350242575"
             />
-            {/* <script
-               async
-               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1933557350242575"
-               crossorigin="anonymous"></script> */}
             <script
                async
                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1933557350242575"

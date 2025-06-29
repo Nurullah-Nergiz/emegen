@@ -20,7 +20,7 @@ export const Ad = () => {
    return (
       <>
          <ins
-            className="adsbygoogle block bg-secondary"
+            className="adsbygoogle block min-h-52 !bg-secondary  main !p-0 relative overflow-hidden"
             // style="display:block"
             data-ad-client="ca-pub-1933557350242575"
             data-ad-slot="2364594790"

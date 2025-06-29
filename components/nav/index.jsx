@@ -46,7 +46,7 @@ export const Nav = ({ menu }) => {
             </div> */}
 
             {navbar && (
-               <div className="w-fit m-4 !mt-auto p-4 bg-main text-white flex flex-col gap0 absolute right-0 bottom-0 left-0">
+               <div className="w-fit m-4 !mt-auto p-4 bg-main text-main flex flex-col gap0 absolute right-0 bottom-0 left-0">
                   <h2 className="text-lg font-bold flex justify-between">
                      <b>Çerez rızası</b>
                      <button
