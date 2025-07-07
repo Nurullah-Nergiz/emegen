@@ -1,0 +1,5 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://emegen.com.tr/sitemaps/static.xml
+Sitemap: https://emegen.com.tr/sitemaps/profile.xml
