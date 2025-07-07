@@ -212,7 +212,7 @@ export async function generateMetadata({ params }) {
             title: `${user?.name} (@${user?.userName}) - Emegen`,
             description: user?.bio || "Bu kullanıcı hakkında bilgi yok.",
             alternates: {
-               canonical: `https://emegen.com/@${user?.userName}`,
+               canonical: `https://emegen.com.tr/@${user?.userName}`,
             },
             keywords: [
                user?.name || "Emegen",
@@ -220,7 +220,6 @@ export async function generateMetadata({ params }) {
                ...(user?.tags || []),
                "Emegen",
                "emegen",
-               "emegen.com",
                "emegen.com.tr",
             ],
 
