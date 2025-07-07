@@ -6,9 +6,9 @@ export default async function Page({ params }) {
    return (
       <>
          <section className="flex flex-col gap-4">
-            <h1 className="text-2xl font-semibold">
+            <p className="text-2xl font-semibold">
                Posts by {username.replace(/%40/g, "").trim()}
-            </h1>
+            </p>
          </section>
       </>
    );

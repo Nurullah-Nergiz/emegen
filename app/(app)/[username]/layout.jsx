@@ -17,18 +17,23 @@ export default async function Layout({ children, params }) {
    const { username = "" } = await params;
    if (!username.startsWith("%40")) notFound();
 
+   // Remove trailing slash from username if present
+   /**
+    * @type {String}
+    */
+
    const { status, data: user } = await getUser(
       username.replace(/%40/g, "").trim()
    );
    // console.log("user:", user);
 
    // console.log(await useAuthUser());
+   /**
+    * @type {Boolean}
+    */
    const isAuthenticatedUser = (await useAuthUser())?._id === user?._id;
 
-   if (status !== 200 || user.length == 0) notFound();
-
-   // Remove trailing slash from username if present
-   const cleanUserName = user?.userName?.replace(/\/$/, "");
+   if (status !== 200 || !user || (Array.isArray(user) && user.length === 0)) notFound();
 
    return (
       <>
@@ -50,10 +55,12 @@ export default async function Layout({ children, params }) {
                               <i className="bx bxs-check-circle text-blue-500"></i>
                            )}
                         </h1>
-                        <h2 className="flex gap-1">
+                        <h2 className="">
                            <b className="">@{user?.userName}</b>
+                        </h2>
+                        <div className="flex gap-1">
                            <span className="">
-                              <b className="">{`- ${
+                              <b className="">{`${
                                  user?.followersCount ?? 0
                               } `}</b>
                               takipçi
@@ -70,7 +77,7 @@ export default async function Layout({ children, params }) {
                               } `}</b>
                               takip
                            </span>
-                        </h2>
+                        </div>
                         {user?.location && (
                            <div className="flex flex-wrap items-center">
                               <>
@@ -167,7 +174,7 @@ export default async function Layout({ children, params }) {
                      {
                         name: "Telefon",
                         icon: "bx bx-phone",
-                        value: user?.phone || "Telefon bilgisi yok.",
+                        value: user?.phoneNumbers[0] || "Telefon bilgisi yok.",
                      },
                      {
                         name: "Website",
@@ -195,14 +202,40 @@ export default async function Layout({ children, params }) {
 }
 
 export async function generateMetadata({ params }) {
-   const { username } = await params;
-   if (username[0] !== "@") {
+   const { username } = params;
+   if (username && username[0] !== "@") {
       const { status, data: user } = await getUser(
          username.replace(/%40/g, "").trim()
       );
-      if (status == 200 || user.length !== 0)
+      if (status === 200 && user && (!Array.isArray(user) || user.length !== 0))
          return {
             title: `${user?.name} (@${user?.userName}) - Emegen`,
+            description: user?.bio || "Bu kullanıcı hakkında bilgi yok.",
+            alternates: {
+               canonical: `https://emegen.com/@${user?.userName}`,
+            },
+            keywords: [
+               user?.name || "Emegen",
+               user?.userName || "Emegen",
+               ...(user?.tags || []),
+               "Emegen",
+               "emegen",
+               "emegen.com",
+               "emegen.com.tr",
+            ],
+
+            openGraph: {
+               title: `${user?.name} (@${user?.userName}) - Emegen`,
+               description: user?.bio || "Bu kullanıcı hakkında bilgi yok.",
+               images: [
+                  {
+                     url: user?.profilePicture,
+                     width: 1200,
+                     height: 630,
+                  },
+               ],
+            },
+            locale: user?.location || "tr-TR",
          };
    }
 }
