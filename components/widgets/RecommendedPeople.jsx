@@ -16,7 +16,7 @@ export const RecommendedPeopleWidget = ({ mode = "recommended" }) => {
       getExploreByUser()
          .then(({ data, status }) => {
             // { status, data = [] }
-            // console.log(status, data);
+            console.log(status, data);
 
             if (status == 200) {
                setUsers([...data]);
