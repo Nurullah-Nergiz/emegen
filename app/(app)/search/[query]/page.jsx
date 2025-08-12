@@ -13,7 +13,7 @@ export default function Page({ params }) {
       console.log("query:", query);
 
       getSearch({ q: query }).then((data) => {
-         setSearch(data.data);
+         setSearch(data.data.users);
       });
    }, [query]);
    return (
