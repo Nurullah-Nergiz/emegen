@@ -12,6 +12,7 @@ module.exports = {
             secondary: "#304455",
             tertiary: "#829bb0",
             main: "#fff",
+            accent: "rgba(0, 0, 0, 0.12)",
             headerBackground:"#f2f2f2"
          },
       },

@@ -1,6 +1,7 @@
 import { Header } from "@/components/header/index";
 import { Nav } from "@/components/nav";
 import useAuthUser from "@/hooks/auth";
+import { Suspense } from "react";
 
 export default async function RootLayout({ children }) {
    const user = await useAuthUser();
@@ -22,7 +23,7 @@ export default async function RootLayout({ children }) {
             icon: "bx bx-gift",
             text: "Teklifler",
             link: "/tenders",
-         },
+         }, 
          {
             icon: "bx bx-bar-chart-alt-2",
             text: "Analitik",
@@ -61,10 +62,11 @@ export default async function RootLayout({ children }) {
    return (
       <>
          <Nav menu={menu} />
-         <section className="w-full pb-20 sm:pb-0 px-10 flex-1 ">
+         <section className="w-full pb-20 sm:pb-0 flex-1 ">
             <Header />
-            <section className="h-full sm:px-0 flex flex-col lg:flex-row gap-6">
-               {children}
+            <section className="h-full sm:px-10 px-10 flex flex-col lg:flex-row gap-6">
+            <Suspense>{children}</Suspense>
+               
             </section>
          </section>
       </>

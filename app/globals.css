@@ -83,7 +83,7 @@ details summary {
 }
 
 .main {
-   @apply p-4 bg-main rounded-xl shadow-md shadow-tertiary;
+   @apply p-4 bg-main rounded-xl shadow-md shadow-tertiary dark:shadow-secondary;
 }
 
 .input {
