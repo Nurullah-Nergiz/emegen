@@ -52,7 +52,7 @@ export default function Page() {
    };
 
    return (
-      <main className="flex-1 flex flex-col justify-between">
+      <main className=" flex-1 flex flex-col gap-4 justify-between">
          <form
             onSubmit={handleSubmit}
             className="px-4 flex flex-col gap-4 relative">
