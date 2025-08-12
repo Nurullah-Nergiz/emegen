@@ -2,7 +2,8 @@ import { getUserPosts } from "@/services/user";
 
 export default async function Page({ params }) {
    const { username } = await params;
-
+   console.clear();
+   
    return (
       <>
          <section className="flex flex-col gap-4">

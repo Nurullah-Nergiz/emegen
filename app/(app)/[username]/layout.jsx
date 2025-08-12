@@ -1,3 +1,4 @@
+"use server";
 import { AvatarImg, CoverImage } from "@/components/widgets/avatar";
 import Link from "next/link";
 import { PrimaryBtn, SecondaryBtn } from "@/components/btn";
@@ -33,7 +34,8 @@ export default async function Layout({ children, params }) {
     */
    const isAuthenticatedUser = (await useAuthUser())?._id === user?._id;
 
-   if (status !== 200 || !user || (Array.isArray(user) && user.length === 0)) notFound();
+   if (status !== 200 || !user || (Array.isArray(user) && user.length === 0))
+      notFound();
 
    return (
       <>
@@ -89,7 +91,7 @@ export default async function Layout({ children, params }) {
                            </div>
                         )}
                      </div>
-                     <div className="w-full sm:w-min flex items-center justify-stretch gap-4">
+                     <div className="w-full  flex justify-end items-center  gap-4">
                         {isAuthenticatedUser ? (
                            <>
                               <SecondaryBtn className="bx bx-share-alt !w-full py-2 px-4">
@@ -106,9 +108,13 @@ export default async function Layout({ children, params }) {
                         ) : (
                            <>
                               <FollowBtn type="secondary" className="!w-full" />
-                              <PrimaryBtn className="!w-full">
-                                 Teklif al
-                              </PrimaryBtn>
+                              <Link
+                                 className="!w-full"
+                                 href={`/tenders/request/${user?._id}/`}>
+                                 <PrimaryBtn className="!w-full">
+                                    Fiyat Teklif İste
+                                 </PrimaryBtn>
+                              </Link>
                            </>
                         )}
                      </div>
@@ -147,16 +153,17 @@ export default async function Layout({ children, params }) {
             <div className="main">
                <h3 className="mb-2 text-lg font-semibold">Etiketler</h3>
                <ul className="flex flex-wrap gap-4">
-                  {(typeof user?.tags[0] === "object"
-                     ? user.tags[0]
-                     : user.tags
-                  )?.map((tag) => (
-                     <li
-                        key={tag}
-                        className="w-min px-3 py-2 rounded-md bg-[rgba(0,0,0,0.12)] underline">
-                        #{tag}
-                     </li>
-                  ))}
+                  {user?.tags &&
+                     (typeof user?.tags[0] === "object"
+                        ? user.tags[0]
+                        : user.tags
+                     )?.map((tag) => (
+                        <li
+                           key={tag}
+                           className="w-min px-3 py-2 rounded-md bg-[rgba(0,0,0,0.12)] underline">
+                           #{tag}
+                        </li>
+                     ))}
                </ul>
             </div>
             <div className="main">
@@ -195,14 +202,15 @@ export default async function Layout({ children, params }) {
                   ))}
                </ul>
             </div>
-            {/* <RecommendedPeopleWidget /> */}
+            <RecommendedPeopleWidget />
          </aside>
       </>
    );
 }
 
 export async function generateMetadata({ params }) {
-   const { username } = params;
+   const { username } = await params;
+   
    if (username && username[0] !== "@") {
       const { status, data: user } = await getUser(
          username.replace(/%40/g, "").trim()
@@ -235,6 +243,20 @@ export async function generateMetadata({ params }) {
                ],
             },
             locale: user?.location || "tr-TR",
+            formatDetection: {
+               email: true,
+               address: false,
+               telephone: true,
+            },
+            robots: {
+               index: true,
+               follow: true,
+               nocache: false,
+            },
+            category: "profile",
+            other: {
+               locale: user?.location || "tr-TR",
+            },
          };
    }
 }
