@@ -16,6 +16,11 @@ export default function CompleteProfile({ children, user = {} }) {
                "followersCount",
                "followingCount",
                "isFollowing",
+               "isEmailVerified",
+               "isPhoneVerified",
+               "isTwoFactorEnabled",
+               "isBlocked",
+               "isverified",
             ].includes(key)
       );
 
@@ -36,6 +41,11 @@ export default function CompleteProfile({ children, user = {} }) {
                "followersCount",
                "followingCount",
                "isFollowing",
+               "isEmailVerified",
+               "isPhoneVerified",
+               "isTwoFactorEnabled",
+               "isBlocked",
+               "isverified",
             ].includes(key) && val
       ).length;
 
@@ -48,7 +58,7 @@ export default function CompleteProfile({ children, user = {} }) {
                {
                   label: "",
                   data: [
-                     0,
+                     100,
                      Math.round(
                         (100 / userField?.length) * validUserFieldCount
                      ) ?? 0,

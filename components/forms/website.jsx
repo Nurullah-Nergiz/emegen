@@ -1,5 +1,5 @@
 "use client";
-import { PrimaryBtn } from "@/components/btn";
+import { SecondaryBtn } from "@/components/btn";
 
 /**
  *
@@ -16,6 +16,8 @@ export default function FormsWebsite({
    title = "Website",
    icon = "bx bx-globe",
 }) {
+   const defaultTemplate = [];
+   
    const handleSubmit = (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
@@ -37,7 +39,7 @@ export default function FormsWebsite({
                   defaultValue={value}
                />
             </label>
-            <PrimaryBtn type="submit">Kaydet</PrimaryBtn>
+            <SecondaryBtn type="submit">Kaydet</SecondaryBtn>
          </div>
       </form>
    );
