@@ -12,7 +12,7 @@ export const Header = async () => {
    const user = await useAuthUser();
 
    return (
-      <header className="h-20 sm:px-0 flex items-center justify-between bg-headerBackground dark:!text-white dark:bg-[#1c1d22] sticky top-0 z-50">
+      <header className="h-20 mx-2 px-8 flex items-center justify-between bg-headerBackground dark:!text-white dark:bg-[#1c1d22] sticky top-0 z-50">
          <section className="flex-1 flex items-center gap-4">
             <Link href="/" className="sm:hidden">
                <Logo />

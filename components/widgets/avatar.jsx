@@ -70,7 +70,11 @@ export const CoverImage = ({
    return (
       <div className="before:block before:pt-[25%] main h-min !bg-secondary relative">
          <Image
-            src={src ? `http://cdn.emegen.com.tr/${src}` : ""}
+            src={
+               src
+                  ? `http://cdn.emegen.com.tr/${src}`
+                  : "http://cdn.emegen.com.tr/avatars/user.png"
+            }
             width={600}
             height={200}
             className={twMerge(
