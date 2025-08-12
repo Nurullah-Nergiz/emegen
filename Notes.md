@@ -15,10 +15,33 @@
 
     - Kullanıcının paylaşımları.
 
-Takipçiler: Kullanıcıyı takip edenlerin listesi.
+## Tenders
 
-Takip Edilenler: Kullanıcının takip ettiği kişilerin listesi.
+    - Kullanıcı davet
+    - Kullanıcı tarafından oluşturulan Tenders.
+    
 
-Ayarlar: Hesap ve gizlilik ayarları.
+## Takipçiler ve Takip Edilenler
 
-Kayıt ol: servisini ayağa kaldır
+    - Kullanıcının takipçileri ve takip ettikleri.
+
+## Ayarlar
+
+    - Hesap ayarları.
+
+## Notes
+
+    - Profil: Kullanıcının profil fotoğrafı, adı ve kısa biyografisi.
+    - İstatistikler: Profil ziyaretçi sayısı ve gönderi gösterim sayısı.
+    - Gönderiler: Kullanıcının paylaşımları.
+    - Tenders: Kullanıcı tarafından oluşturulan ve davet edilen Tenders.
+
+## Kullanıcı Profili
+
+    - Profil: Kullanıcının profil fotoğrafı, adı ve kısa biyografisi.
+    - İstatistikler: Profil ziyaretçi sayısı ve gönderi gösterim sayısı.
+    - Gönderiler: Kullanıcının paylaşımları.
+    - Tenders: Kullanıcı tarafından oluşturulan ve davet edilen Tenders.
+    - Takipçiler ve Takip Edilenler: Kullanıcının takipçileri ve takip ettikleri.
+    - Ayarlar: Hesap ve gizlilik ayarları.
+    - Kayıt ol: Servisini ayağa kaldır.
