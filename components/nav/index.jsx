@@ -12,7 +12,7 @@ export const Nav = ({ menu }) => {
    return (
       <nav className="sm:max-w-[25%] sm:h-screen sm:sticky sm:top-0 left-0  sm:shadow-md sm:shadow-tertiary hover:overflow-y-auto overflow-hidden">
          <section className="hidden max-h-screen w-min h-full px-10 pb-4 sm:flex flex-col gap-0  text-secondary sm:sticky sm:top-0 left-0 z-50">
-            <Link href="/" className="h-20 flex items-center">
+            <Link href="/" className="h-20 flex items-center gap-4">
                <Logo mode={navbar ? "full" : "icon"} />
             </Link>
             {/* {navbar ? "true" : "false"} */}
@@ -20,16 +20,19 @@ export const Nav = ({ menu }) => {
                {Object.entries(menu).map(([key, value]) => (
                   <ul
                      key={`navbar-itemMenu-${key}`}
-                     className={`flex flex-col gap0`}>
+                     className={`flex flex-col`}>
                      <li className="w-min pb-2 text-xs font-bold text-tertiary whitespace-nowrap">
                         {key}
                      </li>
                      {value.map((item, index) => (
-                        <ItemLink
+                        <li className="mb-2"
                            key={`navbar-itemLink-${index}`}
-                           mode={navbar ? "full" : "icon"}
-                           {...item}
-                        />
+                        >
+                           <ItemLink
+                              mode={navbar ? "full" : "icon"}
+                              {...item}
+                           />
+                        </li>
                      ))}
                   </ul>
                ))}
@@ -45,37 +48,7 @@ export const Nav = ({ menu }) => {
                </div>
             </div> */}
 
-            {navbar && (
-               <div className="w-fit m-4 !mt-auto p-4 bg-main text-main flex flex-col gap0 absolute right-0 bottom-0 left-0">
-                  <h2 className="text-lg font-bold flex justify-between">
-                     <b>Çerez rızası</b>
-                     <button
-                        type="button"
-                        aria-label="Kapat"
-                        className="text-white hover:text-secondary text-2xl"
-                        onClick={() => {
-                           // Add your close logic here, e.g., hide the consent banner
-                        }}>
-                        <i className="bx bx-x"></i>
-                     </button>
-                  </h2>
-                  <p className="text-sm mb-2">
-                     En iyi deneyimi elde etmenizi sağlamak için çerezleri
-                     kullanırız. <br />
-                     Web Sitemizi kullanarak bunu kabul edersiniz okudun ve
-                     bizim{" "}
-                     <Link href="/privacy-policy" className="underline">
-                        Gizlilik Politikası
-                     </Link>
-                     .
-                  </p>
-                  <div className="flex flex-col gap-2">
-                     <PrimaryBtn className="w-full bg-secondary">
-                        Çerezlere izin ver
-                     </PrimaryBtn>
-                  </div>
-               </div>
-            )}
+            {/* {navbar && <CookieConsentPopup />} */}
          </section>
          <section className="main  fixed right-0 bottom-0 left-0 sm:hidden">
             <div className="flex justify-evenly items-center gap-8">
@@ -93,5 +66,40 @@ export const Nav = ({ menu }) => {
             {/* Example: Ads cookie consent banner */}
          </section>
       </nav>
+   );
+};
+
+const CookieConsentPopup = () => {
+   return (
+      <>
+         <div className="w-fit m-4 !mt-auto p-4 bg-main text-main flex flex-col gap0 absolute right-0 bottom-0 left-0">
+            <div className="text-lg font-bold flex justify-between">
+               <b>Çerez rızası</b>
+               <button
+                  type="button"
+                  aria-label="Kapat"
+                  className="text-white hover:text-secondary text-2xl"
+                  onClick={() => {
+                     // Add your close logic here, e.g., hide the consent banner
+                  }}>
+                  <i className="bx bx-x"></i>
+               </button>
+            </div>
+            <p className="text-sm mb-2">
+               En iyi deneyimi elde etmenizi sağlamak için çerezleri kullanırız.{" "}
+               <br />
+               Web Sitemizi kullanarak bunu kabul edersiniz okudun ve bizim{" "}
+               <Link href="/privacy-policy" className="underline">
+                  Gizlilik Politikası
+               </Link>
+               .
+            </p>
+            <div className="flex flex-col gap-2">
+               <PrimaryBtn className="w-full bg-secondary">
+                  Çerezlere izin ver
+               </PrimaryBtn>
+            </div>
+         </div>
+      </>
    );
 };
