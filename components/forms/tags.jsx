@@ -1,22 +1,31 @@
 "use client";
-import { PrimaryBtn } from "@/components/btn";
+import { SecondaryBtn } from "@/components/btn";
 import { putUser } from "@/services/user";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function TagsInput({ children, tags: initialTags = [] }) {
-   // console.log("TagsInput component rendered with initial tags:", initialTags);
-   
-   const [tags, setTags] = useState(...initialTags);
+   const [tags, setTags] = useState([]);
    const [inputValue, setInputValue] = useState("");
 
+   useEffect(() => {
+      if (initialTags?.length > 0) {
+         setTags([
+            ...(typeof initialTags === "object" ? initialTags[0] : initialTags),
+         ]);
+      }
+   }, [initialTags]);
+
    const handleInputChange = (e) => {
-      if (tags?.length > 4 && inputValue.trim() !== "") {
+      if (tags?.length > 5 && inputValue.trim() !== "") {
          // e.preventDefault();
          setInputValue("");
          return;
       } else if (e.key === " " || e.key === "Enter") {
          // e.preventDefault();
-         if (inputValue.trim() !== "" && tags.length < 5) {
+         if (
+            inputValue.trim() !== "" &&
+            (tags.length < 5 || tags.length === 0)
+         ) {
             setTags([...tags, inputValue.trim()]);
             setInputValue("");
          } else if (tags.length >= 5) {
@@ -38,9 +47,6 @@ export default function TagsInput({ children, tags: initialTags = [] }) {
       })
          .then((res) => {
             if (res.status === 200) {
-               console.log("Tags updated successfully");
-               console.log(res.data);
-               
                // setInputValue("");
                // setTags(res.data.user.tags || []); // Update tags from response
             } else {
@@ -85,7 +91,7 @@ export default function TagsInput({ children, tags: initialTags = [] }) {
                   onKeyDown={handleInputChange}
                />
             </label>
-            <PrimaryBtn onClick={handleTag} >Kaydet</PrimaryBtn>
+            <SecondaryBtn onClick={handleTag}>Kaydet</SecondaryBtn>
          </div>
       </>
    );

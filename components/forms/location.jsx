@@ -1,12 +1,8 @@
 "use client";
 import Cookies from "js-cookie";
-import { PrimaryBtn } from "@/components/btn";
+import { SecondaryBtn } from "@/components/btn";
 import { putUser } from "@/services/user";
-import {
-   getAuthenticationToken,
-   getAuthenticationUser,
-   setAuthenticationUser,
-} from "@/utils/auth";
+import { setAuthenticationUser } from "@/utils/auth";
 
 export default function LocationInput({ children, user, userToken }) {
    const handleSubmit = (e) => {
@@ -39,7 +35,7 @@ export default function LocationInput({ children, user, userToken }) {
                   defaultValue={user?.location || "Çumra"}
                />
             </label>
-            <PrimaryBtn type="submit">Kaydet</PrimaryBtn>
+            <SecondaryBtn type="submit">Kaydet</SecondaryBtn>
          </div>
       </form>
    );

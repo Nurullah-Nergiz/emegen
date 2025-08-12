@@ -22,16 +22,16 @@ import FormsWebsite from "@/components/forms/website";
 export default function EditProfilePage() {
    const [user, setUser] = useState();
    // authUser?.userName?.replace(/%40/g, "").trim() || ""
-
+   console.clear();
    useEffect(() => {
-      getUser("nurullah-nergiz")
-         .then((res) => {
-            console.log("file: page.jsx:25 => res=>", res);
-            setUser(res.data);
-         })
-         .catch((err) => {
-            console.error("Error fetching user data:", err);
+      Promise.all([useAuthUser()]).then(([user]) => {
+         if (!user?.userName) {
+            return;
+         }
+         getUser(user?.userName || "").then((userData) => {
+            setUser(userData.data || {});
          });
+      });
    }, []);
 
    console.log("file: edit-profile.jsx:13 => user=>", user);
@@ -41,7 +41,7 @@ export default function EditProfilePage() {
          <main className="flex-1">
             <h1 className="mb-4">Edit profile</h1>
             <section className="main flex flex-col gap-8">
-               <div className="main">
+               <div className="main flex flex-col gap-4">
                   <b>Kişisel Bilgiler</b>
                   <div className="flex gap-4">
                      <label>
@@ -72,6 +72,7 @@ export default function EditProfilePage() {
                         />
                      </label>
                   </div>
+                  <SecondaryBtn className="ml-auto">Güncelle</SecondaryBtn>
                </div>
                <div className="main">
                   <b>Konum</b>
@@ -85,15 +86,16 @@ export default function EditProfilePage() {
                </div>
                <div className="main">
                   <b>Etiketler</b>
+                  {/* {console.log("user?.tags:", user?.tags)} */}
                   <TagsInput
-                     defaultValue={user?.tags || []}
+                     tags={user?.tags}
                      placeholder="İlgi alanlarınızı girin"
                      onChange={(e) => {
                         console.log("Tags changed:", e);
                      }}
                   />
                </div>
-               <div className="main">
+               <div className="main flex flex-col gap-4">
                   <b>Bio</b>
                   <textarea
                      className="w-full h-24 px-3 py-2 !bg-transparent border relative border-tertiary shadow shadow-tertiary rounded-2xl outline-none"
@@ -102,10 +104,11 @@ export default function EditProfilePage() {
                      onChange={(e) => {
                         console.log("Bio changed:", e.target.value);
                      }}></textarea>
+                  <SecondaryBtn className="ml-auto">Güncelle</SecondaryBtn>
                </div>
                <div className="main">
                   <FormsWebsite name="website" value={user?.website} />
-                  <FormsWebsite name="linkedin" title=""  />
+                  <FormsWebsite name="linkedin" title="" />
                </div>
             </section>
          </main>
