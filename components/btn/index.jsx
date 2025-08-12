@@ -17,7 +17,7 @@ export function PrimaryBtn({
    return (
       <button
          className={twMerge(
-            "px-4 py-2 bg-primary !text-current rounded-md !text-white shadow shadow-secondary inline-block  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 whitespace-nowrap cursor-pointer",
+            "px-4 py-2 bg-primary rounded-md !text-white shadow shadow-secondary inline-block  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 whitespace-nowrap cursor-pointer",
             className
          )}
          onClick={() => onClick()}
@@ -36,7 +36,26 @@ export function SecondaryBtn({
    return (
       <button
          className={twMerge(
-            "px-4 py-2 !text-current border border-primary rounded-md text-secondary whitespace-nowrap cursor-pointer",
+            "!px-4 !py-2 bg-accent !text-current rounded-md whitespace-nowrap cursor-pointer",
+            className
+         )}
+         onClick={() => onClick()}
+         {...attr}>
+         {children}
+      </button>
+   );
+}
+
+export function TertiaryBtn({
+   children,
+   className = "",
+   onClick = () => {},
+   attr,
+}) {
+   return (
+      <button
+         className={twMerge(
+            "px-4 py-2 !text-current border border-main rounded-md text-main whitespace-nowrap cursor-pointer",
             className
          )}
          onClick={() => onClick()}
