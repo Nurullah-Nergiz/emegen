@@ -1,9 +1,17 @@
+import { useAuthToken } from "@/hooks/auth";
 import { getAuthenticationToken } from "@/utils/auth";
 import axios from "axios";
 
+// const AxiosHeaders = async () => {
+//    return {
+//       "Content-Type": "application/json",
+//       authorization: await useAuthToken(),
+//       // "Access"
+//    };
+// };
 const headers = {
    "Content-Type": "application/json",
-   authorization: getAuthenticationToken(),
+   authorization:  getAuthenticationToken(),
    // "Access"
 };
 
@@ -54,6 +62,7 @@ export const bookmarkInstance = axios.create({
 
 export const TendersInstance = axios.create({
    baseURL: process.env.NEXT_PUBLIC_BACKEND_HOSTNAME,
+   // baseURL: "http://localhost:8080/",
    headers,
 });
 
@@ -70,6 +79,7 @@ export const TendersInstance = axios.create({
       },
       (err) => {
          if (err.status === 403) {
+            console.log("Unauthorized access, redirecting to login...");
             // window.location.href = "/auth/login";
          } else {
          }
