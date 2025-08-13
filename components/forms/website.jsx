@@ -1,5 +1,6 @@
 "use client";
 import { SecondaryBtn } from "@/components/btn";
+import { putUser } from "@/services/user";
 
 /**
  *
@@ -17,13 +18,24 @@ export default function FormsWebsite({
    icon = "bx bx-globe",
 }) {
    const defaultTemplate = [];
-   
+
    const handleSubmit = (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
       const website = formData.get(name);
-      // Handle the website value, e.g., save it to the database or state
-      console.log("Website submitted:", website);
+
+      putUser({
+         [name]: website || null,
+      })
+         .then(() => {
+            // Optionally, you can handle success here, e.g., show a success message
+            console.log("Website updated successfully");
+         })
+         .catch((error) => {
+            // Handle error here, e.g., show an error message
+            console.error("Error updating website:", error);
+         });
+      e.target.reset();
    };
 
    return (
@@ -34,6 +46,7 @@ export default function FormsWebsite({
                <span className={`${icon}`}></span>
                <input
                   type="url"
+                  name={name}
                   className="w-full bg-transparent outline-none"
                   placeholder="Enter your location"
                   defaultValue={value}

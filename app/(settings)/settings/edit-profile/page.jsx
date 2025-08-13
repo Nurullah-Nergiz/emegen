@@ -13,6 +13,7 @@ import { getUser } from "@/services/user";
 import { useEffect, useState } from "react";
 import CompleteProfile from "@/components/widgets/profile/completeProfile";
 import FormsWebsite from "@/components/forms/website";
+import BiographyEditor from "@/components/forms/bio";
 
 // export const metadata = {
 //    title: " Emegen",
@@ -95,17 +96,7 @@ export default function EditProfilePage() {
                      }}
                   />
                </div>
-               <div className="main flex flex-col gap-4">
-                  <b>Bio</b>
-                  <textarea
-                     className="w-full h-24 px-3 py-2 !bg-transparent border relative border-tertiary shadow shadow-tertiary rounded-2xl outline-none"
-                     defaultValue={user?.bio || ""}
-                     placeholder="Kendinizi tanıtın"
-                     onChange={(e) => {
-                        console.log("Bio changed:", e.target.value);
-                     }}></textarea>
-                  <SecondaryBtn className="ml-auto">Güncelle</SecondaryBtn>
-               </div>
+               <BiographyEditor defaultValue={user?.bio} />
                <div className="main">
                   <FormsWebsite name="website" value={user?.website} />
                   <FormsWebsite name="linkedin" title="" />
