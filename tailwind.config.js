@@ -11,9 +11,9 @@ module.exports = {
             primary: "#d81f26",
             secondary: "#304455",
             tertiary: "#829bb0",
-            main: "#fff",
-            accent: "rgba(0, 0, 0, 0.12)",
-            headerBackground:"#f2f2f2"
+            main: "#121212",
+            accent: "rgba(255, 255, 255, 0.12)",
+            headerBackground:"#1e1e1e"
          },
       },
    },

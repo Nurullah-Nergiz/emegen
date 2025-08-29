@@ -12,6 +12,11 @@ const nextConfig = {
          },
       ],
    },
+   // SEO default title (requires next-seo or similar library in your pages)
+   // Example for next-seo:
+   // nextSeo: {
+   //   title: "Default Title",
+   // },
 };
 
 export default nextConfig;
