@@ -217,7 +217,7 @@ export async function generateMetadata({ params }) {
       );
       if (status === 200 && user && (!Array.isArray(user) || user.length !== 0))
          return {
-            title: `${user?.name} (@${user?.userName}) - Emegen`,
+            title: `${user?.name} (@${user?.userName})`,
             description: user?.bio || "Bu kullanıcı hakkında bilgi yok.",
             alternates: {
                canonical: `https://emegen.com.tr/@${user?.userName}`,
@@ -245,7 +245,7 @@ export async function generateMetadata({ params }) {
             locale: user?.location || "tr-TR",
             formatDetection: {
                email: true,
-               address: false,
+               address: true,
                telephone: true,
             },
             robots: {
