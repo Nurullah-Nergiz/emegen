@@ -10,8 +10,7 @@ export const RecommendedPeopleWidget = ({ mode = "recommended" }) => {
 
    // mode: recommended, following, followers
    // mode: trending by user
-   
-   
+
    useEffect(() => {
       getExploreByUser()
          .then(({ data, status }) => {
@@ -39,15 +38,16 @@ export const RecommendedPeopleWidget = ({ mode = "recommended" }) => {
             </Link>
          </div>
          {/* <div className="flex flex-col gap-2"> */}
-         {users.map((user, key) => (
-            <Avatar
-               key={user?._id}
-               userAvatar={`https://picsum.photos/6${key}`}
-               name={user?.name}
-               userName={user?.userName}>
-               <FollowBtn id={user?._id} className="p-2" />
-            </Avatar>
-         ))}
+         {typeof users &&
+            users.map((user, key) => (
+               <Avatar
+                  key={user?._id}
+                  userAvatar={`https://picsum.photos/6${key}`}
+                  name={user?.name}
+                  userName={user?.userName}>
+                  <FollowBtn id={user?._id} className="p-2" />
+               </Avatar>
+            ))}
          {/* </div> */}
       </section>
    );
