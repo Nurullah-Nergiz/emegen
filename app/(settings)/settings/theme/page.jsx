@@ -2,33 +2,34 @@
 import { PrimaryBtn } from "@/components/btn/";
 import Cookies from "js-cookie";
 import { useState } from "react";
+// import useTheme from "@/hooks/useTheme";
 
 export default function ThemePage({ children }) {
    const themes = [
       {
          name: "System Theme",
-         description:
-            "This is the theme that will take it your system is using",
-         image: "https://picsum.photos/160/90",
+         description: "bu,SisteminizinKullandığıTema",
+         image: "/images/system-theme.svg",
          value: "system",
       },
       {
          name: "Ligth Theme",
          description:
-            "This theme will activate when your system is using a light mode",
-         image: "https://picsum.photos/161/91",
+            "Bu tema, sisteminiz bir ışık modu kullanırken etkinleştirilecektir",
+         image: "/images/light-theme.svg",
          value: "light",
       },
       {
          name: "Dark Theme",
          description:
-            "This theme will activate when your system is set to dark mode",
-         image: "https://picsum.photos/162/92",
+            "Bu tema, sisteminiz karanlık mod olarak ayarlandığında etkinleştirilecektir",
+         image: "/images/dark-theme.svg",
          value: "dark",
       },
    ];
 
    const [currentTheme, setCurrentTheme] = useState(Cookies.get("theme"));
+
    const handleThemeChange = () => {
       Cookies.set("theme", currentTheme, { expires: 365 });
 
@@ -39,28 +40,31 @@ export default function ThemePage({ children }) {
    return (
       <>
          <main>
-            <h1>Preferences</h1>
+            <h1>Tercihler</h1>
             <p className="py-4">
-               Select how you would like your interface to look. Select a theme
-               or sync with your system and have automatic theme switching.
+               Arayüzünüzün nasıl görünmesini istediğinizi seçin.Bir Tema Seçin
+               veya sisteminizle senkronize edin ve otomatik tema değiştirme.
             </p>
             <section className="p-4 bg-main rounded-xl">
-               <ul className="flex gap-4 rounded-2xl">
+               <ul className="flex flex-col md:flex-row gap-4 rounded-2xl">
                   {themes.map((theme) => (
-                     <li key={theme.name}>
-                        <label className="theme-switch min-w-80 p-4">
+                     <li
+                        className="min-w-80 flex-1 bg-main rounded-xl shadow-lg transition-transform transform hover:scale-105"
+                        key={theme.name}>
+                        <label className="theme-switch w-full h-full p-4 !flex flex-col justify-between gap-4 cursor-pointer">
                            <input
                               type="radio"
                               name="theme"
+                              className="w-4 h-4 appearance-none rounded-full border-2 border-gray-300 checked:bg-blue-500 checked:border-transparent focus:outline-none transition-colors duration-200"
                               checked={currentTheme === theme.value}
                               onChange={() => setCurrentTheme(theme.value)}
                            />
                            <b>{theme.name}</b>
-                           <p className="py-2">{theme.description}</p>
+                           <p className="">{theme.description}</p>
                            <img
                               src={theme.image}
                               alt={theme.name}
-                              className="w-full h-full"
+                              className="flex-1"
                            />
                         </label>
                      </li>
