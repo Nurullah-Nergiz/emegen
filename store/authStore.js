@@ -1,4 +1,4 @@
-import { getAuthenticationToken, getAuthenticationUser } from "@/utils/auth";
+import { getAuthenticationToken, getAuthenticationUser, removeAuthenticationUser } from "@/utils/auth";
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
@@ -22,7 +22,7 @@ export const authSlice = createSlice({
          state.user = action.payload?.user;
       },
       logout: (state, action) => {
-         Cookies.set("user", null);
+         removeAuthenticationUser();
          state.isLoading = null;
          state.user = null;
       },
