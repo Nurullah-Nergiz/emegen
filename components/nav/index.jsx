@@ -10,8 +10,8 @@ export const Nav = ({ menu }) => {
       useSelector((state) => state.ui.navbar) === true ? true : false;
 
    return (
-      <nav className="sm:max-w-[25%] sm:h-screen sm:sticky sm:top-0 left-0  sm:shadow-md sm:shadow-tertiary hover:overflow-y-auto overflow-hidden">
-         <section className="hidden max-h-screen w-min h-full px-10 pb-4 sm:flex flex-col gap-0  text-secondary sm:sticky sm:top-0 left-0 z-50">
+      <nav className="sm:max-w-[25%] sm:h-screen sm:relative sm:top-0 left-0  sm:shadow-md sm:shadow-tertiary overflow-hidden">
+         <section className="hidden max-h-screen w-min h-full px-10 pb-4 sm:block  text-secondary sticky top-0 z-50 hover:overflow-y-auto">
             <Link href="/" className="h-20 flex items-center gap-4">
                <Logo mode={navbar ? "full" : "icon"} />
             </Link>

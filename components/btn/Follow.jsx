@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PrimaryBtn, SecondaryBtn } from "./index";
+import { SecondaryBtn } from "./index";
 import { setUserFallowing } from "@/services/userFallow";
 
 export default function FollowBtn({ id = "", className = "", ...props }) {
