@@ -8,7 +8,7 @@ export function middleware(req) {
    const token = cookies.get("auth-token")?.value || "";
    const loggedInUserNotAccessPaths = ["/auth/login", "/auth/register"];
 
-   console.log("🔵 Middleware - Current Pathname:", pathname);
+   // console.log("🔵 Middleware - Current Pathname:", pathname);
 
    if (process.env.NODE_ENV === "production") {
       if (!token) {
@@ -35,6 +35,6 @@ export const config = {
        * - _next/static (static files)
        * - favicon.ico (favicon file)
        */
-      "/((?!api|_next/static|favicon.ico|auth|logo.png).*)",
+      "/((?!api|_next/static|favicon.ico|auth|logo.png|sitemaps).*)",
    ],
 };

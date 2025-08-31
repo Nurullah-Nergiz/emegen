@@ -13,7 +13,7 @@ module.exports = {
             tertiary: "#829bb0",
             main: "#121212",
             accent: "rgba(255, 255, 255, 0.12)",
-            headerBackground:"#1e1e1e"
+            headerBackground:"#f2f2f2"
          },
       },
    },
