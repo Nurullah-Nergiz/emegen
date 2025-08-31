@@ -1,4 +1,4 @@
-import { getUser, getUsers } from "@/services/user";
+import { getUsers } from "@/services/user";
 
 export async function GET() {
    const baseUrl = "https://emgen.com.tr/";
@@ -6,28 +6,28 @@ export async function GET() {
    // Example static routes, add more as needed
    console.clear();
    const { data: routes } = await getUsers();
-   console.log(routes);
+   // console.log(routes);
 
    //    const routes = [""];
 
    const urls = routes
       ?.map(
          (route) => `
-            <url>
-                <loc>${baseUrl}@${route.userName}</loc>
-                <changefreq>weekly</changefreq>
-                  <lastmod>${
-                     route?.updatedAt || new Date().toISOString()
-                  }</lastmod>
-                <priority>0.8</priority>
-            </url>`
+         <url>
+            <loc>
+                  ${baseUrl}@${route.userName}
+            </loc>
+            <lastmod>${route?.updatedAt || new Date().toISOString()}</lastmod>
+            <priority>0.9</priority>
+         </url>`
       )
       .join("");
 
    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-        <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-            ${urls}
-        </urlset>`;
+      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+         ${urls}
+      </urlset>
+   `;
 
    return new Response(sitemap, {
       headers: {
