@@ -35,3 +35,6 @@ export async function GET() {
       },
    });
 }
+
+// This ensures the sitemap is always generated fresh on each request
+export const dynamic = "force-dynamic";
