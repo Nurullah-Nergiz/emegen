@@ -9,7 +9,7 @@ export function middleware(req) {
    const loggedInUserNotAccessPaths = ["/auth/login", "/auth/register"];
    // console.log("🔵 Middleware - Current Pathname:", pathname);
 
-   if (process.env.NODE_ENV !== "production") {
+   if (process.env.NODE_ENV === "production") {
       if (!pathname.startsWith("/@")) {
          if (pathname === "/") {
          } else if (!token) {

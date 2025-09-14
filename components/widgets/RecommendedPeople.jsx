@@ -27,11 +27,11 @@ export const RecommendedPeopleWidget = ({ mode = "recommended" }) => {
    }, []);
 
    return (
-      <section className="main flex flex-col gap-4">
+      <section className="main w-full flex flex-col gap-4">
          <div className="flex items-center justify-between gap-4 whitespace-nowrap">
             <span className="text-xl font-semibold">
                <i className="bx bx-trending-up text-primary mr-2"></i>
-               önerilen insanlar
+               Önerilen İnsanlar
             </span>
             <Link href="/explore-users" className="underline">
                Hepsini gör
@@ -40,13 +40,14 @@ export const RecommendedPeopleWidget = ({ mode = "recommended" }) => {
          {/* <div className="flex flex-col gap-2"> */}
          {typeof users &&
             users.map((user, key) => (
-               <Avatar
-                  key={user?._id}
-                  userAvatar={`https://picsum.photos/6${key}`}
-                  name={user?.name}
-                  userName={user?.userName}>
-                  <FollowBtn id={user?._id} className="p-2" />
-               </Avatar>
+               <div key={user?._id} className="flex items-center justify-between gap-2">
+                  <Avatar
+                     userAvatar={`${user?.avatar}`}
+                     className="w-full"
+                     name={user?.name}
+                     userName={user?.userName}></Avatar>
+                  <FollowBtn id={user?._id} className="p-2 z-50" />
+               </div>
             ))}
          {/* </div> */}
       </section>

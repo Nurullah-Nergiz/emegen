@@ -18,13 +18,13 @@ export const Avatar = ({
          )}>
          <Link href={`/@${userName}`} className="flex items-center gap-2">
             <AvatarImg src={src} alt={name} />
-            <div className="max-w-60">
+            <div className="max-w-60 overflow-hidden">
                <b
                   className="w-full inline-block
                 text-sm overflow-hidden whitespace-nowrap text-ellipsis">
                   {name}
                </b>
-               <p className="w-full text-xs whitespace-nowrap text-ellipsis overflow-hidden">
+               <p className="text-xs whitespace-nowrap text-ellipsis overflow-hidden -z-0">
                   @{userName}
                </p>
             </div>
@@ -68,25 +68,23 @@ export const CoverImage = ({
    className = "",
 }) => {
    return (
-      <div className="before:block before:pt-[25%] main h-min !bg-secondary relative">
-         <Image
-            src={
-               src
-                  ? `http://cdn.emegen.com.tr/${src}`
-                  : "http://cdn.emegen.com.tr/avatars/user.png"
-            }
-            width={600}
-            height={200}
-            className={twMerge(
-               "w-full h-full object-cover rounded-xl absolute top-0 right-0 bottom-0 left-0",
-               className
-            )}
-            alt={alt}
-            // onError={(e) => {
-            //    e.target.src = "https://picsum.photos/seed/picsum/600/200";
-            //    e.preventDefault();
-            // }}
-         />
+      <div className="before:block before:pt-[25%] h-min !bg-secondary relative">
+         {src && (
+            <Image
+               src={`http://cdn.emegen.com.tr/${src}`}
+               width={600}
+               height={200}
+               className={twMerge(
+                  "w-full h-full object-cover rounded-xl absolute top-0 right-0 bottom-0 left-0",
+                  className
+               )}
+               alt={alt}
+               // onError={(e) => {
+               //    e.target.src = "https://picsum.photos/seed/picsum/600/200";
+               //    e.preventDefault();
+               // }}
+            />
+         )}
       </div>
    );
 };

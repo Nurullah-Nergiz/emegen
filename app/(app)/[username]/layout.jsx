@@ -43,22 +43,25 @@ export default async function Layout({ children, params }) {
             <header className="flex flex-col gap-4">
                <CoverImage src={user?.coverPicture} />
 
-               <div className="main py-4 flex flex-col sm:flex-row items-center gap-4 overflow-hidden">
+               <section className="main py-0 flex flex-col sm:flex-row items-center gap-2 overflow-hidden">
                   <AvatarImg
                      src={user?.profilePicture}
-                     className="w-auto h-full max-w-40 max-h-80 p-1 "
+                     className="w-auto h-full max-w-40 max-h-40 p-1 "
                      size={128 * 4}
                   />
-                  <section className="flex-1 flex flex-col  gap-2">
+                  <div className="flex-1 flex flex-col  gap-2">
                      <div className="flex flex-col gap-2">
                         <h1 className="inline-flex items-center gap-2 text-xls font-bolds whitespace-nowrap">
                            {user?.name}
-                           {user?.isVerified && (
-                              <i className="bx bxs-check-circle text-blue-500"></i>
-                           )}
+                           <span className="">
+                              <b className="">@{user?.userName}</b>
+                              {!user?.isVerified && (
+                                 <i className="bx bxs-check-circle text-blue-500"></i>
+                              )}
+                           </span>
                         </h1>
-                        <h2 className="">
-                           <b className="">@{user?.userName}</b>
+                        <h2 className="h-10 overflow-hidden text-ellipsis text-sm">
+                           {user?.bio || "Bu kullanıcı hakkında bilgi yok."}
                         </h2>
                         <div className="flex gap-1">
                            <span className="">
@@ -80,6 +83,22 @@ export default async function Layout({ children, params }) {
                               takip
                            </span>
                         </div>
+                        <h3 className="font-semibold">
+                           <ul className="flex flex-wrap gap-4">
+                              {user?.tags &&
+                                 (typeof user?.tags[0] === "object"
+                                    ? user.tags[0]
+                                    : user.tags
+                                 )?.map((tag) => (
+                                    <li
+                                       key={tag}
+                                       className="w-min px-3 py-2 rounded-md bg-[rgba(0,0,0,0.12)] underline">
+                                       #{tag}
+                                    </li>
+                                 ))}
+                           </ul>
+                        </h3>
+
                         {user?.location && (
                            <div className="flex flex-wrap items-center">
                               <>
@@ -118,8 +137,8 @@ export default async function Layout({ children, params }) {
                            </>
                         )}
                      </div>
-                  </section>
-               </div>
+                  </div>
+               </section>
             </header>
             <div className="justify-items-end flex gap-4"></div>
 
@@ -137,35 +156,17 @@ export default async function Layout({ children, params }) {
                   </Link>
                ))}
             </nav>
-            <main className="main">{children}</main>
+            <main className="">{children}</main>
          </section>
          <aside className="min-w-96 w-full lg:w-1/3 flex flex-col gap-4">
             <Ad />
-            <div className="main">
+            {/* <div className="main">
                <h3 className="text-xl font-bold border-bs border-current">
-                  {/* <i className="bx bx-id-card mr-2"></i> */}
+                  <i className="bx bx-id-card mr-2"></i>
                   Hakkında
                </h3>
-               <p className="py-2">
-                  {user?.bio || "Bu kullanıcı hakkında bilgi yok."}
-               </p>
-            </div>
-            <div className="main">
-               <h3 className="mb-2 text-lg font-semibold">Etiketler</h3>
-               <ul className="flex flex-wrap gap-4">
-                  {user?.tags &&
-                     (typeof user?.tags[0] === "object"
-                        ? user.tags[0]
-                        : user.tags
-                     )?.map((tag) => (
-                        <li
-                           key={tag}
-                           className="w-min px-3 py-2 rounded-md bg-[rgba(0,0,0,0.12)] underline">
-                           #{tag}
-                        </li>
-                     ))}
-               </ul>
-            </div>
+            </div> */}
+
             <div className="main">
                <h3 className=" text-xl font-bold border-bs border-current">
                   {/* <i className="bx bx-id-card mr-2"></i> */}
@@ -186,11 +187,12 @@ export default async function Layout({ children, params }) {
                      {
                         name: "Website",
                         icon: "bx bx-globe",
-                        value: user?.website
-                           ? user.website
-                                .replace(/^https?:\/\//, "")
-                                .replace(/\/$/, "")
-                           : "Web sitesi bilgisi yok.",
+                        value:
+                           typeof user?.website === "string"
+                              ? user?.website
+                                   ?.replace(/^https?:\/\//, "")
+                                   .replace(/\/$/, "")
+                              : "Web sitesi bilgisi yok.",
                      },
                   ].map(({ name, icon, value }) => (
                      <li
@@ -210,7 +212,7 @@ export default async function Layout({ children, params }) {
 
 export async function generateMetadata({ params }) {
    const { username } = await params;
-   
+
    if (username && username[0] !== "@") {
       const { status, data: user } = await getUser(
          username.replace(/%40/g, "").trim()

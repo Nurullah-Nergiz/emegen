@@ -3,13 +3,13 @@ import { SecondaryBtn } from "@/components/btn";
 import { putUser } from "@/services/user";
 import { useRef } from "react";
 
-export default function BiographyEditor({ defaultValue = "" }) {
+export default function BiographyEditor({
+   defaultValue = "",
+   title = "Biyografi",
+}) {
    const bioInputRef = useRef();
 
    const updateUserBio = (e) => {
-
-        
-    
       putUser({
          bio: bioInputRef?.current?.value || null,
       })
@@ -26,7 +26,13 @@ export default function BiographyEditor({ defaultValue = "" }) {
    return (
       <>
          <div className="main flex flex-col gap-4">
-            <b>Bio</b>
+            <b>
+               {title}
+               <span className="text-sm font-normal text-secondary">
+                  {" "}
+                  (Maksimum 160 karakter)
+               </span>
+            </b>
             <textarea
                className="w-full h-24 px-3 py-2 !bg-transparent border relative border-tertiary shadow shadow-tertiary rounded-2xl outline-none"
                defaultValue={defaultValue}

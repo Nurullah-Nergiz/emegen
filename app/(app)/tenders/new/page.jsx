@@ -53,10 +53,10 @@ export default function NewPage({ children }) {
          title: formData.get("title"),
          description: formData.get("description"),
          // type: formData.get("status"),
-         tenderDate: formData.get("tenderDate"),
+         startDate: formData.get("startDate"),
          invitedUsers: formData.get("invitedUsers").split(" ,"),
-         budgetMin: formData.get("budgetMin"),
-         budgetMax: formData.get("budgetMax"),
+         // budgetMin: formData.get("budgetMin"),
+         // budgetMax: formData.get("budgetMax"),
       };
       tenderData.invitedUsers = tenderData.invitedUsers.filter(
          (userId) => userId.trim() !== ""
@@ -133,7 +133,7 @@ export default function NewPage({ children }) {
                      type="date"
                      className="w-60 h-9 px-3 py-2 !bg-transparent border relative border-tertiary shadow shadow-tertiary rounded-2xl outline-none"
                      defaultValue={new Date().toISOString().split("T")[0]}
-                     name="tenderDate"
+                     name="startDate"
                      onChange={(e) => {
                         console.log("Selected Date:", e.target.value);
                      }}
@@ -145,7 +145,7 @@ export default function NewPage({ children }) {
                      type="date"
                      className="w-60 h-9 px-3 py-2 !bg-transparent border relative border-tertiary shadow shadow-tertiary rounded-2xl outline-none"
                      // defaultValue={new Date().toISOString().split("T")[0]}
-                     name="tenderDate"
+                     name="startDate"
                      onChange={(e) => {
                         console.log("Selected Date:", e.target.value);
                      }}

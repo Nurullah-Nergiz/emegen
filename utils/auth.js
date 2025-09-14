@@ -11,8 +11,8 @@ export const getAuthenticationUser = () => {
 };
 
 export const setAuthenticationUser = (user, token) => {
-   const authInfo = { user, authorization: getAuthenticationToken() };
-   Cookies.set("user", JSON.stringify(authInfo), {
+   // const authInfo = { user, authorization: getAuthenticationToken() };
+   Cookies.set("user", JSON.stringify(user), {
       expires: 364,
    });
    if (token) {
