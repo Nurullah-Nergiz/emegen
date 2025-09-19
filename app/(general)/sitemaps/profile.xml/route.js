@@ -1,7 +1,7 @@
 import { getUsers } from "@/services/user";
 
 export async function GET() {
-   const baseUrl = "https://emgen.com.tr/";
+   const baseUrl = "https://www.emgen.com.tr/";
 
    // Example static routes, add more as needed
    console.clear();
@@ -11,16 +11,25 @@ export async function GET() {
    //    const routes = [""];
 
    const urls = routes
-      ?.map(
-         (route) => `
+      ?.map((route) => {
+         const userBase = `${baseUrl}@${route.userName}`;
+         return `
          <url>
-            <loc>
-                  ${baseUrl}@${route.userName}
-            </loc>
+            <loc>${userBase}</loc>
             <lastmod>${route?.updatedAt || new Date().toISOString()}</lastmod>
             <priority>0.9</priority>
-         </url>`
-      )
+         </url>
+         <url>
+            <loc>${userBase}/tender</loc>
+            <lastmod>${route?.updatedAt || new Date().toISOString()}</lastmod>
+            <priority>0.8</priority>
+         </url>
+         <url>
+            <loc>${userBase}/post</loc>
+            <lastmod>${route?.updatedAt || new Date().toISOString()}</lastmod>
+            <priority>0.8</priority>
+         </url>`;
+      })
       .join("");
 
    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
