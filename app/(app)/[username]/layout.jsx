@@ -71,9 +71,52 @@ export default async function Layout({ children, params }) {
       },
    ];
 
+   const businessSchema = {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      name: user?.name || "İşletme Adı",
+      url: `https://www.emegen.com.tr/@${user?.userName}`,
+      logo: user?.profilePicture || "https://www.emegen.com.tr/images/logo.png",
+      image:
+         user?.coverPicture ||
+         "https://www.emegen.com.tr/images/isletme-foto.jpg",
+      description: user?.bio || "İşletme hakkında kısa açıklama.",
+      telephone: user?.phoneNumbers?.[0] || "+90 123 456 7890",
+      email: user?.email || "iletisim@isletme.com",
+      address: {
+         "@type": "PostalAddress",
+         streetAddress: user?.address?.street || "Cadde Adı No:123",
+         addressLocality: user?.address?.city || "Şehir Adı",
+         addressRegion: user?.address?.region || "Bölge Adı",
+         postalCode: user?.address?.postalCode || "12345",
+         addressCountry: user?.address?.country || "TR",
+      },
+      geo: {
+         "@type": "GeoCoordinates",
+         latitude: user?.location?.latitude || 37.7749,
+         longitude: user?.location?.longitude || 30.1234,
+      },
+      sameAs: user?.socialLinks || [
+         "https://www.facebook.com/isletme",
+         "https://twitter.com/isletme",
+         "https://www.instagram.com/isletme",
+      ],
+      openingHours: user?.openingHours || ["Mo-Su 09:00-18:00"],
+      priceRange: user?.priceRange || "₺₺₺₺",
+      paymentAccepted: user?.paymentMethods || [
+         "Cash",
+         "Credit Card",
+         "Mobile Payment",
+      ],
+   };
+
    return (
       <>
          {/* Structured Data */}
+         <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema) }}
+         />
          {navSchema.map((item, index) => (
             <script
                key={index}
