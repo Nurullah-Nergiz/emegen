@@ -8,6 +8,7 @@ import { getUser } from "@/services/user";
 import { notFound } from "next/navigation";
 import useAuthUser from "@/hooks/auth";
 import { Ad } from "@/components/AdBanner";
+import { ItemLink } from "@/components/nav/itemLink";
 
 export default async function Layout({ children, params }) {
    // console.clear();
@@ -37,8 +38,51 @@ export default async function Layout({ children, params }) {
    if (status !== 200 || !user || (Array.isArray(user) && user.length === 0))
       notFound();
 
+   const navSchema = [
+      {
+         "@context": "https://schema.org",
+         "@type": "SiteNavigationElement",
+         name: "Ana Sayfa",
+         url: "https://www.emegen.com.tr/",
+      },
+      {
+         "@context": "https://schema.org",
+         "@type": "SiteNavigationElement",
+         name: "Profil",
+         url: `https://www.emegen.com.tr/@${username}`,
+      },
+      {
+         "@context": "https://schema.org",
+         "@type": "SiteNavigationElement",
+         name: "Posts",
+         url: `https://www.emegen.com.tr/@${username}/posts`,
+      },
+      {
+         "@context": "https://schema.org",
+         "@type": "SiteNavigationElement",
+         name: "Tenders",
+         url: `https://www.emegen.com.tr/@${username}/tenders`,
+      },
+      {
+         "@context": "https://schema.org",
+         "@type": "SiteNavigationElement",
+         name: "Hakkında",
+         url: `https://www.emegen.com.tr/@${username}/about`,
+      },
+   ];
+
    return (
       <>
+         {/* Structured Data */}
+         {navSchema.map((item, index) => (
+            <script
+               key={index}
+               type="application/ld+json"
+               dangerouslySetInnerHTML={{ __html: JSON.stringify(item) }}
+            />
+         ))}
+         {/* End Structured Data */}
+
          <section className="flex-1">
             <header className="flex flex-col gap-4">
                <CoverImage src={user?.coverPicture} />
@@ -140,23 +184,31 @@ export default async function Layout({ children, params }) {
                   </div>
                </section>
             </header>
-            <div className="justify-items-end flex gap-4"></div>
+            {/* <div className="justify-items-end flex gap-4"></div> */}
 
             <nav className="main my-4 flex gap-4 border-b border-secondary">
                {[
                   { name: "Ana sayfa", href: "" },
-                  { name: "Posts", href: "posts" },
-                  { name: "Tenders", href: "tenders" },
+                  { name: "Posts", href: "/posts" },
+                  { name: "Tenders", href: "/tenders" },
+                  { name: "Hakkında", href: "/about" },
                ].map(({ name, href }) => (
-                  <Link
-                     href={`/@${user?.userName}/${href}`}
+                  <ItemLink
+                     text={name}
+                     link={`/@${user?.userName}${href}`}
                      className="hover:underline"
-                     key={"profil-navbar-" + name}>
-                     {name}
-                  </Link>
+                     activeClass="border-b-2 border-primary"
+                     key={"profil-navbar-" + name}
+                  />
+                  // <Link
+                  // href={`/@${user?.userName}/${href}`}
+                  // className="hover:underline"
+                  //    key={"profil-navbar-" + name}>
+                  //    {name}
+                  // </Link>
                ))}
             </nav>
-            <main className="">{children}</main>
+            <main className="w-full">{children}</main>
          </section>
          <aside className="min-w-96 w-full lg:w-1/3 flex flex-col gap-4">
             <Ad />
@@ -167,9 +219,9 @@ export default async function Layout({ children, params }) {
                </h3>
             </div> */}
 
-            <div className="main">
+            {/* <div className="main">
                <h3 className=" text-xl font-bold border-bs border-current">
-                  {/* <i className="bx bx-id-card mr-2"></i> */}
+                  <i className="bx bx-id-card mr-2"></i>
                   İletişim bilgileri
                </h3>
                <ul className="py-2 flex flex-col gap-2">
@@ -203,7 +255,7 @@ export default async function Layout({ children, params }) {
                      </li>
                   ))}
                </ul>
-            </div>
+            </div> */}
             <RecommendedPeopleWidget />
          </aside>
       </>
