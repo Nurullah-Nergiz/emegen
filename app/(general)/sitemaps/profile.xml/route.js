@@ -1,7 +1,7 @@
 import { getUsers } from "@/services/user";
 
 export async function GET() {
-   const baseUrl = "https://www.emgen.com.tr/";
+   const baseUrl = "https://emgen.com.tr/";
 
    // Example static routes, add more as needed
    console.clear();
