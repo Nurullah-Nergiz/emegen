@@ -29,7 +29,7 @@ export async function GET() {
             <lastmod>${route?.updatedAt || new Date().toISOString()}</lastmod>
             <priority>0.8</priority>
          </url>`;
-      })
+      }) 
       .join("");
 
    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
