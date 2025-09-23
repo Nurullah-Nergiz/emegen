@@ -10,7 +10,7 @@ export default function Logo({ children, mode = "full", className = "" }) {
             className="h-10" />
 
          {mode === "full" && (
-            <b className="text-3xl text-black dark:text-white">Emegen</b>
+            <b className="hidden sm:block text-3xl text-black dark:text-white">Emegen</b>
          )}
       </>
    );

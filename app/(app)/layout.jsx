@@ -23,7 +23,7 @@ export default async function RootLayout({ children }) {
             icon: "bx bx-gift",
             text: "Teklifler",
             link: "/tenders",
-         }, 
+         },
          {
             icon: "bx bx-bar-chart-alt-2",
             text: "Analitik",
@@ -65,8 +65,7 @@ export default async function RootLayout({ children }) {
          <section className="w-full pb-20 sm:pb-0 flex-1 ">
             <Header />
             <section className="h-full sm:px-10 px-10 flex flex-col lg:flex-row gap-6">
-            <Suspense>{children}</Suspense>
-               
+               <Suspense>{children}</Suspense>
             </section>
          </section>
       </>

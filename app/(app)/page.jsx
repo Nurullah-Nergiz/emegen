@@ -8,20 +8,21 @@ import { RecommendedPeopleWidget } from "@/components/widgets/RecommendedPeople"
 import { getExplore } from "@/services/explore";
 import { useEffect, useState } from "react";
 import Posts from "@/components/widgets/post";
+import Footer from "@/components/footer";
 
 export default function Home() {
    const [posts, setPosts] = useState([]);
    useEffect(() => {
       getExplore().then((res) => {
-         console.log("res",typeof res);
+         console.log("res", typeof res);
          if (typeof res === "undefined" || res === null) {
             return;
          }
-         
+
          if (res?.status !== 200) {
             return;
          }
-         setPosts([...res?.data|| []]);
+         setPosts([...(res?.data || [])]);
       }).catch;
    }, []);
 
@@ -40,6 +41,7 @@ export default function Home() {
             <div className=" sticky top-10 transition-all">
                <Ad />
                <RecommendedPeopleWidget />
+               <Footer />
             </div>
          </aside>
       </>

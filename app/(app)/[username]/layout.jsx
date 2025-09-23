@@ -74,40 +74,42 @@ export default async function Layout({ children, params }) {
    const businessSchema = {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      name: user?.name || "İşletme Adı",
-      url: `https://www.emegen.com.tr/@${user?.userName}`,
-      logo: user?.profilePicture || "https://www.emegen.com.tr/images/logo.png",
-      image:
-         user?.coverPicture ||
-         "https://www.emegen.com.tr/images/isletme-foto.jpg",
-      description: user?.bio || "İşletme hakkında kısa açıklama.",
-      telephone: user?.phoneNumbers?.[0] || "+90 123 456 7890",
-      email: user?.email || "iletisim@isletme.com",
-      address: {
-         "@type": "PostalAddress",
-         streetAddress: user?.address?.street || "Cadde Adı No:123",
-         addressLocality: user?.address?.city || "Şehir Adı",
-         addressRegion: user?.address?.region || "Bölge Adı",
-         postalCode: user?.address?.postalCode || "12345",
-         addressCountry: user?.address?.country || "TR",
-      },
-      geo: {
-         "@type": "GeoCoordinates",
-         latitude: user?.location?.latitude || 37.7749,
-         longitude: user?.location?.longitude || 30.1234,
-      },
-      sameAs: user?.socialLinks || [
-         "https://www.facebook.com/isletme",
-         "https://twitter.com/isletme",
-         "https://www.instagram.com/isletme",
-      ],
-      openingHours: user?.openingHours || ["Mo-Su 09:00-18:00"],
-      priceRange: user?.priceRange || "₺₺₺₺",
-      paymentAccepted: user?.paymentMethods || [
-         "Cash",
-         "Credit Card",
-         "Mobile Payment",
-      ],
+      ...(user?.name && { name: user.name }),
+      ...(user?.userName && {
+         url: `https://www.emegen.com.tr/@${user.userName}`,
+      }),
+      ...(user?.profilePicture && { logo: user.profilePicture }),
+      ...(user?.coverPicture && { image: user.coverPicture }),
+      ...(user?.bio && { description: user.bio }),
+      ...(user?.phoneNumbers?.[0] && { telephone: user.phoneNumbers[0] }),
+      ...(user?.email && { email: user.email }),
+      ...(user?.address && {
+         address: {
+            "@type": "PostalAddress",
+            ...(user.address.street && { streetAddress: user.address.street }),
+            ...(user.address.city && { addressLocality: user.address.city }),
+            ...(user.address.region && { addressRegion: user.address.region }),
+            ...(user.address.postalCode && {
+               postalCode: user.address.postalCode,
+            }),
+            ...(user.address.country && {
+               addressCountry: user.address.country,
+            }),
+         },
+      }),
+      ...(user?.location && {
+         geo: {
+            "@type": "GeoCoordinates",
+            ...(user.location.latitude && { latitude: user.location.latitude }),
+            ...(user.location.longitude && {
+               longitude: user.location.longitude,
+            }),
+         },
+      }),
+      ...(user?.socialLinks?.length > 0 && { sameAs: user.socialLinks }),
+      ...(user?.openingHours && { openingHours: user.openingHours }),
+      ...(user?.priceRange && { priceRange: user.priceRange }),
+      ...(user?.paymentMethods && { paymentAccepted: user.paymentMethods }),
    };
 
    return (
@@ -136,18 +138,20 @@ export default async function Layout({ children, params }) {
                      className="w-auto h-full max-w-40 max-h-40 p-1 "
                      size={128 * 4}
                   />
-                  <div className="flex-1 flex flex-col  gap-2">
-                     <div className="flex flex-col gap-2">
-                        <h1 className="inline-flex items-center gap-2 text-xls font-bolds whitespace-nowrap">
-                           {user?.name}
-                           <span className="">
-                              <b className="">@{user?.userName}</b>
+                  <div className="w-full flex flex-col  gap-2">
+                     <div className="flex flex-col items-center sm:items-start gap-2">
+                        <h1 className="inline-flex flex-col sm:flex-row items-center flex-wrap gap-0 text-xls font-bolds whitespace-nowrap">
+                           <span className="flex gap-2 items-center text-2xl font-bold">
+                              {user?.name}
                               {!user?.isVerified && (
-                                 <i className="bx bxs-check-circle text-blue-500"></i>
+                                 <i className="bx bxs-check-circle text-primary"></i>
                               )}
                            </span>
+                           <p className="text-accent text-base">
+                              @{user?.userName}
+                           </p>
                         </h1>
-                        <h2 className="h-10 overflow-hidden text-ellipsis text-sm">
+                        <h2 className="overflow-hidden text-ellipsis text-sm">
                            {user?.bio || "Bu kullanıcı hakkında bilgi yok."}
                         </h2>
                         <div className="flex gap-1">
@@ -171,7 +175,7 @@ export default async function Layout({ children, params }) {
                            </span>
                         </div>
                         <h3 className="font-semibold">
-                           <ul className="flex flex-wrap gap-4">
+                           <ul className="flex items-center gap-4">
                               {user?.tags &&
                                  (typeof user?.tags[0] === "object"
                                     ? user.tags[0]
@@ -197,7 +201,7 @@ export default async function Layout({ children, params }) {
                            </div>
                         )}
                      </div>
-                     <div className="w-full  flex justify-end items-center  gap-4">
+                     <div className="w-full flex flex-col sm:flex-row justify-end items-center  gap-4">
                         {isAuthenticatedUser ? (
                            <>
                               <SecondaryBtn className="bx bx-share-alt !w-full py-2 px-4">
@@ -253,52 +257,8 @@ export default async function Layout({ children, params }) {
             </nav>
             <main className="w-full">{children}</main>
          </section>
-         <aside className="min-w-96 w-full lg:w-1/3 flex flex-col gap-4">
+         <aside className="min-w-96 w-full lg:w-1/3 hidden sm:flex flex-col gap-4">
             <Ad />
-            {/* <div className="main">
-               <h3 className="text-xl font-bold border-bs border-current">
-                  <i className="bx bx-id-card mr-2"></i>
-                  Hakkında
-               </h3>
-            </div> */}
-
-            {/* <div className="main">
-               <h3 className=" text-xl font-bold border-bs border-current">
-                  <i className="bx bx-id-card mr-2"></i>
-                  İletişim bilgileri
-               </h3>
-               <ul className="py-2 flex flex-col gap-2">
-                  {[
-                     {
-                        name: "E-posta",
-                        icon: "bx bx-envelope",
-                        value: user?.email || "E-posta bilgisi yok.",
-                     },
-                     {
-                        name: "Telefon",
-                        icon: "bx bx-phone",
-                        value: user?.phoneNumbers[0] || "Telefon bilgisi yok.",
-                     },
-                     {
-                        name: "Website",
-                        icon: "bx bx-globe",
-                        value:
-                           typeof user?.website === "string"
-                              ? user?.website
-                                   ?.replace(/^https?:\/\//, "")
-                                   .replace(/\/$/, "")
-                              : "Web sitesi bilgisi yok.",
-                     },
-                  ].map(({ name, icon, value }) => (
-                     <li
-                        className="flex items-center gap-4"
-                        key={`contact-${name}-${icon}`}>
-                        <i className={`${icon} `}></i>
-                        <b className="">{value}</b>
-                     </li>
-                  ))}
-               </ul>
-            </div> */}
             <RecommendedPeopleWidget />
          </aside>
       </>

@@ -11,7 +11,9 @@ import { twMerge } from "tailwind-merge";
  * @param {String} props.link
  * @param {String} props.icon
  * @param {String} props.text
- * @param {"col"||"row"} props.mode
+ * @param {String} props.className
+ * @param {String} props.activeClass
+ * @param {"col"||"row"} props.type
  * @returns React.Component
  */
 export const ItemLink = ({
@@ -24,12 +26,17 @@ export const ItemLink = ({
    activeClass = "before:w-1 before:bg-primary before:absolute sm:before:top-0 before:bottom-0 sm:before:-left-10",
 }) => {
    const pathName = usePathname();
-   const active =
-      !["", "/"].includes(link) &&
-      pathName == link
-      // || pathName.startsWith(link)
-         ? true
-         : false;
+   const active = link
+      ? link === "/"
+         ? pathName === link
+         : pathName.startsWith(link)
+      : false;
+
+   // console.log({
+   //    active,
+   //    pathName,
+   //    link,
+   // });
 
    // const active =
    //    link !== ""

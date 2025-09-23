@@ -45,7 +45,7 @@ export default function CompleteProfile({ children, user = {} }) {
                "isPhoneVerified",
                "isTwoFactorEnabled",
                "isBlocked",
-               "isVerified",
+               "isverified",
             ].includes(key) && val
       ).length;
 

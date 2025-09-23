@@ -1,6 +1,8 @@
 import { ItemLink } from "@/components/nav/itemLink";
 
 export default function TendersLayout({ children }) {
+   console.clear();
+   
    return (
       <section className="w-full flex flex-col gap-4">
          <h1 className="text-2xl font-bold ">İhaleler</h1>
