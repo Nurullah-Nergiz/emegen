@@ -9,7 +9,7 @@ export const metadata = {
    keywords:
       "Emegen kayıt, kullanıcı kaydı, üye kaydı, hesap kaydı, kayıt ol, ücretsiz kayıt",
    alternates: {
-      canonical: "emegen.com.tr/auth/register",
+      canonical:"https://emegen.com.tr/auth/login/auth/register",
    },
 };
 export const dynamic = "force-dynamic"; // Force dynamic rendering for this layout
