@@ -8,7 +8,7 @@ export async function GET() {
    const { data: routes } = await getUsers();
 
    const generateProfileUrl = (userName) =>
-      encodeURI(`https://emgen.com.tr/@${userName}`);
+      encodeURI(`https://emegen.com.tr/@${userName}`);
 
    // Generate URL entries for the sitemap
    // const urlEntries = routes?.flatMap((route) => {
