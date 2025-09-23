@@ -1,5 +1,5 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://emegen.com.tr/sitemaps/static.xml
-Sitemap: https://emegen.com.tr/sitemaps/profile.xml
+Sitemap: https://emegen.com.tr/sitemaps.xml
+Sitemap: https://emegen.com.tr/sitemap-profiles.xml
