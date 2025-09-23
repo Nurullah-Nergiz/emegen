@@ -7,21 +7,40 @@ export async function GET() {
    // Fetch user data
    const { data: routes } = await getUsers();
 
+   const generateProfileUrl = (userName) =>
+      encodeURI(`https://emgen.com.tr/@${userName}`);
+
    // Generate URL entries for the sitemap
    const urlEntries = routes?.flatMap((route) => {
-      const baseUrl = `https://emgen.com.tr/@${route.userName}`;
       const lastmod = route?.updatedAt || new Date().toISOString();
 
       return [
-         { loc: baseUrl, lastmod, priority: 0.9 },
-         { loc: `${baseUrl}/tender`, lastmod, priority: 0.8 },
-         { loc: `${baseUrl}/post`, lastmod, priority: 0.8 },
+         { loc: generateProfileUrl(route.userName), lastmod, priority: 0.9 },
+         {
+            loc: generateProfileUrl(`${route.userName}/tenders`),
+            lastmod,
+            priority: 0.8,
+         },
+         {
+            loc: generateProfileUrl(`${route.userName}/posts`),
+            lastmod,
+            priority: 0.8,
+         },
       ];
    });
 
    // Convert URL entries to XML format
    const sitemap = convert.js2xml(
-      { urlset: { url: urlEntries } },
+      {
+         urlset: {
+            urlset: {
+               _attributes: {
+                  xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9",
+               },
+               url: urlEntries,
+            },
+         },
+      },
       { compact: true, ignoreComment: true, spaces: 4 }
    );
 
