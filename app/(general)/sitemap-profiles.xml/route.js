@@ -1,5 +1,5 @@
 import { getUsers } from "@/services/user";
-import js2xmlparser from "js2xmlparser";
+import convert from "xml-js";
 
 export async function GET() {
    // Example static routes, add more as needed
@@ -29,7 +29,17 @@ export async function GET() {
       })
       .flat();
 
-   const sitemap = js2xmlparser.parse("urlset", urlEntries);
+
+      // const sitemap=
+
+   const sitemap = convert.js2xml(
+      {
+         urlset: {
+            url: urlEntries,
+         },
+      },
+      { compact: true, ignoreComment: true, spaces: 4 }
+   );
 
    return new Response(sitemap, {
       headers: {
