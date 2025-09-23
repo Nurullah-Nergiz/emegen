@@ -29,10 +29,7 @@ export async function GET() {
       })
       .flat();
 
-   const sitemap = js2xmlparser.parse("urlset", {
-      "@": { xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9" },
-      url: urlEntries,
-   });
+   const sitemap = js2xmlparser.parse("urlset", urlEntries);
 
    return new Response(sitemap, {
       headers: {
