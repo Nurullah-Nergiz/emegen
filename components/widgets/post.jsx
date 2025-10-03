@@ -5,14 +5,21 @@ import { VList, WindowVirtualizer } from "virtua";
 export default function Posts({ posts = [] }) {
    return (
       <>
-         {/* <WindowVirtualizer className="!h-full"> */}
-         {posts.map((post, index) => (
+         {!posts || posts.length === 0 ? (
             <>
-               <Post key={`post-${post._id}-${index}`} post={post} />
-               
+               <div className="flex flex-col items-center justify-center py-12 text-center text-sm text-muted-foreground">
+                  <p>No posts yet.</p>
+               </div>
             </>
-         ))}
-         {/* </WindowVirtualizer> */}
+         ) : (
+            posts.map((post, index) => (
+               <>
+                  {/* <WindowVirtualizer className="!h-full"> */}
+                  <Post key={`post-${post._id}-${index}`} post={post} />
+                  {/* </WindowVirtualizer> */}
+               </>
+            ))
+         )}
       </>
    );
 }

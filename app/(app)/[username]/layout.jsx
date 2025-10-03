@@ -11,7 +11,7 @@ import { Ad } from "@/components/AdBanner";
 import { ItemLink } from "@/components/nav/itemLink";
 
 export default async function Layout({ children, params }) {
-   // console.clear();
+   console.clear();
 
    /**
     * @type {String}
@@ -24,9 +24,12 @@ export default async function Layout({ children, params }) {
     * @type {String}
     */
 
+   // console.time("User fetch time");
    const { status, data: user } = await getUser(
       username.replace(/%40/g, "").trim()
    );
+   // console.timeEnd("User fetch time");
+
    // console.log("user:", user);
 
    // console.log(await useAuthUser());
@@ -257,7 +260,7 @@ export default async function Layout({ children, params }) {
             </nav>
             <main className="w-full">{children}</main>
          </section>
-         <aside className="min-w-96 w-full lg:w-1/3 hidden sm:flex flex-col gap-4">
+         <aside className="min-w-96 w-full lg:w-1/3 hidden lg:flex flex-col gap-4">
             <Ad />
             <RecommendedPeopleWidget />
          </aside>

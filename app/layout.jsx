@@ -5,6 +5,7 @@ import "./globals.css";
 import ReduxProvider from "../components/provider/redux";
 
 import useTheme from "@/hooks/useTheme";
+import { headers } from "next/headers";
 // import { usePathname } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -39,24 +40,24 @@ export default async function Layout({ children }) {
    );
 }
 
-export async function generateMetadata({ params, pathname }) {
-   // console.clear();
-
-   const currentPath = pathname || "/";
-   // console.log("🔵 Current Pathname:", currentPath);
-
+export async function generateMetadata({ params }) {
    return {
       title: {
          default: "Emegen",
          template: "%s | Emegen",
       },
-      description: "Emegen - Emegene özel içerikler ve hizmetler",
-      alternates: {
-         // canonical: `https://emegen.com.tr/@${}`,
+      description: {
+         default: "Emegen - Emegene özel içerikler ve hizmetler",
       },
+      alternates: {},
       openGraph: {
-         title: `Emegen`,
-         description: "Emegen - Emegene özel içerikler ve hizmetler",
+         title: {
+            default: "Emegen",
+            template: "%s | Emegen",
+         },
+         description: {
+            default: "Emegen - Emegene özel içerikler ve hizmetler",
+         },
          images: [
             {
                url: "https://cdn.emegen.com.tr/emegen-logo.png",
