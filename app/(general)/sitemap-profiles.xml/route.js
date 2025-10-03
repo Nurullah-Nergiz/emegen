@@ -54,6 +54,11 @@ export async function GET() {
                   lastmod,
                   priority: 0.8,
                },
+               {
+                  loc: generateProfileUrl(`${route.userName}/about`),
+                  lastmod,
+                  priority: 0.7,
+               },
             ];
          }),
       },
