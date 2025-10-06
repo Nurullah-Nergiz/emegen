@@ -30,6 +30,7 @@ export const Nav = ({ menu }) => {
                         >
                            <ItemLink
                               mode={navbar ? "full" : "icon"}
+                              activeSartsWith={true}
                               {...item}
                            />
                         </li>

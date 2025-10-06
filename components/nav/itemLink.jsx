@@ -24,26 +24,13 @@ export const ItemLink = ({
    type = "row",
    className = "",
    activeClass = "before:w-1 before:bg-primary before:absolute sm:before:top-0 before:bottom-0 sm:before:-left-10",
+   activeSartsWith = false,
 }) => {
    const pathName = usePathname();
-   const active = link
-      ? link === "/"
-         ? pathName === link
-         : pathName.startsWith(link)
-      : false;
+   const active =
+      link === pathName ||
+      (link !== "/" && activeSartsWith && pathName.startsWith(link));
 
-   // console.log({
-   //    active,
-   //    pathName,
-   //    link,
-   // });
-
-   // const active =
-   //    link !== ""
-   //       ? link !== "/"
-   //          ? pathName.startsWith(link)
-   //          : pathName === link
-   //       : false;
    const navbar =
       useSelector((state) => state.ui.navbar) === true ? true : false;
 
