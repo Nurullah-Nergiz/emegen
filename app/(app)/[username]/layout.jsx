@@ -6,9 +6,10 @@ import { RecommendedPeopleWidget } from "../../../components/widgets/Recommended
 import FollowBtn from "@/components/btn/Follow";
 import { getUser } from "@/services/user";
 import { notFound } from "next/navigation";
-import useAuthUser from "@/hooks/auth";
+// import removed: useAuthUser (client hook not allowed in this server component)
 import { Ad } from "@/components/AdBanner";
 import { ItemLink } from "@/components/nav/itemLink";
+import useAuthUser from "@/hooks/auth";
 
 export default async function Layout({ children, params }) {
    console.clear();
@@ -17,6 +18,8 @@ export default async function Layout({ children, params }) {
     * @type {String}
     */
    const { username = "" } = await params;
+   const cleanUsername = username.replace(/%40/g, "").trim();
+   console.log(username);
    if (!username.startsWith("%40")) notFound();
 
    // Remove trailing slash from username if present
@@ -25,13 +28,19 @@ export default async function Layout({ children, params }) {
     */
 
    // console.time("User fetch time");
-   const { status, data: user } = await getUser(
-      username.replace(/%40/g, "").trim()
-   );
+   
+   let userResponse;
+   try {
+      userResponse = await getUser(cleanUsername);
+   } catch (err) {
+      console.error("Failed to fetch user:", err);
+      notFound();
+   }
+   const { status, data: user } = userResponse || { status: 500, data: null };
    // console.timeEnd("User fetch time");
 
    // console.log("user:", user);
-
+   // const isAuthenticatedUser = false; // TODO: implement a server-side auth check
    // console.log(await useAuthUser());
    /**
     * @type {Boolean}
@@ -158,23 +167,28 @@ export default async function Layout({ children, params }) {
                            {user?.bio || "Bu kullanıcı hakkında bilgi yok."}
                         </h2>
                         <div className="flex gap-1">
-                           <span className="">
+                           <Link
+                              href={`/@${cleanUsername}/followers`}
+                              className="">
                               <b className="">{`${
                                  user?.followersCount ?? 0
                               } `}</b>
                               takipçi
-                           </span>
+                           </Link>
+                           <Link
+                              href={`/@${cleanUsername}/following`}
+                              className=""
+                           >
+                              <b className="">{` - ${
+                                 user?.followingCount ?? 0
+                              } `}</b>
+                              takip
+                           </Link>
                            <span>
                               <b className="">{` - ${
                                  user?.postCount ?? 0
                               } `}</b>
                               gönderi
-                           </span>
-                           <span>
-                              <b className="">{` - ${
-                                 user?.followingCount ?? 0
-                              } `}</b>
-                              takip
                            </span>
                         </div>
                         <h3 className="font-semibold">
@@ -220,7 +234,12 @@ export default async function Layout({ children, params }) {
                            </>
                         ) : (
                            <>
-                              <FollowBtn type="secondary" className="!w-full" />
+                              <FollowBtn
+                                 id={user._id}
+                                 isFollowing={user?.isFollowing}
+                                 type="secondary"
+                                 className="!w-full"
+                              />
                               <Link
                                  className="!w-full"
                                  href={`/tenders/request/${user?._id}/`}>
