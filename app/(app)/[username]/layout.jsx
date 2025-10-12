@@ -186,7 +186,7 @@ export default async function Layout({ children, params }) {
                         <h1 className="inline-flex flex-col sm:flex-row items-center flex-wrap gap-0 text-xls font-bolds whitespace-nowrap">
                            <span className="flex gap-2 items-center text-2xl font-bold">
                               {user?.name}
-                              {!user?.isVerified && (
+                              {user?.isVerified && (
                                  <i className="bx bxs-check-circle text-primary"></i>
                               )}
                            </span>
