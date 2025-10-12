@@ -28,7 +28,7 @@ export default async function Layout({ children, params }) {
     */
 
    // console.time("User fetch time");
-   
+
    let userResponse;
    try {
       userResponse = await getUser(cleanUsername);
@@ -90,37 +90,68 @@ export default async function Layout({ children, params }) {
       ...(user?.userName && {
          url: `https://www.emegen.com.tr/@${user.userName}`,
       }),
-      ...(user?.profilePicture && { logo: user.profilePicture }),
-      ...(user?.coverPicture && { image: user.coverPicture }),
+      ...(user?.profilePicture && {
+         logo: user.profilePicture.startsWith("http")
+            ? user.profilePicture
+            : `https://cdn.emegen.com.tr/${String(user.profilePicture).replace(
+                 /^\/+/,
+                 ""
+              )}`,
+      }),
+      ...(user?.coverPicture && {
+         image: user.coverPicture.startsWith("http")
+            ? user.coverPicture
+            : `https://cdn.emegen.com.tr/${String(user.coverPicture).replace(
+                 /^\/+/,
+                 ""
+              )}`,
+      }),
       ...(user?.bio && { description: user.bio }),
-      ...(user?.phoneNumbers?.[0] && { telephone: user.phoneNumbers[0] }),
+      ...(Array.isArray(user?.phoneNumbers) &&
+         user.phoneNumbers[0] && { telephone: user.phoneNumbers[0] }),
       ...(user?.email && { email: user.email }),
-      ...(user?.address && {
-         address: {
-            "@type": "PostalAddress",
-            ...(user.address.street && { streetAddress: user.address.street }),
-            ...(user.address.city && { addressLocality: user.address.city }),
-            ...(user.address.region && { addressRegion: user.address.region }),
-            ...(user.address.postalCode && {
-               postalCode: user.address.postalCode,
-            }),
-            ...(user.address.country && {
-               addressCountry: user.address.country,
-            }),
-         },
-      }),
-      ...(user?.location && {
-         geo: {
-            "@type": "GeoCoordinates",
-            ...(user.location.latitude && { latitude: user.location.latitude }),
-            ...(user.location.longitude && {
-               longitude: user.location.longitude,
-            }),
-         },
-      }),
-      ...(user?.socialLinks?.length > 0 && { sameAs: user.socialLinks }),
+      ...(user?.address &&
+         typeof user.address === "object" && {
+            address: {
+               "@type": "PostalAddress",
+               ...(user.address.street && {
+                  streetAddress: user.address.street,
+               }),
+               ...(user.address.city && { addressLocality: user.address.city }),
+               ...(user.address.region && {
+                  addressRegion: user.address.region,
+               }),
+               ...(user.address.postalCode && {
+                  postalCode: user.address.postalCode,
+               }),
+               ...(user.address.country && {
+                  addressCountry: user.address.country,
+               }),
+            },
+         }),
+      ...(user?.location &&
+         typeof user.location === "object" && {
+            geo: {
+               "@type": "GeoCoordinates",
+               ...(user.location.latitude != null && {
+                  latitude: user.location.latitude,
+               }),
+               ...(user.location.longitude != null && {
+                  longitude: user.location.longitude,
+               }),
+            },
+         }),
+      ...((Array.isArray(user?.socialLinks) && user.socialLinks.length > 0) ||
+      (Array.isArray(user?.websites) && user.websites.length > 0)
+         ? {
+              sameAs:
+                 Array.isArray(user.socialLinks) && user.socialLinks.length > 0
+                    ? user.socialLinks
+                    : user.websites,
+           }
+         : {}),
       ...(user?.openingHours && { openingHours: user.openingHours }),
-      ...(user?.priceRange && { priceRange: user.priceRange }),
+      priceRange: user.priceRange || "try",
       ...(user?.paymentMethods && { paymentAccepted: user.paymentMethods }),
    };
 
@@ -177,8 +208,7 @@ export default async function Layout({ children, params }) {
                            </Link>
                            <Link
                               href={`/@${cleanUsername}/following`}
-                              className=""
-                           >
+                              className="">
                               <b className="">{` - ${
                                  user?.followingCount ?? 0
                               } `}</b>
