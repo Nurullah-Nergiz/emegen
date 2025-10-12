@@ -49,7 +49,7 @@ export default async function RootLayout({ children }) {
          {
             icon: "bx bx-log-out",
             text: "Oturumu kapat",
-            link: "auth/logout",
+            link: "/auth/logout",
          },
       ],
    };
