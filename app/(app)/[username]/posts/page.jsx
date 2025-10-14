@@ -19,13 +19,16 @@ export async function generateMetadata({ params }) {
  * @returns {Promise<import('react').JSX.Element>} The rendered posts page.
  */
 export default async function Page({ params }) {
+   console.clear();
    const { username } = await params;
    /**
     * @type {object {status: number, data: {posts: Array,limit: number,page: number,totalPages: number,totalPosts: number}}}
     */
-   const { status, data: fetchedPosts } = await getUserPosts(username);
+   const { status, data: fetchedPosts } = await getUserPosts(
+      username.replace("%40", "").trim()
+   );
    console.clear();
-   console.log("file: page.jsx:7 => posts=>", fetchedPosts);
+   // console.log("file: page.jsx:7 => posts=>", fetchedPosts);
 
    return (
       <section className="">
