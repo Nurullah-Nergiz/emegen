@@ -1,5 +1,26 @@
+import { getUserFollowers } from "@/services/userFallow";
+import { Avatar } from "@/components/widgets/avatar";
 
+export default async function FollowersPage({ params }) {
+   const { username } = await params;
+   const res = await getUserFollowers(username.replace("%40", ""));
+   const followers = res.data.followers;
 
-export default function FollowersPage ({children}) {
-     return ( <>followers page</> )
+   return (
+      <>
+         <div className="flex flex-col gap-4">
+            {followers.map((follower) => (
+               <div
+               key={`following-${follower._id}-${i}`}
+                  className="flex items-center gap-4 p-4 border border-gray-300 rounded-lg">
+                  <Avatar
+                     src={follower?.profilePicture}
+                     name={follower.name}
+                     userName={follower.userName}
+                  />
+               </div>
+            ))}
+         </div>
+      </>
+   );
 }
