@@ -39,7 +39,7 @@ export default function Home() {
          </main>
          <aside className=" min-w-96 lg:w-1/3 ">
             <div className=" sticky top-10 transition-all">
-               <Ad />
+               {/* <Ad /> */}
                <RecommendedPeopleWidget />
                <Footer />
             </div>

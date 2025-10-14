@@ -6,12 +6,51 @@ import ReduxProvider from "../components/provider/redux";
 
 import useTheme from "@/hooks/useTheme";
 import { headers } from "next/headers";
-// import { usePathname } from "next/navigation";
+
+import * as services from "@/services/index";
+import { useAuthToken } from "@/hooks/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default async function Layout({ children }) {
    const currentTheme = await useTheme();
+
+   try {
+      const token = await useAuthToken();
+      // console.log("Auth Token in Layout:", token.trim());
+
+      if (token) {
+         for (const svc of Object.values(services)) {
+            svc.interceptors.request.use(
+               async (config) => {
+                  config.headers.authorization = token;
+                  
+                  // console.log(config);
+
+                  return config;
+               },
+               (error) => {
+                  console.error("❌ [Request Errors]:", error);
+                  return Promise.reject(error);
+               }
+            );
+
+            // if (svc?.defaults?.headers) {
+            //    svc.defaults.headers.authorization = token;
+            //    // console.log(svc.defaults.headers);
+            // }
+         }
+      }
+   } catch (e) {
+      console.error("Failed to attach auth token to services:", e);
+   }
+
+   Object.values(services).forEach((svc) => {
+      svc.interceptors.response.use((response) => {
+         // console.log("Response from:", response.config.url, response.status);
+         return response;
+      });
+   });
 
    return (
       <html lang="tr" className={`${currentTheme} `}>
