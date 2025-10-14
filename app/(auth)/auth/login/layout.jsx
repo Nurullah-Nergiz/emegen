@@ -9,6 +9,6 @@ export const metadata = {
    keywords:
       "Emegen giriş, kullanıcı girişi, üye girişi, hesap girişi, giriş yap",
    alternates: {
-      canonical:"https://emegen.com.tr/auth/login/auth/login",
+      canonical: "https://emegen.com.tr/auth/login",   
    },
 };
