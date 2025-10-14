@@ -1,12 +1,12 @@
 import { getTender } from "@/services/tender";
 import { getUserTenders } from "@/services/user";
-import Tenders from "@/components/widgets/tenders";
+import TenderList from "@/components/widgets/tenders";
 
 export async function generateMetadata({ params }) {
    const { username } = await params;
    return {
       alternates: {
-         canonical: `https://emegen.com.tr/@${username.trim()}/tenders`,
+         canonical: `https://emegen.com.tr/${username.replace("%40","@")}/tenders`,
       },
    };
 }
@@ -37,7 +37,7 @@ export default async function TendersPage({ params }) {
    return (
       <>
          <section className="">
-            <Tenders data={tenders} />
+            <TenderList data={tenders} />
          </section>
       </>
    );

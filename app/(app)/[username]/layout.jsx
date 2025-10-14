@@ -11,6 +11,39 @@ import { Ad } from "@/components/AdBanner";
 import { ItemLink } from "@/components/nav/itemLink";
 import useAuthUser from "@/hooks/auth";
 
+// Format user.location object into a readable string
+function formatLocation(loc) {
+   // Return empty string for falsy values
+   if (!loc) return "";
+   // Pass through strings
+   if (typeof loc === "string") return loc;
+   // Try to assemble a nice string from common location fields
+   if (typeof loc === "object") {
+      const { city, state, region, country, address, zipCode, postalCode } =
+         loc || {};
+      const primary = [city, state || region, country]
+         .filter(Boolean)
+         .join(", ");
+      if (primary) return primary;
+      const fallback = [
+         address,
+         city,
+         state || region,
+         zipCode || postalCode,
+         country,
+      ]
+         .filter(Boolean)
+         .join(", ");
+      return fallback || "";
+   }
+   // Last-resort stringification
+   try {
+      return String(loc);
+   } catch {
+      return "";
+   }
+}
+
 export default async function Layout({ children, params }) {
    console.clear();
 
@@ -19,7 +52,6 @@ export default async function Layout({ children, params }) {
     */
    const { username = "" } = await params;
    const cleanUsername = username.replace(/%40/g, "").trim();
-   console.log(username);
    if (!username.startsWith("%40")) notFound();
 
    // Remove trailing slash from username if present
@@ -37,6 +69,8 @@ export default async function Layout({ children, params }) {
       notFound();
    }
    const { status, data: user } = userResponse || { status: 500, data: null };
+   // console.log(user);
+
    // console.timeEnd("User fetch time");
 
    // console.log("user:", user);
@@ -47,8 +81,7 @@ export default async function Layout({ children, params }) {
     */
    const isAuthenticatedUser = (await useAuthUser())?._id === user?._id;
 
-   if (status !== 200 || !user || (Array.isArray(user) && user.length === 0))
-      notFound();
+   if (status !== 200 || !user) notFound();
 
    const navSchema = [
       {
@@ -114,18 +147,20 @@ export default async function Layout({ children, params }) {
          typeof user.address === "object" && {
             address: {
                "@type": "PostalAddress",
-               ...(user.address.street && {
-                  streetAddress: user.address.street,
+               ...(user.address?.street && {
+                  streetAddress: user.address?.street,
                }),
-               ...(user.address.city && { addressLocality: user.address.city }),
-               ...(user.address.region && {
-                  addressRegion: user.address.region,
+               ...(user.address?.city && {
+                  addressLocality: user.address?.city,
                }),
-               ...(user.address.postalCode && {
-                  postalCode: user.address.postalCode,
+               ...(user.address?.region && {
+                  addressRegion: user.address?.region,
                }),
-               ...(user.address.country && {
-                  addressCountry: user.address.country,
+               ...(user.address?.postalCode && {
+                  postalCode: user.address?.postalCode,
+               }),
+               ...(user.address?.country && {
+                  addressCountry: user.address?.country,
                }),
             },
          }),
@@ -242,7 +277,7 @@ export default async function Layout({ children, params }) {
                               <>
                                  <i className="bx bx-map"></i>
                                  <p className=" px-1 text-base whitespace-nowrap">
-                                    {user?.location}
+                                    {formatLocation(user?.location)}
                                  </p>
                               </>
                            </div>
@@ -351,7 +386,8 @@ export async function generateMetadata({ params }) {
                   },
                ],
             },
-            locale: user?.location || "tr-TR",
+            locale:
+               typeof user?.location === "string" ? user.location : "tr-TR",
             formatDetection: {
                email: true,
                address: true,
@@ -364,7 +400,8 @@ export async function generateMetadata({ params }) {
             },
             category: "profile",
             other: {
-               locale: user?.location || "tr-TR",
+               locale:
+                  typeof user?.location === "string" ? user.location : "tr-TR",
             },
          };
    }

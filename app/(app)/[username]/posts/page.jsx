@@ -10,11 +10,22 @@ export async function generateMetadata({ params }) {
    };
 }
 
+/**
+ * Next.js server component for the dynamic route /[username]/posts.
+ * Fetches the specified user's posts and renders the Posts list.
+ *
+ * @async
+ * @param {{ params: { username: string } }} props - Route params supplied by Next.js.
+ * @returns {Promise<import('react').JSX.Element>} The rendered posts page.
+ */
 export default async function Page({ params }) {
    const { username } = await params;
+   /**
+    * @type {object {status: number, data: {posts: Array,limit: number,page: number,totalPages: number,totalPosts: number}}}
+    */
    const { status, data: fetchedPosts } = await getUserPosts(username);
    console.clear();
-   // console.log("file: page.jsx:7 => posts=>", posts);
+   console.log("file: page.jsx:7 => posts=>", fetchedPosts);
 
    return (
       <section className="">
@@ -27,4 +38,3 @@ export default async function Page({ params }) {
       </section>
    );
 }
-
