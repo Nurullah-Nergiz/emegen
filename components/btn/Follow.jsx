@@ -4,8 +4,8 @@ import { useState } from "react";
 import { SecondaryBtn } from "./index";
 import { setUserFallowing } from "@/services/userFallow";
 
-export default function FollowBtn({ id = "", className = "", ...props }) {
-   const [userFallow, setUserFallow] = useState(false);
+export default function FollowBtn({ id = "",isFollowing=false, className = "", ...props }) {
+   const [userFollow, setUserFollow] = useState(isFollowing);
 
    return (
       <SecondaryBtn
@@ -16,7 +16,7 @@ export default function FollowBtn({ id = "", className = "", ...props }) {
                .then((res) => {
                   if (res.status === 200) {
                      console.log("User followed successfully");
-                     setUserFallow(true);
+                     setUserFollow(true);
                   } else {
                      console.error("Failed to follow user");
                   }
@@ -26,7 +26,7 @@ export default function FollowBtn({ id = "", className = "", ...props }) {
                });
          }}
          {...props}>
-         {userFallow ? "Takip bırak" : "Takip et"}
+         {userFollow ? "Takip bırak" : "Takip et"}
       </SecondaryBtn>
    );
 }
