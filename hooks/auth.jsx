@@ -10,9 +10,10 @@ export default async function useAuthUser() {
 
 export async function useAuthToken() {
    if (typeof window === "undefined") {
-      const cookieStore = cookies();
-      if (!cookieStore.get("user")?.value) return "a";
-      else return JSON.parse(cookieStore.get("user")?.value)?.token || "s";
+      const cookieStore = await cookies();
+      if (!cookieStore.get("auth-token")?.value) return null;
+      else return JSON.parse(cookieStore.get("auth-token")?.value);
+      
    } else {
       const token = Cookies.get("user");
       return token ? JSON.parse(token)?.authorization : "w";

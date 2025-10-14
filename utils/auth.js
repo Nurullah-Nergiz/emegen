@@ -12,6 +12,7 @@ export const getAuthenticationUser = () => {
 
 export const setAuthenticationUser = (user, token) => {
    const authInfo = { user, authorization: getAuthenticationToken() };
+   console.log(user);
    Cookies.set("user", JSON.stringify(authInfo), {
       expires: 364,
    });
@@ -32,7 +33,7 @@ export const removeAuthenticationUser = () => {
 };
 
 export const removeToken = () => {
-   Cookies.remove("user");
+   Cookies.remove("auth-token");
 };
 
 export const isAuthenticated = () => {

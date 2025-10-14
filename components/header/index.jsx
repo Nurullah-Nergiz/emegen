@@ -27,7 +27,6 @@ export const Header = async () => {
                   <button className="bx bx-message-rounded-dots text-secondary dark:!text-inherit text-2xl "></button>
                   <button className="bx bx-bell text-secondary dark:!text-inherit text-2xl "></button>
                   <Avatar
-                     userAvatar={user?.avatar}
                      name={`${user.name} `}
                      userName={user.userName}
                      src={user?.profilePicture}
