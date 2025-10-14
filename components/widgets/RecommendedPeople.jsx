@@ -15,7 +15,7 @@ export const RecommendedPeopleWidget = ({ mode = "recommended" }) => {
       getExploreByUser()
          .then(({ data, status }) => {
             // { status, data = [] }
-            console.log(status, data);
+            // console.log(status, data);
 
             if (status == 200) {
                setUsers([...data]);
@@ -31,7 +31,7 @@ export const RecommendedPeopleWidget = ({ mode = "recommended" }) => {
          <div className="flex items-center justify-between gap-4 whitespace-nowrap">
             <span className="text-xl font-semibold">
                <i className="bx bx-trending-up text-primary mr-2"></i>
-               önerilen insanlar
+               Önerilen insanlar
             </span>
             <Link href="/explore-users" className="underline">
                Hepsini gör
@@ -42,7 +42,7 @@ export const RecommendedPeopleWidget = ({ mode = "recommended" }) => {
             users.map((user, key) => (
                <Avatar
                   key={user?._id}
-                  userAvatar={`https://picsum.photos/6${key}`}
+                  src={user?.profilePicture}
                   name={user?.name}
                   userName={user?.userName}>
                   <FollowBtn id={user?._id} className="p-2" />
