@@ -14,21 +14,21 @@ import BtnBookmarked from "@/components/btn/Bookmarked";
  * @returns React.Component
  */
 export default function Post({ post = {} }) {
-   const author = post?.author?.[0] || {};
-   
+   const author =
+      typeof post?._id !== "string" ? post?.author?.[0] : post?.author;
+
    // const w = Math.floor(Math.random() * 10);
    const [commentVisible, setCommentVisible] = useState(false);
-   
-   
+
    const handleDoubleClick = () => {
-   document.querySelector(`[data-like-id="${post._id}"]`)?.click();
-   }
+      document.querySelector(`[data-like-id="${post._id}"]`)?.click();
+   };
 
    return (
       <div className="mb-4 main overflow-hidden ">
          <header className="flex flex-col gap-4">
             <Avatar
-               userAvatar={author?.profilePicture}
+               src={author?.profilePicture}
                name={author?.name}
                userName={author?.userName}
                fallowViable={true}>
@@ -38,15 +38,28 @@ export default function Post({ post = {} }) {
                </details>
             </Avatar>
          </header>
-         <main className=" my-4 flex flex-col gap-2" onDoubleClick={handleDoubleClick}>
-            {post?.content}
-            {/* <img
-               src={`https://picsum.photos/72${w}/40${w}`}
-               alt="title"
-               loading="lazy"
-               className=""
-            /> */}
-            {/* src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*DUigJ7aQ_CFSOuKCklMOow.gif" */}
+         <main
+            className=" my-4 flex flex-col gap-2"
+            onDoubleClick={handleDoubleClick}>
+            <p className="">{post?.content}</p>
+            <div className="flex overflow-x-auto">
+               {post?.media.map((media, index) => {
+                  return (
+                     <>
+                        {media.type.startsWith("image") && (
+                           // eslint-disable-next-line @next/next/no-img-element
+                           <img
+                              key={index}
+                              src={`http://cdn.emegen.com.tr/${media.url}`}
+                              alt={post?.content ?? `Post image ${index + 1}`}
+                              className="max-h-[500px] w-full cursor-pointer rounded object-contain"
+                              loading="lazy"
+                           />
+                        )}
+                     </>
+                  );
+               })}
+            </div>
          </main>
          <footer className="flex items-baseline gap-4 text-2xl">
             <BtnLiked isLiked={post.isLiked ?? false} id={post._id} />
