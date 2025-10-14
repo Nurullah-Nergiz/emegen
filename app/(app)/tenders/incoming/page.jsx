@@ -1,29 +1,15 @@
-"use client";
-import Tenders, { Tender } from "@/components/widgets/tenders";
-import { getMyTenders } from "@/services/tender";
-import { useEffect, useState } from "react";
+"use server";
 
-export default function IncomingPage({ children }) {
-   // const { user } = useAuth();
-   // const userId = useAuthUserId();
-   const [tenders, setTenders] = useState([]);
-   useEffect(() => {
-         getMyTenders()
-            .then((response) => {
-               setTenders([...response.data]);
-               console.log("My Tenders:", response.data);
-            })
-            .catch((error) => {
+import { MyTenders } from "@/components/widgets/tenders";
+import { getInvitedTenderList } from "@/services/tender";
 
-               console.error("Error fetching my tenders:", error);
-            });
-      }, []);
+export default async function IncomingPage() {
    return (
-      <>
       <main className="flex-1 flex flex-col gap-4">
-            <Tenders isFilterActive={false} data={tenders}></Tenders>
-         </main>
-         {/* <Tender  /> */}
-      </>
+         <MyTenders
+            // initialData={tenders.data}
+            isFilterActive={true}
+         />
+      </main>
    );
 }

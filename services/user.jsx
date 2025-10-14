@@ -9,6 +9,11 @@ export const getUser = cache((userName) => userInstance("users/" + userName));
 
 export const getUsers = () => userInstance("users/");
 
+/**
+ * 
+ * @param {String} userName 
+ * @returns {Promise<{status: number, data: {tenders: Array, limit: number, page: number, totalPages: number, totalTenders: number}}>}
+ */
 export const getUserPosts = (userName) =>
    userInstance(`users/${userName}/posts`);
 

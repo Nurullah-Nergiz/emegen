@@ -4,18 +4,21 @@ import { Avatar } from "@/components/widgets/avatar";
 import { Ad } from "@/components/AdBanner";
 import { PrimaryBtn, SecondaryBtn } from "@/components/btn";
 import Link from "next/link";
-import axios from "axios";
 import { getTender } from "@/services/tender";
 import { useEffect, useState } from "react";
 
 export default function TenderIdPage({ params }) {
-   const [tender, setTender] = useState(null);
+   const [tender, setTender] = useState({});
 
    useEffect(() => {
       Promise.all([params]).then(([{ tenderId }]) => {
          getTender(tenderId)
             .then((response) => {
-               setTender(response.data);
+               // response.data is an object (single tender), so assign directly
+               setTender(() => {
+                  return { ...response?.data };
+               });
+               console.log("Fetched tender data:", response?.data);
             })
             .catch((error) => {
                console.error("Error fetching tender data:", error);
@@ -36,7 +39,7 @@ export default function TenderIdPage({ params }) {
                <h1 className="text-2xl font-bold">{tender?.title}</h1>
                <p className="py-2 text-tertiary">{tender?.description}</p>
                <ul>
-                  <li className="flex items-center gap-2 border-t border-tertiary py-2">
+                  <li className="flex items-center justify-between gap-2 border-t border-tertiary py-2">
                      <b> Tür</b>
                      <span>
                         {tender?.type === "public"
@@ -44,7 +47,7 @@ export default function TenderIdPage({ params }) {
                            : "Kapalı İhale"}
                      </span>
                   </li>
-                  <li className="flex items-center gap-2 border-t border-tertiary py-2">
+                  <li className="flex items-center justify-between gap-2 border-t border-tertiary py-2">
                      <b>Durum:</b>
                      <span>
                         {tender?.status === "open"
@@ -60,7 +63,7 @@ export default function TenderIdPage({ params }) {
                            : ""}
                      </span>
                   </li>
-                  <li className="flex items-center gap-2 border-t border-tertiary py-2">
+                  <li className="flex items-center justify-between gap-2 border-t border-tertiary py-2">
                      <span className="font-bold">İhale Tarihi:</span>{" "}
                      <span>
                         {new Date(tender?.startDate).toLocaleDateString(
@@ -68,14 +71,14 @@ export default function TenderIdPage({ params }) {
                         )}
                      </span>
                   </li>
-                  <li className="flex items-center gap-2 border-t border-tertiary py-2">
+                  <li className="flex items-center justify-between gap-2 border-t border-tertiary py-2">
                      <span className="font-bold">Teslim Tarihi:</span>{" "}
                      <span>
                         {new Date(tender?.endDate).toLocaleDateString("tr-TR")}
                      </span>
                   </li>
                </ul>
-               <div className="flex items-center gap-2 border-t border-tertiary py-2">
+               <div className="flex items-center justify-between gap-2 border-t border-tertiary py-2">
                   <b>Etiketler</b>
                   <ul className="flex gap-2">
                      {tender?.tags?.map((tag, index) => (
@@ -92,7 +95,7 @@ export default function TenderIdPage({ params }) {
             {/* <pre className="w-96">{JSON.stringify(tender)}</pre> */}
          </main>
          <aside className=" min-w-96 lg:w-1/3 flex flex-col gap-8">
-            <Ad />
+            {/* <Ad /> */}
             <Avatar
                name={author?.name}
                userName={author?.userName}
