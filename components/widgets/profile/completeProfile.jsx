@@ -50,7 +50,7 @@ export default function CompleteProfile({ user = {} }) {
       ).length;
 
    return (
-      <section className=" flex flex-col gap-4 p-4 ">
+      <section className=" flex flex-col gap-4 px-4 ">
          <h2 className="text-xl text-center">Profilinizi tamamlayın</h2>
 
          <div className="main">
