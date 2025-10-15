@@ -2,10 +2,10 @@ import Link from "next/link";
 
 export default function SettingsPage({}) {
    const settingsMenu = {
-      Kullanıcı: [
+      "Kullanıcı & Profil Ayarları": [
          {
             name: "Profil Bilgileri",
-            path: "/settings/profile",
+            path: "/settings/edit-profile",
             description: "Profil bilgilerinizi görüntüleyin ve düzenleyin.",
          },
          {
@@ -25,12 +25,12 @@ export default function SettingsPage({}) {
             description: "Dil ve tema tercihlerinizi ayarlayın.",
          },
          {
-            name: "Sosyal Bağlantılar",
-            path: "/settings/social-links",
-            description: "Sosyal medya bağlantılarınızı yönetin.",
+            name: "Profil & Kapak Fotoğrafı",
+            path: "/settings/profile-picture",
+            description: "Profil ve kapak fotoğraflarınızı güncelleyin.",
          },
       ],
-      Güvenlik: [
+      "Güvenlik & Gizlilik": [
          {
             name: "Şifre & Güvenlik",
             path: "/settings/security",
@@ -49,7 +49,7 @@ export default function SettingsPage({}) {
                "Engellediğiniz kullanıcıları görüntüleyin ve yönetin.",
          },
       ],
-      // Bildirimler: [
+      // "Bildirim & İletişim": [
       //   {
       //     name: "Bildirim Ayarları",
       //     path: "/settings/notifications",
@@ -61,7 +61,7 @@ export default function SettingsPage({}) {
       //     description: "E-posta bildirim sıklığı ve türlerini yönetin.",
       //   },
       // ],
-      // Teklif: [
+      // "Teklif & İş Ayarları": [
       //   {
       //     name: "Teklif Ayarları",
       //     path: "/settings/tenders",
@@ -73,7 +73,7 @@ export default function SettingsPage({}) {
       //     description: "Takım üyelerini ve izinleri yönetin.",
       //   },
       // ],
-      // Geliştirici: [
+      // "Geliştirici & API": [
       //   {
       //     name: "API Ayarları",
       //     path: "/settings/api",
@@ -85,7 +85,8 @@ export default function SettingsPage({}) {
       //     description: "Üçüncü parti uygulama erişimlerini denetleyin.",
       //   },
       // ],
-      Yardım: [
+      // "Ödeme & Abonelik":[],
+      "Destek & Yardım": [
          {
             name: "Destek",
             path: "/settings/support",
