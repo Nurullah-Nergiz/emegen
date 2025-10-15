@@ -3,7 +3,6 @@ import Post from "@/components/post/index";
 import { VList, WindowVirtualizer } from "virtua";
 
 export default function Posts({ posts = [] }) {
-   
    return (
       <>
          {!posts || posts.length === 0 ? (
@@ -15,7 +14,7 @@ export default function Posts({ posts = [] }) {
          ) : (
             posts.map((post, index) => (
                // Render each post with a stable key (prefer _id, fallback to index)
-               <Post key={post?._id ?? `post-${index}`} post={post} />
+               <Post key={`post-${index}-${post?._id}`} post={post} />
             ))
          )}
       </>

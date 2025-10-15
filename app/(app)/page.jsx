@@ -14,7 +14,7 @@ export default function Home() {
    const [posts, setPosts] = useState([]);
    useEffect(() => {
       getExplore().then((res) => {
-         console.log("res", typeof res);
+         // console.log("res", typeof res);
          if (typeof res === "undefined" || res === null) {
             return;
          }

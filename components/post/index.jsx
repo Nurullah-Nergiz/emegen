@@ -43,20 +43,17 @@ export default function Post({ post = {} }) {
             onDoubleClick={handleDoubleClick}>
             <p className="">{post?.content}</p>
             <div className="flex overflow-x-auto">
-               {post?.media.map((media, index) => {
+               {post?.media?.map((media, index) => {
+                  if (!media?.type?.startsWith("image")) return null;
                   return (
-                     <>
-                        {media.type.startsWith("image") && (
-                           // eslint-disable-next-line @next/next/no-img-element
-                           <img
-                              key={index}
-                              src={`http://cdn.emegen.com.tr/${media.url}`}
-                              alt={post?.content ?? `Post image ${index + 1}`}
-                              className="max-h-[500px] w-full cursor-pointer rounded object-contain"
-                              loading="lazy"
-                           />
-                        )}
-                     </>
+                     // eslint-disable-next-line @next/next/no-img-element
+                     <img
+                        key={media?._id ?? media?.url ?? `post-${post._id}-media-${index}`}
+                        src={`http://cdn.emegen.com.tr/${media.url}`}
+                        alt={post?.content ?? `Post image ${index + 1}`}
+                        className="max-h-[500px] w-full cursor-pointer rounded object-contain"
+                        loading="lazy"
+                     />
                   );
                })}
             </div>
