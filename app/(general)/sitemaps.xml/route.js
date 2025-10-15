@@ -1,42 +1,33 @@
 import convert from "xml-js";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://emegen.com.tr";
+
+const paths = [
+   "/",
+   "/auth/forgot-password",
+   "/auth/register",
+   "/terms",
+   "/auth/login",
+   // buraya yeni path'leri ekleyebilirsin
+];
+
 export function GET() {
    console.clear();
+
+   const now = new Date().toISOString();
+
+   const urlEntries = paths.map((path) => ({
+      loc: `${baseUrl}${path}`,
+      lastmod: now,
+      priority: 0.8,
+   }));
 
    const sitemapObject = {
       urlset: {
          _attributes: {
             xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9",
          },
-
-         url: [
-            {
-               loc: `${baseUrl}/`,
-               lastmod: new Date().toISOString(),
-               priority: 0.8,
-            },
-            {
-               loc: `${baseUrl}/auth/forgot-password`,
-               lastmod: new Date().toISOString(),
-               priority: 0.8,
-            },
-            {
-               loc: `${baseUrl}/auth/register`,
-               lastmod: new Date().toISOString(),
-               priority: 0.8,
-            },
-            {
-               loc: `${baseUrl}/terms`,
-               lastmod: new Date().toISOString(),
-               priority: 0.8,
-            },
-            {
-               loc: `${baseUrl}/auth/login`,
-               lastmod: new Date().toISOString(),
-               priority: 0.8,
-            },
-         ],
+         url: urlEntries,
       },
    };
 
