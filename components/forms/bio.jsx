@@ -1,21 +1,20 @@
 "use client";
 import { SecondaryBtn } from "@/components/btn";
 import { putUser } from "@/services/user";
-import { useRef } from "react";
+import { use, useRef } from "react";
+import userContext from "../provider/userContext";
 
 export default function BiographyEditor({ defaultValue = "" }) {
+   const [user, setUser] = use(userContext);
    const bioInputRef = useRef();
 
    const updateUserBio = (e) => {
-
-        
-    
       putUser({
          bio: bioInputRef?.current?.value || null,
       })
-         .then(() => {
-            // Optionally, handle success here, e.g., show a success message
-            console.log("Bio updated successfully");
+         .then((data) => {
+            setUser({ ...user, bio: bioInputRef?.current?.value || null });
+            console.log(data);
          })
          .catch((error) => {
             // Handle error here, e.g., show an error message

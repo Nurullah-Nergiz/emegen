@@ -128,7 +128,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 @layer utilities {
    .main {
-      @apply p-4 bg-main rounded-xl shadow-md shadow-tertiary dark:shadow-secondary;
+      @apply p-4 bg-main rounded-xl shadow-md dark:shadow-sm shadow-tertiary dark:shadow-secondary;
    }
 
    .bg-main {

@@ -9,6 +9,8 @@ export const getUser = cache((userName) => userInstance("users/" + userName));
 
 export const getUsers = () => userInstance("users/");
 
+export const getMe = () => userInstance("users/me");
+
 /**
  * 
  * @param {String} userName 

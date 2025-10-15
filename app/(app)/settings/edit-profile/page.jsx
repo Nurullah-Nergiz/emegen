@@ -1,22 +1,17 @@
 "use client";
 
-import { AvatarImg } from "@/components/widgets/avatar";
 import { PrimaryBtn, SecondaryBtn } from "@/components/btn";
-import useAuthUser, { useAuthUserId } from "@/hooks/auth";
 
-import WidgetsPopup from "@/components/widgets/popup";
-import Input from "@/components/forms/input";
-import FormsPhoneNumber from "@/components/forms/phoneNumber";
 import LocationInput from "../../../../components/forms/location";
 import TagsInput from "@/components/forms/tags";
-import { getUser } from "@/services/user";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import CompleteProfile from "@/components/widgets/profile/completeProfile";
 import FormsWebsite from "@/components/forms/website";
 import BiographyEditor from "@/components/forms/bio";
 
 import { putUserAvatar } from "@/services/user";
 import { setAuthenticationUser } from "@/utils/auth";
+import userContext from "@/components/provider/userContext";
 
 // export const metadata = {
 //    title: " Emegen",
@@ -24,79 +19,20 @@ import { setAuthenticationUser } from "@/utils/auth";
 // };
 
 export default function EditProfilePage() {
-   const [user, setUser] = useState();
-   // authUser?.userName?.replace(/%40/g, "").trim() || ""
-   // console.clear();
-   useEffect(() => {
-      Promise.all([useAuthUser()]).then(([user]) => {
-         if (!user?.userName) {
-            return;
-         }
-         getUser(user?.userName || "").then((userData) => {
-            setUser(userData.data || {});
-         });
-      });
-   }, []);
+   const [user, setUser] = use(userContext);
 
-   console.log("file: edit-profile.jsx:13 => user=>", user);
+   // console.log("file: edit-profile.jsx:13 => user=>", user);
 
    return (
       <>
          <main className="flex-1">
             <h1 className="mb-4">Edit profile</h1>
-            <section className="main flex flex-col gap-8">
-               <div className="main flex flex-col gap-4">
-                  <b>Yeni Fotoğraf Yükle</b>
-                  <AvatarImg
-                     src={user?.profilePicture || ""}
-                     alt="Profil Fotoğrafı"
-                  />
-                  <label className="relative inline-block cursor-pointer hover:underline">
-                     <input
-                        type="file"
-                        className="absolute -top-96 -left-96"
-                        accept="image/*"
-                        onChange={(e) => {
-                           if (e.target.files && e.target.files[0]) {
-                              const file = e.target.files[0];
-                              const fileSizeInMB = file.size / (1024 * 1024);
-                              if (fileSizeInMB > 5) {
-                                 console.log(
-                                    "Dosya boyutu 5MB sınırını aşıyor."
-                                 );
-                                 return;
-                              } else {
-                                 const formData = new FormData();
-                                 formData.append("file", file);
-                                 putUserAvatar(formData)
-                                    .then((response) => {
-                                       setUser((prevUser) => ({
-                                          ...prevUser,
-                                          avatar: response.data.avatar,
-                                       }));
-                                       return setAuthenticationUser(
-                                          response.data.user
-                                       );
-                                    })
-                                    .catch((error) => {
-                                       console.error(
-                                          "Avatar güncellenirken hata oluştu:",
-                                          error
-                                       );
-                                    });
-                              }
-                           }
-                        }}
-                     />
-                     Yeni fotoğraf yükle
-                  </label>
-               </div>
-
+            <section className="flex flex-col gap-8">
                <div className="main flex flex-col gap-4">
                   <b>Kişisel Bilgiler</b>
-                  <div className="flex gap-4">
+                  <div className="flex flex-col gap-4">
                      <label>
-                        <b className="block">İsim</b>
+                        <b className="py-2 block">İsim</b>
                         <input
                            className="w-full h-9 px-3 py-2 !bg-transparent border relative border-tertiary shadow shadow-tertiary rounded-2xl outline-none"
                            type="text"
@@ -105,16 +41,7 @@ export default function EditProfilePage() {
                         />
                      </label>
                      <label>
-                        <b className="block">Kullanıcı Adı</b>
-                        <input
-                           className="w-full h-9 px-3 py-2 !bg-transparent border relative border-tertiary shadow shadow-tertiary rounded-2xl outline-none"
-                           type="text"
-                           defaultValue={user?.userName || ""}
-                           placeholder="Kullanıcı adınızı girin"
-                        />
-                     </label>
-                     <label>
-                        <b className="block">Kullanıcı Adı</b>
+                        <b className="py-2 block">Kullanıcı Adı</b>
                         <input
                            className="w-full h-9 px-3 py-2 !bg-transparent border relative border-tertiary shadow shadow-tertiary rounded-2xl outline-none"
                            type="text"
@@ -125,19 +52,14 @@ export default function EditProfilePage() {
                   </div>
                   <SecondaryBtn className="ml-auto">Güncelle</SecondaryBtn>
                </div>
-               <div className="main">
-                  <b>Konum</b>
-                  <LocationInput
-                     defaultValue={user?.location || ""}
-                     placeholder="Konumunuzu girin"
-                     onChange={(e) => {
-                        console.log("Location changed:", e);
-                     }}
-                  />
-               </div>
-               <div className="main">
-                  <b>Etiketler</b>
-                  {/* {console.log("user?.tags:", user?.tags)} */}
+               <BiographyEditor defaultValue={user?.bio} />
+               <LocationInput
+                  defaultValue={user?.location || ""}
+                  placeholder="Konumunuzu girin"
+                  onChange={(e) => {
+                     console.log("Location changed:", e);
+                  }}
+               />
                   <TagsInput
                      tags={user?.tags}
                      placeholder="İlgi alanlarınızı girin"
@@ -145,15 +67,9 @@ export default function EditProfilePage() {
                         console.log("Tags changed:", e);
                      }}
                   />
-               </div>
-               <BiographyEditor defaultValue={user?.bio} />
-               <div className="main">
-                  <FormsWebsite name="website" value={user?.website} />
-                  <FormsWebsite name="linkedin" title="" />
-               </div>
             </section>
          </main>
-         <aside className="min-w-80 h-min main ">
+         <aside className="min-w-80 h-min">
             <CompleteProfile user={user} />
          </aside>
       </>

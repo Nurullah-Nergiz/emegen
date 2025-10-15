@@ -3,7 +3,7 @@ import { SecondaryBtn } from "@/components/btn";
 import { putUser } from "@/services/user";
 import { setAuthenticationUser } from "@/utils/auth";
 
-export default function LocationInput({ defaultValue = "" }) {
+export default function LocationInput({ defaultValue = "", title = "Konum" }) {
    const handleSubmit = (e) => {
       e.preventDefault();
       const inputValue = e.target[0].value.trim();
@@ -22,9 +22,12 @@ export default function LocationInput({ defaultValue = "" }) {
    };
 
    return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="main">
          {/* <b className="py-2 inline-block">Konum</b> */}
-         <div className="flex items-center gap-2">
+         <div className="flex flex-col gap-4">
+            <b>
+               {title}
+            </b>
             <label className="w-full  flex items-center gap-4 input">
                <span className="bx bx-current-location"></span>
                <input
@@ -34,7 +37,7 @@ export default function LocationInput({ defaultValue = "" }) {
                   defaultValue={defaultValue}
                />
             </label>
-            <SecondaryBtn type="submit">Kaydet</SecondaryBtn>
+            <SecondaryBtn type="submit" className="w-min ml-auto">Kaydet</SecondaryBtn>
          </div>
       </form>
    );

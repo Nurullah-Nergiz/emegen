@@ -1,12 +1,21 @@
-import { Header } from "@/components/header/index";
-import { Nav } from "@/components/nav";
-
-export const metadata = {
-   title: "Ayarlar",
-};
+import { UserContextProvider } from "@/components/provider/userContext";
+// "use client";
 
 export default async function RootLayout({ children }) {
    console.clear();
+   // const [user, setUser] = useContext(userContextProvider);
 
-   return <>{children}</>;
+   return (
+      <>
+         <UserContextProvider>
+            {/*  */}
+            {children}
+         </UserContextProvider>
+      </>
+   );
 }
+
+export const metadata = {
+   title: "Ayarlar",
+   description: "Hesap ayarlarınızı buradan yapabilirsiniz.",
+};
