@@ -1,53 +1,43 @@
+"use client";
 import ChartsDoughnut from "@/components/charts/doughnut";
+import userContext from "@/components/provider/userContext";
+import { use } from "react";
 
-export default function CompleteProfile({ user = {} }) {
+export default function CompleteProfile({ user: userData = {} }) {
+   const [user, setUser] = use(userContext);
+
    const userField =
       user &&
       Object.entries(user).filter(
          ([key]) =>
             ![
+               "id",
                "_id",
                "active",
                "createdAt",
                "updatedAt",
                "__v",
                "password",
-               "email",
-               "followersCount",
-               "followingCount",
-               "isFollowing",
-               "isEmailVerified",
-               "isPhoneVerified",
-               "isTwoFactorEnabled",
-               "isBlocked",
-               "isVerified",
             ].includes(key)
       );
-
-   const userFieldCount = userField?.length;
 
    const validUserFieldCount =
       user &&
       Object.entries(user).filter(
          ([key, val]) =>
             ![
+               "id",
                "_id",
                "active",
                "createdAt",
                "updatedAt",
                "__v",
                "password",
-               "email",
-               "followersCount",
-               "followingCount",
-               "isFollowing",
-               "isEmailVerified",
-               "isPhoneVerified",
-               "isTwoFactorEnabled",
-               "isBlocked",
-               "isVerified",
             ].includes(key) && val
       ).length;
+
+   const completionPercentage =
+      Math.round((100 / userField?.length) * validUserFieldCount) ?? 0;
 
    return (
       <section className=" flex flex-col gap-4 px-4 ">
@@ -63,10 +53,8 @@ export default function CompleteProfile({ user = {} }) {
                         {
                            label: "",
                            data: [
-                              100,
-                              Math.round(
-                                 (100 / userField?.length) * validUserFieldCount
-                              ) ?? 0,
+                              100 - completionPercentage,
+                              completionPercentage,
                            ],
                            backgroundColor: ["rgba(0, 0, 0, .12)", "#d81f26"],
                            borderWidth: 1,
