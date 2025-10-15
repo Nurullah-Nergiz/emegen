@@ -16,7 +16,7 @@
       --tertiary: "#f5f6ff";
       --main: "#26262e";
       --headerBackground: "#1c1d22";
-      --accent:rgba(255, 255, 255, 0.5)
+      --accent: rgba(255, 255, 255, 0.95);
    }
 }
 
@@ -79,14 +79,6 @@ details summary {
    @apply list-none cursor-pointer;
 }
 
-.bg-main {
-   @apply bg-[#f5f6ff] dark:bg-[#26262e];
-}
-
-.main {
-   @apply p-4 bg-main rounded-xl shadow-md shadow-tertiary dark:shadow-secondary;
-}
-
 .input {
    @apply w-full h-9 px-3 py-2 !bg-transparent border relative border-tertiary shadow shadow-tertiary rounded-2xl outline-none;
 }
@@ -135,6 +127,18 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 @layer utilities {
+   .main {
+      @apply p-4 bg-main rounded-xl shadow-md shadow-tertiary dark:shadow-secondary;
+   }
+
+   .bg-main {
+      @apply bg-[#f5f6ff] dark:bg-[#26262e];
+   }
+
+   .text-main {
+      @apply text-[#26262e] dark:text-[#f5f6ff];
+   }
+
    .text-balance {
       text-wrap: balance;
    }
