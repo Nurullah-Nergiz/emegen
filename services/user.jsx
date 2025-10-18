@@ -30,3 +30,10 @@ export const putUserAvatar = (data) =>
          "Content-Type": "multipart/form-data",
       },
    });
+
+export const putUserCoverPicture = (data) =>
+   userInstance.put(`users/me/cover-pictures`, data, {
+      headers: {
+         "Content-Type": "multipart/form-data",
+      },
+   });
