@@ -9,7 +9,6 @@ import CompleteProfile from "@/components/widgets/profile/completeProfile";
 import FormsWebsite from "@/components/forms/website";
 import BiographyEditor from "@/components/forms/bio";
 
-import { putUserAvatar } from "@/services/user";
 import { setAuthenticationUser } from "@/utils/auth";
 import userContext from "@/components/provider/userContext";
 
