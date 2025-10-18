@@ -1,19 +1,22 @@
 "use client";
 import { SecondaryBtn } from "@/components/btn";
 import { putUser } from "@/services/user";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
+import userContext from "../provider/userContext";
 
-export default function TagsInput({ children, tags: initialTags = [] }) {
-   const [tags, setTags] = useState([]);
+export default function TagsInput({ tags: initialTags = [] }) {
+   const [user, setUser] = use(userContext);
+   const [tags, setTags] = useState(initialTags);
    const [inputValue, setInputValue] = useState("");
 
    useEffect(() => {
-      if (initialTags?.length > 0) {
+      if (typeof user?.tags !== "undefined")
          setTags([
-            ...(typeof initialTags === "object" ? initialTags[0] : initialTags),
+            typeof user?.tags[0] === "string" ? user.tags : user.tags[0],
          ]);
-      }
-   }, [initialTags]);
+      else setTags([]);
+   }, []);
+   console.table(tags, user?.tags);
 
    const handleInputChange = (e) => {
       if (tags?.length > 5 && inputValue.trim() !== "") {
@@ -47,8 +50,7 @@ export default function TagsInput({ children, tags: initialTags = [] }) {
       })
          .then((res) => {
             if (res.status === 200) {
-               // setInputValue("");
-               // setTags(res.data.user.tags || []); // Update tags from response
+               setUser({ ...user, tags: tags });
             } else {
                console.error("Failed to update tags");
             }
@@ -59,11 +61,10 @@ export default function TagsInput({ children, tags: initialTags = [] }) {
    };
 
    return (
-      <>
+      <div className="main">
          <b className="py-2 inline-block">Etiketler</b>
-         <div className="flex items-center gap-2 ">
-            <label className="w-full p-4 flex items-center gap-4 input">
-               <span className="bx bx-tag"></span>
+         <div className="flex items-center gap-4 ">
+            <label className="w-full p-4 flex flex-col items-centers gap-4 input">
                <div className="flex">
                   {tags?.map((tag, index) => (
                      <span
@@ -80,19 +81,22 @@ export default function TagsInput({ children, tags: initialTags = [] }) {
                      </span>
                   ))}
                </div>
-               <input
-                  type="text"
-                  className="w-full bg-transparent outline-none"
-                  placeholder="Etiket ekle"
-                  value={inputValue}
-                  onChange={(e) => {
-                     setInputValue(e.target.value);
-                  }}
-                  onKeyDown={handleInputChange}
-               />
+               <div className="flex items-center gap-2 w-full">
+                  <span className="bx bx-tag"></span>
+                  <input
+                     type="text"
+                     className="w-full bg-transparent outline-none"
+                     placeholder="Etiket ekle"
+                     value={inputValue}
+                     onChange={(e) => {
+                        setInputValue(e.target.value);
+                     }}
+                     onKeyDown={handleInputChange}
+                  />
+               </div>
             </label>
             <SecondaryBtn onClick={handleTag}>Kaydet</SecondaryBtn>
          </div>
-      </>
+      </div>
    );
 }
