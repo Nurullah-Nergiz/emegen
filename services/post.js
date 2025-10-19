@@ -1,6 +1,10 @@
+import { postInstance } from "./index";
 
-import { postInstance } from './index';
+export const getPost = (id) => postInstance.get(`/posts/${id}`);
 
-const setPost = async (post) => { 
-    postInstance.post('/posts', post);
-}
+export const setPost = (data) =>
+   postInstance.post("/posts", data, {
+      headers: {
+         "Content-Type": "multipart/form-data",
+      },
+   });
