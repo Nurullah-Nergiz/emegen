@@ -11,11 +11,13 @@ export default function Posts({ posts = [] }) {
                   <p>No posts yet.</p>
                </div>
             </>
-         ) : (
-            posts.map((post, index) => (
+         ) : Array.isArray(posts) ? (
+            posts?.map((post, index) => (
                // Render each post with a stable key (prefer _id, fallback to index)
                <Post key={`post-${index}-${post?._id}`} post={post} />
             ))
+         ) : (
+            <Post post={posts} />
          )}
       </>
    );

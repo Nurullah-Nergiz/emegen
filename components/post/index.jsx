@@ -3,10 +3,13 @@
 import Link from "next/link";
 import { Avatar } from "@/components/widgets/avatar";
 import { CommentEditor } from "@/components/comment/editor";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CommentView } from "@/components/comment";
 import BtnLiked from "@/components/btn/Liked";
 import BtnBookmarked from "@/components/btn/Bookmarked";
+import PostSlider from "./slider";
+import { useAuthUserId } from "@/hooks/auth";
+import { SecondaryBtn } from "@/components/btn";
 
 /**
  *
@@ -14,14 +17,60 @@ import BtnBookmarked from "@/components/btn/Bookmarked";
  * @returns React.Component
  */
 export default function Post({ post = {} }) {
+   const [isOwner, setIsOwner] = useState(false);
    const author =
       typeof post?._id !== "string" ? post?.author?.[0] : post?.author;
+
+   useEffect(() => {
+      let isMounted = true;
+      useAuthUserId().then((id) => {
+         console.log("user in post:", id);
+
+         if (isMounted) {
+            setIsOwner(id === (author?._id ?? author));
+         }
+      });
+      return () => {
+         isMounted = false;
+      };
+   }, [author]);
+
+   // const isOwner =
+   // (await useAuthUserId())?._id === (author?._id ?? author);
 
    // const w = Math.floor(Math.random() * 10);
    const [commentVisible, setCommentVisible] = useState(false);
 
    const handleDoubleClick = () => {
       document.querySelector(`[data-like-id="${post._id}"]`)?.click();
+   };
+
+   const handleShare = async () => {
+      try {
+         const url = window.location.protocol + '//' + window.location.host + `/posts/${post._id}`;
+
+         if (navigator.clipboard && window.isSecureContext) {
+         await navigator.clipboard.writeText(url);
+         console.log("URL copied to clipboard");
+         } else {
+         const textarea = document.createElement("textarea");
+         textarea.value = url;
+         textarea.style.position = "fixed";
+         textarea.style.left = "-9999px";
+         document.body.appendChild(textarea);
+         textarea.focus();
+         textarea.select();
+         const successful = document.execCommand("copy");
+         document.body.removeChild(textarea);
+         if (successful) {
+            console.log("URL copied to clipboard");
+         } else {
+            console.warn("Copy command was unsuccessful");
+         }
+         }
+      } catch (error) {
+         console.error("Failed to copy URL:", error);
+      }
    };
 
    return (
@@ -32,9 +81,26 @@ export default function Post({ post = {} }) {
                name={author?.name}
                userName={author?.userName}
                fallowViable={true}>
-               <details>
+               <details className="relative">
                   <summary className="bx bx-dots-vertical-rounded"></summary>
-                  <div className="">a</div>
+                  <div className="p-4 bg-main absolute top-0 right-0">
+                     <SecondaryBtn
+                        className="w-full text-left px-4 py-2 whitespace-nowrap"
+                        onClick={handleShare}>
+                        Paylaş
+                     </SecondaryBtn>
+                     {isOwner ? (
+                        <Link
+                           href={`/posts/${post._id}/edit`}
+                           className="block px-4 py-2 whitespace-nowrap">
+                           Gönderiyi Düzenle
+                        </Link>
+                     ) : (
+                        <SecondaryBtn className="w-full text-left px-4 py-2 whitespace-nowrap">
+                           Gönderiyi Bildir
+                        </SecondaryBtn>
+                     )}
+                  </div>
                </details>
             </Avatar>
          </header>
@@ -42,20 +108,8 @@ export default function Post({ post = {} }) {
             className=" my-4 flex flex-col gap-2"
             onDoubleClick={handleDoubleClick}>
             <p className="">{post?.content}</p>
-            <div className="flex overflow-x-auto">
-               {post?.media?.map((media, index) => {
-                  if (!media?.type?.startsWith("image")) return null;
-                  return (
-                     // eslint-disable-next-line @next/next/no-img-element
-                     <img
-                        key={media?._id ?? media?.url ?? `post-${post._id}-media-${index}`}
-                        src={`http://cdn.emegen.com.tr/${media.url}`}
-                        alt={post?.content ?? `Post image ${index + 1}`}
-                        className="max-h-[500px] w-full cursor-pointer rounded object-contain"
-                        loading="lazy"
-                     />
-                  );
-               })}
+            <div className="">
+               <PostSlider items={post.media ?? []} aspectRatio="16/9" />
             </div>
          </main>
          <footer className="flex items-baseline gap-4 text-2xl">
