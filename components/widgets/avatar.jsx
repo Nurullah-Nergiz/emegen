@@ -51,7 +51,7 @@ export const AvatarImg = ({
          width={size}
          height={size}
          className={twMerge(
-            `p-[2px] rounded-full border-2 border-primary border-r-transparent border-b-transparent aspect-square`,
+            `p-1 rounded-full border border-primary border-r-transparent border-b-transparent aspect-square`,
             className
          )}
          alt={alt}
