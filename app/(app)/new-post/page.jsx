@@ -1,9 +1,12 @@
 "use client";
 
 import { setPost } from "@/services/post";
+import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 
 export default function NewPostPage() {
+   const router = useRouter();
+   
    const [content, setContent] = useState("");
    const [imageFile, setImageFile] = useState(null);
    const [imagePreview, setImagePreview] = useState(null);
