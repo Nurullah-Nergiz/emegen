@@ -1,9 +1,12 @@
+// import { useRouter } from "next/navigation";
 import { UserContextProvider } from "@/components/provider/userContext";
-// "use client";
 
 export default async function RootLayout({ children }) {
    console.clear();
-   // const [user, setUser] = useContext(userContextProvider);
+
+   // const router = useRouter();
+
+   // console.log("Settings Layout Router:", router);
 
    return (
       <>

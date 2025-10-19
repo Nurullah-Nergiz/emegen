@@ -34,6 +34,7 @@ export default function ProfilePicturePage() {
          const response = await apiCall(formData);
          setUser({ ...response.data.user });
          setAuthenticationUser(response.data.user);
+         e.target.value = "";
       } catch (error) {
          console.error("Güncelleme sırasında hata oluştu:", error);
       } finally {
