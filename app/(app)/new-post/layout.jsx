@@ -1,8 +1,13 @@
-"use client";
+// "use client";
 
 import { ItemLink } from "@/components/nav/itemLink";
 import Link from "next/link";
 import { PrimaryBtn } from "@/components/btn";
+
+export const metadata = {
+   title: "Yeni Gönderi Oluştur",
+   description: "Yeni gönderi oluşturma sayfası",
+};
 
 export default function NewPostPage({ children }) {
    const handleSubmit = (e) => {
