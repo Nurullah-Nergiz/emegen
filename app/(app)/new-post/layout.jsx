@@ -52,9 +52,6 @@ export default function NewPostPage({ children }) {
                </div>
             </header>
             <main>{children}</main>
-            <footer className="text-right">
-               <PrimaryBtn>Gönderi oluştur</PrimaryBtn>
-            </footer>
          </main>
       </>
    );

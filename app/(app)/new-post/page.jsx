@@ -1,12 +1,13 @@
 "use client";
 
+import { PrimaryBtn } from "@/components/btn";
 import { setPost } from "@/services/post";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 
 export default function NewPostPage() {
    const router = useRouter();
-   
+
    const [content, setContent] = useState("");
    const [imageFile, setImageFile] = useState(null);
    const [imagePreview, setImagePreview] = useState(null);
@@ -47,17 +48,13 @@ export default function NewPostPage() {
 
       setPost(formData)
          .then((res) => {
-            console.table(
-               { ...res.data },
-               
-            );
+            console.table({ ...res.data });
             // Temizle
             setContent("");
             clearImage();
-            // route post page 
-            
-            router.push( "/posts/" + res.data?._id );
-            
+            // route post page
+
+            router.push("/posts/" + res.data?._id);
          })
          .catch((err) => {
             console.error("Paylaşım hatası:", err);
@@ -126,7 +123,6 @@ export default function NewPostPage() {
                      placeholder="Bir şey yazın..."
                      value={content}
                      onChange={(e) => setContent(e.target.value)}
-                     
                   />
                </div>
 
@@ -226,7 +222,7 @@ export default function NewPostPage() {
 
                {/* Footer */}
                <div className="px-4 py-3 border-t flex items-center justify-end gap-2">
-                  <button
+                  <PrimaryBtn
                      type="submit"
                      disabled={!canPublish}
                      className={`px-4 py-2 rounded-full text-white text-sm font-medium ${
@@ -234,8 +230,8 @@ export default function NewPostPage() {
                            ? "bg-[#0a66c2] hover:bg-[#004182]"
                            : "bg-blue-300 cursor-not-allowed"
                      }`}>
-                     Paylaş
-                  </button>
+                     Gönderi oluştur
+                  </PrimaryBtn>
                </div>
             </form>
          </div>
