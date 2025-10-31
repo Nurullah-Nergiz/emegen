@@ -10,6 +10,7 @@ import { notFound } from "next/navigation";
 import { Ad } from "@/components/AdBanner";
 import { ItemLink } from "@/components/nav/itemLink";
 import useAuthUser from "@/hooks/auth";
+import CompleteProfile from "@/components/widgets/profile/completeProfile";
 
 // Format user.location object into a readable string
 function formatLocation(loc) {
@@ -19,8 +20,15 @@ function formatLocation(loc) {
    if (typeof loc === "string") return loc;
    // Try to assemble a nice string from common location fields
    if (typeof loc === "object") {
-      const { city, district, region, country, full_address, zipCode, postalCode } =
-         loc || {};
+      const {
+         city,
+         district,
+         region,
+         country,
+         full_address,
+         zipCode,
+         postalCode,
+      } = loc || {};
       const primary = [city, district || region, country]
          .filter(Boolean)
          .join(", ");
@@ -71,7 +79,7 @@ export default async function Layout({ children, params }) {
       notFound();
    }
    const { status, data: user } = userResponse || { status: 500, data: null };
-   console.log(user);
+   if (process.env.NODE_ENV !== "production") console.log(user);
 
    // console.timeEnd("User fetch time");
 
@@ -347,8 +355,16 @@ export default async function Layout({ children, params }) {
             <main className="w-full">{children}</main>
          </section>
          <aside className="min-w-96 w-full lg:w-1/3 hidden lg:flex flex-col gap-4">
-            <Ad />
-            <RecommendedPeopleWidget />
+            {!isAuthenticatedUser ? (
+               <>
+                  <Ad />
+                  <RecommendedPeopleWidget />
+               </>
+            ) : (
+               <>
+                  <CompleteProfile user={user} />
+               </>
+            )}
          </aside>
       </>
    );
