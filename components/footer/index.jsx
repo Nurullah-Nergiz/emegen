@@ -4,15 +4,15 @@ const Footer = () => {
          <div className="">
             <a
                href="/privacy-policy"
-               className="text-white hover:text-gray-400 mx-2">
+               className=" mx-2">
                Gizlilik Politikası
             </a>
             <a
                href="/terms-of-service"
-               className="text-white hover:text-gray-400 mx-2">
+               className=" mx-2">
                Kullanım Şartları
             </a>
-            <a href="/contact" className="text-white hover:text-gray-400 mx-2">
+            <a href="/contact" className=" mx-2">
                İletişim
             </a>
          </div>
@@ -22,7 +22,7 @@ const Footer = () => {
                target="_blank"
                rel="noopener noreferrer"
                aria-label="Facebook"
-               className="text-white hover:text-gray-400">
+               className="">
                <i className="bx bxl-facebook text-xs"></i>
             </a>
             <a
@@ -30,7 +30,7 @@ const Footer = () => {
                target="_blank"
                rel="noopener noreferrer"
                aria-label="YouTube"
-               className="text-white hover:text-gray-400">
+               className="">
                <i className="bx bxl-youtube text-xs"></i>
             </a>
             <a
@@ -38,7 +38,7 @@ const Footer = () => {
                target="_blank"
                rel="noopener noreferrer"
                aria-label="Twitter"
-               className="text-white hover:text-gray-400">
+               className="">
                <i className="bx bxl-twitter text-xs"></i>
             </a>
             <a
@@ -46,7 +46,7 @@ const Footer = () => {
                target="_blank"
                rel="noopener noreferrer"
                aria-label="Instagram"
-               className="text-white hover:text-gray-400">
+               className="">
                <i className="bx bxl-instagram text-xs"></i>
             </a>
             <a
@@ -54,7 +54,7 @@ const Footer = () => {
                target="_blank"
                rel="noopener noreferrer"
                aria-label="LinkedIn"
-               className="text-white hover:text-gray-400">
+               className="">
                <i className="bx bxl-linkedin text-xs"></i>
             </a>
             <a
@@ -62,7 +62,7 @@ const Footer = () => {
                target="_blank"
                rel="noopener noreferrer"
                aria-label="GitHub"
-               className="text-white hover:text-gray-400">
+               className="">
                <i className="bx bxl-github text-xs"></i>
             </a>
          </div>
