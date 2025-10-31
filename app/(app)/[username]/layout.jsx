@@ -19,16 +19,16 @@ function formatLocation(loc) {
    if (typeof loc === "string") return loc;
    // Try to assemble a nice string from common location fields
    if (typeof loc === "object") {
-      const { city, state, region, country, address, zipCode, postalCode } =
+      const { city, district, region, country, full_address, zipCode, postalCode } =
          loc || {};
-      const primary = [city, state || region, country]
+      const primary = [city, district || region, country]
          .filter(Boolean)
          .join(", ");
       if (primary) return primary;
       const fallback = [
-         address,
+         full_address,
          city,
-         state || region,
+         district || region,
          zipCode || postalCode,
          country,
       ]
@@ -61,6 +61,8 @@ export default async function Layout({ children, params }) {
 
    // console.time("User fetch time");
 
+   // await new Promise((resolve) => setTimeout(resolve, 10000));
+
    let userResponse;
    try {
       userResponse = await getUser(cleanUsername);
@@ -69,7 +71,7 @@ export default async function Layout({ children, params }) {
       notFound();
    }
    const { status, data: user } = userResponse || { status: 500, data: null };
-   // console.log(user);
+   console.log(user);
 
    // console.timeEnd("User fetch time");
 
@@ -239,7 +241,7 @@ export default async function Layout({ children, params }) {
                               <b className="">{`${
                                  user?.followersCount ?? 0
                               } `}</b>
-                              takipçi
+                              takip
                            </Link>
                            <Link
                               href={`/@${cleanUsername}/following`}
@@ -247,7 +249,7 @@ export default async function Layout({ children, params }) {
                               <b className="">{` - ${
                                  user?.followingCount ?? 0
                               } `}</b>
-                              takip
+                              takipci
                            </Link>
                            <span>
                               <b className="">{` - ${

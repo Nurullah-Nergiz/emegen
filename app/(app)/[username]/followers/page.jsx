@@ -9,7 +9,7 @@ export default async function FollowersPage({ params }) {
    return (
       <>
          <div className="flex flex-col gap-4">
-            {followers.map((follower) => (
+            {followers.map((follower,i) => (
                <div
                key={`following-${follower._id}-${i}`}
                   className="flex items-center gap-4 p-4 border border-gray-300 rounded-lg">
