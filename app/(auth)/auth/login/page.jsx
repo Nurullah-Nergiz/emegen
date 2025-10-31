@@ -19,10 +19,9 @@ export default function Page() {
    const router = useRouter();
    const searchParams = useSearchParams();
    const redirect = searchParams.get("redirect");
-   
+
    const [authHeaderData, setAuthHeaderData] = useContext(AuthHeaderContext);
 
-   
    useEffect(() => {
       setAuthHeaderData({
          title: "Login",
@@ -39,10 +38,10 @@ export default function Page() {
       })
          .then(async (data) => {
             if (data.status === 200) {
-               
                setAuthToken(data.data.authorization);
                dispatch(loginSuccess(data.data));
-               router.push(redirect ? redirect : "/");
+               window.location = redirect ? redirect : "/";
+               // router.push(redirect ? redirect : "/");
             } else {
             }
          })
@@ -91,7 +90,11 @@ export default function Page() {
                   <input type="checkbox" />
                   <span className="whitespace-nowrap">Beni Hatırla</span>
                </label>
-               <Link href="./forgot-password" className="underline underline-offset-4">Parolanızı mı unuttunuz?</Link>
+               <Link
+                  href="forgot-password"
+                  className="underline underline-offset-4">
+                  Parolanızı mı unuttunuz?
+               </Link>
             </div>
             <PrimaryBtn type="submit" className="h-9 bg-primary">
                Login
