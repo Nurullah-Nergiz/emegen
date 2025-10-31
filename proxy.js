@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export function middleware(req) {
+export function proxy(req) {
    const cookies = req.cookies;
    const url = req.nextUrl.clone();
    const pathname = req.nextUrl.pathname;
