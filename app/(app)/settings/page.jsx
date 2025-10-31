@@ -24,11 +24,6 @@ export default function SettingsPage({}) {
             path: "/settings/preferences",
             description: "Dil ve tema tercihlerinizi ayarlayın.",
          },
-         {
-            name: "Profil & Kapak Fotoğrafı",
-            path: "/settings/profile-picture",
-            description: "Profil ve kapak fotoğraflarınızı güncelleyin.",
-         },
       ],
       "Güvenlik & Gizlilik": [
          {

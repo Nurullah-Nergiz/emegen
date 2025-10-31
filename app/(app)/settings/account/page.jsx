@@ -3,6 +3,7 @@ import userContext from "@/components/provider/userContext";
 import { use, useEffect, useMemo, useState, useTransition } from "react";
 import { SecondaryBtn } from "@/components/btn";
 import { putUser } from "@/services/user";
+import CompleteProfile from "@/components/widgets/profile/completeProfile";
 
 export default function AccountPage() {
    const [user, setUser] = use(userContext);
@@ -15,12 +16,15 @@ export default function AccountPage() {
    });
    useEffect(() => {
       setAccount({
-         userName: user?.userName ?? "",
-         email: user?.email ?? "",
-         publicEmail: user?.publicEmail ?? "",
-         phoneNumber: user?.phoneNumber ?? "",
-         publicPhoneNumber: user?.publicPhoneNumber ?? "",
+         ...user,
+         // userName: user?.userName ?? "",
+         // email: user?.email ?? "",
+         // publicEmail: user?.publicEmail ?? "",
+         // phoneNumber: user?.phoneNumber ?? "",
+         // publicPhoneNumber: user?.publicPhoneNumber ?? "",
       });
+      console.log(user);
+      
    }, [user]);
 
    if (!user) {
@@ -60,10 +64,29 @@ export default function AccountPage() {
 
    return (
       <>
-         <main className="">
+         <main className="flex-1">
             <h1 className="text-3xl font-semibold mb-6">Hesap Ayarları</h1>
             <section className="main">
                <ul className="max-w-3xl flex flex-col gap-6">
+                  <li className="w-full flex items-end gap-4">
+                     <label className="flex-1 flex flex-col  gap-4">
+                        <span className="font-medium">Ad Soyad:</span>
+                        <input
+                           type="text"
+                           className="w-full h-9 px-3 py-2 !bg-transparent border relative border-tertiary shadow shadow-tertiary rounded-2xl outline-none"
+                           placeholder="Ad Soyad"
+                           value={account?.name ?? ""}
+                           onChange={(e) =>
+                              handleChange("name", e.target.value)
+                           }
+                        />
+                     </label>
+                     <SecondaryBtn
+                        onClick={() => handleSave("name", account.name)}>
+                        Kaydet
+                     </SecondaryBtn>
+                  </li>
+
                   <li className="w-full flex items-end gap-4">
                      <label className="flex-1 flex flex-col  gap-4">
                         <span className="font-medium">Kullanıcı Adı:</span>
@@ -171,6 +194,9 @@ export default function AccountPage() {
                </ul>
             </section>
          </main>
+         <aside className="min-w-80 h-min">
+            <CompleteProfile user={user} />
+         </aside>
       </>
    );
 }

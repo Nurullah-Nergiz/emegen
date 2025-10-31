@@ -10,10 +10,12 @@ export default async function RootLayout({ children }) {
 
    return (
       <>
-         <UserContextProvider>
-            {/*  */}
-            {children}
-         </UserContextProvider>
+         {/* <section className="w-full  px-4 py-6"> */}
+            <UserContextProvider>
+               {/*  */}
+               {children}
+            </UserContextProvider>
+         {/* </section> */}
       </>
    );
 }

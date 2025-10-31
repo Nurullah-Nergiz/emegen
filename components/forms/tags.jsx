@@ -10,37 +10,33 @@ export default function TagsInput({ tags: initialTags = [] }) {
    const [inputValue, setInputValue] = useState("");
 
    useEffect(() => {
-      if (typeof user?.tags !== "undefined")
-         setTags([
-            typeof user?.tags[0] === "string" ? user.tags : user.tags[0],
-         ]);
-      else setTags([]);
-   }, []);
-   console.table(tags, user?.tags);
+      if (user?.tags) {
+         // Ensure tags are a flat array of strings
+         const userTags = Array.isArray(user.tags[0])
+            ? user.tags[0]
+            : user.tags;
+         setTags(userTags.filter((tag) => typeof tag === "string"));
+      } else {
+         setTags([]);
+      }
+   }, [user]);
 
    const handleInputChange = (e) => {
-      if (tags?.length > 5 && inputValue.trim() !== "") {
-         // e.preventDefault();
-         setInputValue("");
-         return;
-      } else if (e.key === " " || e.key === "Enter") {
-         // e.preventDefault();
-         if (
-            inputValue.trim() !== "" &&
-            (tags.length < 5 || tags.length === 0)
-         ) {
-            setTags([...tags, inputValue.trim()]);
-            setInputValue("");
-         } else if (tags.length >= 5) {
-            setInputValue(""); // Clear input if trying to add more than 5 tags
+      if (e.key === " " || e.key === "Enter") {
+         e.preventDefault();
+         const newTag = inputValue.trim();
+         if (newTag && tags.length < 5 && !tags.includes(newTag)) {
+            setTags([...tags, newTag]);
          }
-      } else if (e.key === "Backspace" && inputValue.trim() === "") {
+         setInputValue("");
+      } else if (e.key === "Backspace" && inputValue === "") {
+         e.preventDefault();
          setInputValue(tags[tags.length - 1] || "");
-         setTags(tags.slice(0, -1)); // Remove last tag on backspace if input is empty
+         setTags(tags.slice(0, -1));
       } else if (e.key === "Escape") {
-         setInputValue(""); // Clear input on escape
+         setInputValue("");
       } else if (e.key === "Delete") {
-         setTags([]); // Clear all tags on delete
+         setTags([]);
       }
    };
 
@@ -50,7 +46,7 @@ export default function TagsInput({ tags: initialTags = [] }) {
       })
          .then((res) => {
             if (res.status === 200) {
-               setUser({ ...user, tags: tags });
+               setUser((prevUser) => ({ ...prevUser, tags: tags }));
             } else {
                console.error("Failed to update tags");
             }
@@ -63,26 +59,26 @@ export default function TagsInput({ tags: initialTags = [] }) {
    return (
       <div className="main">
          <b className="py-2 inline-block">Etiketler</b>
-         <div className="flex items-center gap-4 ">
-            <label className="w-full p-4 flex flex-col items-centers gap-4 input">
-               <div className="flex">
-                  {tags?.map((tag, index) => (
+         <div className="flex flex-col  gap-4 ">
+            <div className="flex items-center gap-2 w-full">
+               {tags?.map((tag, index) => (
+                  <span
+                     key={index}
+                     className="bg-secondary text-white px-2 py-1 rounded-full text-sm flex items-center gap-2">
+                     {tag}
                      <span
-                        key={index}
-                        className="bg-secondary text-white px-2 py-1 rounded-full text-sm flex items-center gap-2">
-                        {tag}
-                        <span
-                           className="cursor-pointer text-red-500"
-                           onClick={() => {
-                              setTags(tags.filter((t) => t !== tag));
-                           }}>
-                           &times;
-                        </span>
+                        className="cursor-pointer text-red-500"
+                        onClick={() => {
+                           setTags(tags.filter((t) => t !== tag));
+                        }}>
+                        &times;
                      </span>
-                  ))}
-               </div>
-               <div className="flex items-center gap-2 w-full">
-                  <span className="bx bx-tag"></span>
+                  </span>
+               ))}
+            </div>
+            <div className="flex">
+               <label className="w-full !h-auto flex items-centers gap-4  input">
+                  <span className="bx bx-tag h-min"></span>
                   <input
                      type="text"
                      className="w-full bg-transparent outline-none"
@@ -93,9 +89,9 @@ export default function TagsInput({ tags: initialTags = [] }) {
                      }}
                      onKeyDown={handleInputChange}
                   />
-               </div>
-            </label>
-            <SecondaryBtn onClick={handleTag}>Kaydet</SecondaryBtn>
+               </label>
+               <SecondaryBtn onClick={handleTag}>Kaydet</SecondaryBtn>
+            </div>
          </div>
       </div>
    );
