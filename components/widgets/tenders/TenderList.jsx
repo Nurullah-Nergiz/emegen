@@ -34,7 +34,7 @@ export default function TenderList({
       <>
          {/* {isFilterActive && Tender} */}
          <section className="flex flex-col gap-4 ">
-            {initialData.length + " " + JSON.stringify(initialData, null, 2)}
+            {/* {initialData.length + " " + JSON.stringify(initialData, null, 2)} */}
             {typeof tenders !== "undefined"
                ? tenders?.map((tender, i) => {
                     return (

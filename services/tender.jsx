@@ -27,3 +27,7 @@ export const getMyTenders = () => {
 export const getInvitedTenderList = () => {
    return TendersInstance.get("/tenders/invited");
 };
+
+export const getUserTenders = (username) => {
+   return TendersInstance.get(`/users/${username}/tenders`);
+}

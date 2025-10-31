@@ -1,7 +1,7 @@
 "use client";
 
 import TenderList from "@/components/widgets/tenders/TenderList";
-import { getInvitedTenderList } from "@/services/tender";
+import { getInvitedTenderList, getUserTenders } from "@/services/tender";
 import { useEffect, useState } from "react";
 
 export default function ({ isFilterActive = false, initialData = [] }) {
@@ -11,6 +11,31 @@ export default function ({ isFilterActive = false, initialData = [] }) {
       <>
          <TenderList
             initialData={initialData}
+            isFilterActive={isFilterActive}
+         />
+      </>
+   );
+}
+
+export function UserTenders({ username, isFilterActive = false }) {
+   const [tenders, setTenders] = useState([]);
+   useEffect(() => {
+      getUserTenders(username)
+         .then((res) => {
+            if (res.status !== 200) return;
+
+            setTenders([...res.data] || []);
+            // console.log(res.data);
+         })
+         .catch((err) => {
+            // console.error("Error fetching user tenders:", err);
+         });
+   }, [username]);
+
+   return (
+      <>
+         <TenderList
+            // initialData={initialData}
             isFilterActive={isFilterActive}
          />
       </>
