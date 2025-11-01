@@ -1,6 +1,6 @@
 "use client";
 
-import { Tender } from "@/components/widgets/tenders";
+import TenderList from "@/components/widgets/tenders";
 import { getTenders } from "@/services/tender";
 import { useEffect, useState } from "react";
 import { PrimaryBtn, SecondaryBtn } from '@/components/btn';
