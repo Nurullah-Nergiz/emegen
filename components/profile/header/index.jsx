@@ -107,13 +107,27 @@ export default function ProfileInfoHeader({
                               type="secondary"
                               className="!w-full"
                            />
-                           <Link
-                              className="!w-full"
-                              href={`/tenders/request/${user?._id}/`}>
-                              <PrimaryBtn className="!w-full">
-                                 Fiyat Teklif İste
-                              </PrimaryBtn>
-                           </Link>
+                           {user.primaryBtn.type === "price" ? (
+                              <Link
+                                 className="!w-full"
+                                 href={`/tenders/request/${user?._id}/`}>
+                                 <PrimaryBtn className="!w-full">
+                                    Fiyat Teklif İste
+                                 </PrimaryBtn>
+                              </Link>
+                           ) : user.primaryBtn.type === "custom" ? (
+                              <Link
+                                 className="!w-full"
+                                 href={user.primaryBtn?.url}
+                                 target="_blank"
+                                 rel="noopener noreferrer">
+                                 <PrimaryBtn className="!w-full">
+                                    {user.primaryBtn.text}
+                                 </PrimaryBtn>
+                              </Link>
+                           ) : (
+                              ""
+                           )}
                         </>
                      )}
                   </div>
