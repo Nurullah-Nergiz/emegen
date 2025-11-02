@@ -9,6 +9,7 @@ import useAuthUser from "@/hooks/auth";
 import Logo from "@/components/Logo";
 
 export const Header = async () => {
+   // const users = await useIsAuthUser();
    const user = await useAuthUser();
 
    return (
@@ -22,7 +23,7 @@ export const Header = async () => {
          </section>
 
          <section className=" p-1 flex items-center justify-end gap-4 overflow-hidden">
-            {user && Object.keys(user).length > 0 ? (
+            {user?._id ? (
                <>
                   <button className="bx bx-message-rounded-dots text-secondary dark:!text-inherit text-2xl "></button>
                   <button className="bx bx-bell text-secondary dark:!text-inherit text-2xl "></button>

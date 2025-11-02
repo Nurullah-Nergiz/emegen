@@ -2,12 +2,13 @@
 import { PrimaryBtn } from "@/components/btn";
 import AuthHeaderContext from "@/components/provider/authHeader";
 import { loginServices } from "@/services/auth";
-import { setAuthToken } from "@/utils/auth";
+import { setAuthenticationUser, setAuthToken } from "@/utils/auth";
 import { loginSuccess } from "@/store/authStore";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
+import { useSetAuthUser } from "@/hooks/auth";
 
 export default function Page() {
    // const [userName, password, errorMessage] = [useRef(), useRef(), useRef()];
@@ -38,7 +39,10 @@ export default function Page() {
       })
          .then(async (data) => {
             if (data.status === 200) {
-               setAuthToken(data.data.authorization);
+               console.log("data:", data.data.user);
+               await useSetAuthUser(data.data.user, data.data.authorization);
+               debugger;
+               // setAuthToken(data.data.authorization);
                dispatch(loginSuccess(data.data));
                window.location = redirect ? redirect : "/";
                // router.push(redirect ? redirect : "/");

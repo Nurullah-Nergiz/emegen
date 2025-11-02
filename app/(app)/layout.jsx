@@ -7,7 +7,7 @@ export default async function RootLayout({ children }) {
    console.clear();
    const user = await useAuthUser();
    const isAuthenticated = user && typeof user?._id === "string" ? true : false;
-   
+
    const menu = {
       Menu: [
          {
