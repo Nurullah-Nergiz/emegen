@@ -1,5 +1,6 @@
 import { Avatar } from "@/components/widgets/avatar";
 import { getUserFollowing } from "@/services/userFallow";
+import FollowBtn from "@/components/btn/Follow";
 
 export default async function FollowingPage({ params }) {
    const { username } = await params;
@@ -10,7 +11,7 @@ export default async function FollowingPage({ params }) {
    return (
       <>
          <div className="flex flex-col gap-4">
-            {followers.map((follower,i) => (
+            {followers.map((follower, i) => (
                <div
                   key={`following-${follower._id}-${i}`}
                   className="flex items-center gap-4 p-4 border border-gray-300 rounded-lg">
@@ -19,6 +20,7 @@ export default async function FollowingPage({ params }) {
                      name={follower.name}
                      userName={follower.userName}
                   />
+                  <FollowBtn userId={follower._id} />
                </div>
             ))}
          </div>

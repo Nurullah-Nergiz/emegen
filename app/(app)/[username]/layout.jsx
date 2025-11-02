@@ -1,59 +1,22 @@
 "use server";
-import { AvatarImg, CoverImage } from "@/components/widgets/avatar";
 import Link from "next/link";
 import { PrimaryBtn, SecondaryBtn } from "@/components/btn";
 import { RecommendedPeopleWidget } from "../../../components/widgets/RecommendedPeople";
-import FollowBtn from "@/components/btn/Follow";
 import { getUser } from "@/services/user";
 import { notFound } from "next/navigation";
 // import removed: useAuthUser (client hook not allowed in this server component)
 import { Ad } from "@/components/AdBanner";
-import { ItemLink } from "@/components/nav/itemLink";
+
 import useAuthUser from "@/hooks/auth";
 import CompleteProfile from "@/components/widgets/profile/completeProfile";
+import ProfileInfoHeader from "@/components/profile/header";
+import ProfileNavbar from "@/components/profile/nav";
+import ProfileSchemas from "@/components/profile/schema";
 
 // Format user.location object into a readable string
-function formatLocation(loc) {
-   // Return empty string for falsy values
-   if (!loc) return "";
-   // Pass through strings
-   if (typeof loc === "string") return loc;
-   // Try to assemble a nice string from common location fields
-   if (typeof loc === "object") {
-      const {
-         city,
-         district,
-         region,
-         country,
-         full_address,
-         zipCode,
-         postalCode,
-      } = loc || {};
-      const primary = [city, district || region, country]
-         .filter(Boolean)
-         .join(", ");
-      if (primary) return primary;
-      const fallback = [
-         full_address,
-         city,
-         district || region,
-         zipCode || postalCode,
-         country,
-      ]
-         .filter(Boolean)
-         .join(", ");
-      return fallback || "";
-   }
-   // Last-resort stringification
-   try {
-      return String(loc);
-   } catch {
-      return "";
-   }
-}
 
 export default async function Layout({ children, params }) {
-   console.clear();
+   // console.clear();
 
    /**
     * @type {String}
@@ -93,265 +56,19 @@ export default async function Layout({ children, params }) {
 
    if (status !== 200 || !user) notFound();
 
-   const navSchema = [
-      {
-         "@context": "https://schema.org",
-         "@type": "SiteNavigationElement",
-         name: "Ana Sayfa",
-         url: "https://www.emegen.com.tr/",
-      },
-      {
-         "@context": "https://schema.org",
-         "@type": "SiteNavigationElement",
-         name: "Profil",
-         url: `https://www.emegen.com.tr/@${username}`,
-      },
-      {
-         "@context": "https://schema.org",
-         "@type": "SiteNavigationElement",
-         name: "Posts",
-         url: `https://www.emegen.com.tr/@${username}/posts`,
-      },
-      {
-         "@context": "https://schema.org",
-         "@type": "SiteNavigationElement",
-         name: "Tenders",
-         url: `https://www.emegen.com.tr/@${username}/tenders`,
-      },
-      {
-         "@context": "https://schema.org",
-         "@type": "SiteNavigationElement",
-         name: "Hakkında",
-         url: `https://www.emegen.com.tr/@${username}/about`,
-      },
-   ];
-
-   const businessSchema = {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      ...(user?.name && { name: user.name }),
-      ...(user?.userName && {
-         url: `https://www.emegen.com.tr/@${user.userName}`,
-      }),
-      ...(user?.profilePicture && {
-         logo: user.profilePicture.startsWith("http")
-            ? user.profilePicture
-            : `https://cdn.emegen.com.tr/${String(user.profilePicture).replace(
-                 /^\/+/,
-                 ""
-              )}`,
-      }),
-      ...(user?.coverPicture && {
-         image: user.coverPicture.startsWith("http")
-            ? user.coverPicture
-            : `https://cdn.emegen.com.tr/${String(user.coverPicture).replace(
-                 /^\/+/,
-                 ""
-              )}`,
-      }),
-      ...(user?.bio && { description: user.bio }),
-      ...(Array.isArray(user?.phoneNumbers) &&
-         user.phoneNumbers[0] && { telephone: user.phoneNumbers[0] }),
-      ...(user?.email && { email: user.email }),
-      ...(user?.address &&
-         typeof user.address === "object" && {
-            address: {
-               "@type": "PostalAddress",
-               ...(user.address?.street && {
-                  streetAddress: user.address?.street,
-               }),
-               ...(user.address?.city && {
-                  addressLocality: user.address?.city,
-               }),
-               ...(user.address?.region && {
-                  addressRegion: user.address?.region,
-               }),
-               ...(user.address?.postalCode && {
-                  postalCode: user.address?.postalCode,
-               }),
-               ...(user.address?.country && {
-                  addressCountry: user.address?.country,
-               }),
-            },
-         }),
-      ...(user?.location &&
-         typeof user.location === "object" && {
-            geo: {
-               "@type": "GeoCoordinates",
-               ...(user.location.latitude != null && {
-                  latitude: user.location.latitude,
-               }),
-               ...(user.location.longitude != null && {
-                  longitude: user.location.longitude,
-               }),
-            },
-         }),
-      ...((Array.isArray(user?.socialLinks) && user.socialLinks.length > 0) ||
-      (Array.isArray(user?.websites) && user.websites.length > 0)
-         ? {
-              sameAs:
-                 Array.isArray(user.socialLinks) && user.socialLinks.length > 0
-                    ? user.socialLinks
-                    : user.websites,
-           }
-         : {}),
-      ...(user?.openingHours && { openingHours: user.openingHours }),
-      priceRange: user.priceRange || "try",
-      ...(user?.paymentMethods && { paymentAccepted: user.paymentMethods }),
-   };
-
    return (
       <>
-         {/* Structured Data */}
-         <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema) }}
-         />
-         {navSchema.map((item, index) => (
-            <script
-               key={index}
-               type="application/ld+json"
-               dangerouslySetInnerHTML={{ __html: JSON.stringify(item) }}
-            />
-         ))}
-         {/* End Structured Data */}
+         <ProfileSchemas user={user} />
 
          <section className="flex-1">
-            <header className="flex flex-col gap-4">
-               <CoverImage src={user?.coverPicture} />
-
-               <section className="main py-0 flex flex-col sm:flex-row items-center gap-2 overflow-hidden">
-                  <AvatarImg
-                     src={user?.profilePicture}
-                     className="w-auto h-full max-w-40 max-h-40 p-1 "
-                     size={128 * 4}
-                  />
-                  <div className="w-full flex flex-col  gap-2">
-                     <div className="flex flex-col items-center sm:items-start gap-2">
-                        <h1 className="inline-flex flex-col sm:flex-row items-center flex-wrap gap-0 text-xls font-bolds whitespace-nowrap">
-                           <span className="flex gap-2 items-center text-2xl font-bold">
-                              {user?.name}
-                              {user?.isVerified && (
-                                 <i className="bx bxs-check-circle text-primary"></i>
-                              )}
-                           </span>
-                           <p className="text-accent text-base">
-                              @{user?.userName}
-                           </p>
-                        </h1>
-                        <h2 className="overflow-hidden text-ellipsis text-sm">
-                           {user?.bio || "Bu kullanıcı hakkında bilgi yok."}
-                        </h2>
-                        <div className="flex gap-1">
-                           <Link
-                              href={`/@${cleanUsername}/followers`}
-                              className="">
-                              <b className="">{`${
-                                 user?.followersCount ?? 0
-                              } `}</b>
-                              takip
-                           </Link>
-                           <Link
-                              href={`/@${cleanUsername}/following`}
-                              className="">
-                              <b className="">{` - ${
-                                 user?.followingCount ?? 0
-                              } `}</b>
-                              takipci
-                           </Link>
-                           <span>
-                              <b className="">{` - ${
-                                 user?.postCount ?? 0
-                              } `}</b>
-                              gönderi
-                           </span>
-                        </div>
-                        <h3 className="font-semibold">
-                           <ul className="flex items-center gap-4">
-                              {user?.tags &&
-                                 (typeof user?.tags[0] === "object"
-                                    ? user.tags[0]
-                                    : user.tags
-                                 )?.map((tag) => (
-                                    <li
-                                       key={tag}
-                                       className="w-min px-3 py-2 rounded-md bg-[rgba(0,0,0,0.12)] underline">
-                                       #{tag}
-                                    </li>
-                                 ))}
-                           </ul>
-                        </h3>
-
-                        {user?.location && (
-                           <div className="flex flex-wrap items-center">
-                              <>
-                                 <i className="bx bx-map"></i>
-                                 <p className=" px-1 text-base whitespace-nowrap">
-                                    {formatLocation(user?.location)}
-                                 </p>
-                              </>
-                           </div>
-                        )}
-                     </div>
-                     <div className="w-full flex flex-col sm:flex-row justify-end items-center  gap-4">
-                        {isAuthenticatedUser ? (
-                           <>
-                              <SecondaryBtn className="bx bx-share-alt !w-full py-2 px-4">
-                                 Paylaş
-                              </SecondaryBtn>
-                              <Link
-                                 href="/settings/edit-profile"
-                                 className="!w-full">
-                                 <PrimaryBtn className="bx bx-edit !w-full py-2 px-4">
-                                    Profili Düzenle
-                                 </PrimaryBtn>
-                              </Link>
-                           </>
-                        ) : (
-                           <>
-                              <FollowBtn
-                                 id={user._id}
-                                 isFollowing={user?.isFollowing}
-                                 type="secondary"
-                                 className="!w-full"
-                              />
-                              <Link
-                                 className="!w-full"
-                                 href={`/tenders/request/${user?._id}/`}>
-                                 <PrimaryBtn className="!w-full">
-                                    Fiyat Teklif İste
-                                 </PrimaryBtn>
-                              </Link>
-                           </>
-                        )}
-                     </div>
-                  </div>
-               </section>
-            </header>
+            <ProfileInfoHeader
+               user={user}
+               isAuthenticatedUser={isAuthenticatedUser}
+            />
             {/* <div className="justify-items-end flex gap-4"></div> */}
 
-            <nav className="main my-4 flex gap-4 border-b border-secondary">
-               {[
-                  { name: "Ana sayfa", href: "" },
-                  { name: "Posts", href: "/posts" },
-                  { name: "Tenders", href: "/tenders" },
-                  { name: "Hakkında", href: "/about" },
-               ].map(({ name, href }) => (
-                  <ItemLink
-                     text={name}
-                     link={`/@${user?.userName}${href}`}
-                     className="hover:underline"
-                     activeClass="border-b-2 border-primary"
-                     key={"profil-navbar-" + name}
-                  />
-                  // <Link
-                  // href={`/@${user?.userName}/${href}`}
-                  // className="hover:underline"
-                  //    key={"profil-navbar-" + name}>
-                  //    {name}
-                  // </Link>
-               ))}
-            </nav>
+            <ProfileNavbar user={user} />
+
             <main className="w-full">{children}</main>
          </section>
          <aside className="min-w-96 w-full lg:w-1/3 hidden lg:flex flex-col gap-4">
@@ -379,7 +96,8 @@ export async function generateMetadata({ params }) {
       );
       if (status === 200 && user && (!Array.isArray(user) || user.length !== 0))
          return {
-            title: `${user?.name} (@${user?.userName})`,
+            metadataBase: new URL("https://emegen.com.tr"),
+            title: `${user?.name} - (@${user?.userName})`,
             description: user?.bio || "Bu kullanıcı hakkında bilgi yok.",
             alternates: {
                canonical: `https://emegen.com.tr/@${user?.userName}`,
@@ -394,7 +112,7 @@ export async function generateMetadata({ params }) {
             ],
 
             openGraph: {
-               title: `${user?.name} (@${user?.userName}) - Emegen`,
+               title: `${user?.name} - (@${user?.userName}) - Emegen`,
                description: user?.bio || "Bu kullanıcı hakkında bilgi yok.",
                images: [
                   {
@@ -403,6 +121,17 @@ export async function generateMetadata({ params }) {
                      height: 630,
                   },
                ],
+               type: "profile",
+               profile: {
+                  firstName: user?.name || "",
+                  username: user?.userName || "",
+               },
+               twitter: {
+                  card: "summary_large_image",
+                  title: `${user?.name} - (@${user?.userName}) - Emegen`,
+                  description: user?.bio || "Bu kullanıcı hakkında bilgi yok.",
+                  images: [user?.profilePicture],
+               }, 
             },
             locale:
                typeof user?.location === "string" ? user.location : "tr-TR",
