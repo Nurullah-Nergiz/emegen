@@ -39,10 +39,7 @@ export default function Page() {
       })
          .then(async (data) => {
             if (data.status === 200) {
-               console.log("data:", data.data.user);
                await useSetAuthUser(data.data.user, data.data.authorization);
-               debugger;
-               // setAuthToken(data.data.authorization);
                dispatch(loginSuccess(data.data));
                window.location = redirect ? redirect : "/";
                // router.push(redirect ? redirect : "/");
