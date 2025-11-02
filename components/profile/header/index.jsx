@@ -107,7 +107,7 @@ export default function ProfileInfoHeader({
                               type="secondary"
                               className="!w-full"
                            />
-                           {user.primaryBtn.type === "price" ? (
+                           {user.primaryBtn?.type === "price" ? (
                               <Link
                                  className="!w-full"
                                  href={`/tenders/request/${user?._id}/`}>
@@ -115,7 +115,7 @@ export default function ProfileInfoHeader({
                                     Fiyat Teklif İste
                                  </PrimaryBtn>
                               </Link>
-                           ) : user.primaryBtn.type === "custom" ? (
+                           ) : user.primaryBtn?.type === "custom" ? (
                               <Link
                                  className="!w-full"
                                  href={user.primaryBtn?.url}

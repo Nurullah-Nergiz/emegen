@@ -96,7 +96,6 @@ export async function generateMetadata({ params }) {
       );
       if (status === 200 && user && (!Array.isArray(user) || user.length !== 0))
          return {
-            metadataBase: new URL("https://emegen.com.tr"),
             title: `${user?.name} - (@${user?.userName})`,
             description: user?.bio || "Bu kullanıcı hakkında bilgi yok.",
             alternates: {
