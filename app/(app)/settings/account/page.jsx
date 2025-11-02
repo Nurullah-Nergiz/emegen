@@ -194,7 +194,7 @@ export default function AccountPage() {
                </ul>
             </section>
          </main>
-         <aside className="min-w-80 h-min">
+         <aside className="min-w-80 w-1/3 h-min">
             <CompleteProfile user={user} />
          </aside>
       </>

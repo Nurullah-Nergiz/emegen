@@ -26,9 +26,9 @@ export const UserContextProvider = ({ children }) => {
       <userContext.Provider value={[user, setUser]}>
          {pathName !== "/settings" ? (
             <>
-               {/* <Link href="/settings" className="block underline">
+               <Link href="/settings" className="block underline absolute top-0">
                    Ayarlara Geri Dön {" "}
-               </Link> */}
+               </Link>
             </>
          ) : (
             ""

@@ -1,21 +1,23 @@
-// import { useRouter } from "next/navigation";
 import { UserContextProvider } from "@/components/provider/userContext";
+import { useAuthUserId } from "@/hooks/auth";
+import { redirect } from "next/navigation";
 
 export default async function RootLayout({ children }) {
    console.clear();
 
-   // const router = useRouter();
-
-   // console.log("Settings Layout Router:", router);
+   const id = await useAuthUserId();
+   if (!id) {
+      redirect("/auth/login");
+   }
 
    return (
       <>
-         {/* <section className="w-full  px-4 py-6"> */}
+         <section className="w-full h-full flex flex-col lg:flex-row gap-6 relative pt-8">
             <UserContextProvider>
                {/*  */}
                {children}
             </UserContextProvider>
-         {/* </section> */}
+         </section>
       </>
    );
 }
