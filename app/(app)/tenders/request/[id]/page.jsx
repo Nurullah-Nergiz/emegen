@@ -31,11 +31,11 @@ export default function RequestPage() {
             
             {Array.isArray(tenders) && tenders.length > 0
                ? tenders.map((tender, i) => (
-                  <Tender tender={tender} key={tender._id + "-" + i}>
+                  <TenderList tender={tender} key={tender._id + "-" + i}>
                      <SecondaryBtn>
                        Seç
                      </SecondaryBtn>
-                    </Tender>
+                    </TenderList>
                  ))
                : null}
          </main>

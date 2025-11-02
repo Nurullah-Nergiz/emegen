@@ -8,3 +8,10 @@ export const setPost = (data) =>
          "Content-Type": "multipart/form-data",
       },
    });
+
+export const updatePost = (id, data) =>
+   postInstance.put(`/posts/${id}`, data, {
+      headers: {
+         "Content-Type": "multipart/form-data",
+      },
+   });

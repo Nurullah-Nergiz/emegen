@@ -18,6 +18,7 @@ import { SecondaryBtn } from "@/components/btn";
  */
 export default function Post({ post = {} }) {
    const [isOwner, setIsOwner] = useState(false);
+   const [isContentExpanded, setIsContentExpanded] = useState(false);
    const author =
       typeof post?._id !== "string" ? post?.author?.[0] : post?.author;
 
@@ -35,10 +36,6 @@ export default function Post({ post = {} }) {
       };
    }, [author]);
 
-   // const isOwner =
-   // (await useAuthUserId())?._id === (author?._id ?? author);
-
-   // const w = Math.floor(Math.random() * 10);
    const [commentVisible, setCommentVisible] = useState(false);
 
    const handleDoubleClick = () => {
@@ -71,6 +68,27 @@ export default function Post({ post = {} }) {
       } catch (error) {
          console.error("Failed to copy URL:", error);
       }
+   };
+
+   const content = post?.content || "";
+   const canBeTruncated = content.length > 250;
+
+   const renderContentWithHashtags = (text) => {
+      const parts = text.split(/(#\w+)/g);
+      return parts.map((part, index) => {
+         if (part.startsWith("#")) {
+            const tag = part.substring(1);
+            return (
+               <Link
+                  key={index}
+                  href={`/hashtags/${tag}`}
+                  className="text-blue-500 hover:underline">
+                  {part}
+               </Link>
+            );
+         }
+         return part;
+      });
    };
 
    return (
@@ -107,7 +125,20 @@ export default function Post({ post = {} }) {
          <main
             className=" my-4 flex flex-col gap-2"
             onDoubleClick={handleDoubleClick}>
-            <p className="">{post?.content}</p>
+            <p className="whitespace-pre-wrap">
+               {renderContentWithHashtags(
+                  canBeTruncated && !isContentExpanded
+                     ? `${content.substring(0, 250)}...`
+                     : content
+               )}
+               {canBeTruncated && !isContentExpanded && (
+                  <button
+                     onClick={() => setIsContentExpanded(true)}
+                     className="text-gray-500 ml-1">
+                     daha fazla göster
+                  </button>
+               )}
+            </p>
             <div className="">
                <PostSlider items={post.media ?? []} aspectRatio="16/9" />
             </div>
@@ -123,14 +154,12 @@ export default function Post({ post = {} }) {
                isBookmarked={post.isBookmarked ?? false}
                id={post._id}
             />
-            {/* <button className="bx bx-bookmark ml-auto"></button> */}
          </footer>
          <details open={commentVisible} className="">
             <summary className="!hidden">a</summary>
             <CommentEditor postId={post._id} />
             <CommentView comments={post.comments} />
          </details>
-         {/* <button className="bx bxs-bookmark-minus p-0"></button> */}
       </div>
    );
 }
