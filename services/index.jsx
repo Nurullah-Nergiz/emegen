@@ -11,7 +11,7 @@ import axios from "axios";
 // };
 const headers = {
    "Content-Type": "application/json",
-   authorization:  getAuthenticationToken(),
+   authorization: getAuthenticationToken(),
    // "Access"
 };
 
@@ -66,23 +66,7 @@ export const TendersInstance = axios.create({
    headers,
 });
 
-[
-   searchInstance,
-   authInstance,
-   exploreInstance,
-   postLikeInstance,
-   bookmarkInstance,
-].forEach((a) => {
-   a.interceptors.response.use(
-      (res) => {
-         return res;
-      },
-      (err) => {
-         if (err.status === 403) {
-            console.log("Unauthorized access, redirecting to login...");
-            // window.location.href = "/auth/login";
-         } else {
-         }
-      }
-   );
+export const serviceInstance = axios.create({
+   baseURL: process.env.NEXT_PUBLIC_BACKEND_HOSTNAME,
+   headers,
 });
