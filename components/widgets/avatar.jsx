@@ -69,24 +69,32 @@ export const CoverImage = ({
 }) => {
    return (
       <div className="before:block before:pt-[25%] main h-min !bg-secondary relative">
-         <Image
-            src={
-               src
-                  ? `http://cdn.emegen.com.tr/${src}`
-                  : "http://cdn.emegen.com.tr/avatars/user.png"
-            }
-            width={600}
-            height={200}
-            className={twMerge(
-               "w-full h-full object-cover rounded-xl absolute top-0 right-0 bottom-0 left-0",
-               className
-            )}
-            alt={alt}
-            // onError={(e) => {
-            //    e.target.src = "https://picsum.photos/seed/picsum/600/200";
-            //    e.preventDefault();
-            // }}
-         />
+         {src ? (
+            <Image
+               src={
+                  src
+                     ? `http://cdn.emegen.com.tr/${src}`
+                     : "http://cdn.emegen.com.tr/avatars/user.png"
+               }
+               width={600}
+               height={200}
+               className={twMerge(
+                  "w-full h-full object-cover rounded-xl absolute top-0 right-0 bottom-0 left-0",
+                  className
+               )}
+               alt={alt}
+               // onError={(e) => {
+               //    e.target.src = "https://picsum.photos/seed/picsum/600/200";
+               //    e.preventDefault();
+               // }}
+            />
+         ) : (
+            <div
+               className={twMerge(
+                  "w-full h-full bg-accent rounded-xl absolute top-0 right-0 bottom-0 left-0",
+                  className
+               )}></div>
+         )}
       </div>
    );
 };
