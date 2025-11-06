@@ -30,8 +30,6 @@ export default async function Layout({ children, params }) {
     * @type {String}
     */
 
-   // console.time("User fetch time");
-
    // await new Promise((resolve) => setTimeout(resolve, 10000));
 
    let userResponse;
@@ -42,13 +40,8 @@ export default async function Layout({ children, params }) {
       notFound();
    }
    const { status, data: user } = userResponse || { status: 500, data: null };
-   if (process.env.NODE_ENV !== "production") console.log(user);
+   // if (process.env.NODE_ENV !== "production") console.log(user);
 
-   // console.timeEnd("User fetch time");
-
-   // console.log("user:", user);
-   // const isAuthenticatedUser = false; // TODO: implement a server-side auth check
-   // console.log(await useAuthUser());
    /**
     * @type {Boolean}
     */
@@ -69,9 +62,9 @@ export default async function Layout({ children, params }) {
 
             <ProfileNavbar user={user} />
 
-            <main className="w-full">{children}</main>
+            <main className="w-full main">{children}</main>
          </section>
-         <aside className="min-w-96 w-full lg:w-1/3 hidden lg:flex flex-col gap-4">
+         <aside className="min-w-96 w-full lg:w-1/3 hidden lg:flex flex-col gap-4 sticky top-20 self-start">
             {!isAuthenticatedUser ? (
                <>
                   <Ad />
@@ -130,7 +123,7 @@ export async function generateMetadata({ params }) {
                   title: `${user?.name} - (@${user?.userName}) - Emegen`,
                   description: user?.bio || "Bu kullanıcı hakkında bilgi yok.",
                   images: [user?.profilePicture],
-               }, 
+               },
             },
             locale:
                typeof user?.location === "string" ? user.location : "tr-TR",

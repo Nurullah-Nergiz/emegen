@@ -19,7 +19,7 @@ export default function ProfileInfoHeader({
             <section className="main py-0 flex flex-col sm:flex-row items-center gap-2 overflow-hidden">
                <AvatarImg
                   src={user?.profilePicture}
-                  className="w-auto h-full max-w-40 max-h-40 p-1 "
+                  className="w-auto h-full max-w-52 max-h-52 p-1 "
                   size={128 * 4}
                />
                <div className="w-full flex flex-col  gap-2">
@@ -35,7 +35,7 @@ export default function ProfileInfoHeader({
                            @{user?.userName}
                         </p>
                      </h1>
-                     <h2 className="overflow-hidden text-ellipsis text-sm">
+                     <h2 className="overflow-hidden whitespace-pre-line text-ellipsis text-sm">
                         {user?.bio || "Bu kullanıcı hakkında bilgi yok."}
                      </h2>
                      <div className="flex gap-1">

@@ -1,11 +1,11 @@
 export default function ProfileSchemas({ user = {} }) {
    const navSchema = [
-      {
-         "@context": "https://schema.org",
-         "@type": "SiteNavigationElement",
-         name: "Ana Sayfa",
-         url: "https://www.emegen.com.tr/",
-      },
+      // {
+      //    "@context": "https://schema.org",
+      //    "@type": "SiteNavigationElement",
+      //    name: "Ana Sayfa",
+      //    url: "https://www.emegen.com.tr/",
+      // },
       {
          "@context": "https://schema.org",
          "@type": "SiteNavigationElement",
@@ -59,24 +59,24 @@ export default function ProfileSchemas({ user = {} }) {
       ...(Array.isArray(user?.phoneNumbers) &&
          user.phoneNumbers[0] && { telephone: user.phoneNumbers[0] }),
       ...(user?.email && { email: user?.publicEmail }),
-      ...(user?.address &&
-         typeof user.address === "object" && {
+      ...(user?.location &&
+         typeof user.location === "object" && {
             address: {
                "@type": "PostalAddress",
-               ...(user.address?.street && {
-                  streetAddress: user.address?.street,
+               ...(user.location?.street && {
+                  streetAddress: user.location?.street,
                }),
-               ...(user.address?.city && {
-                  addressLocality: user.address?.city,
+               ...(user.location?.city && {
+                  addressLocality: user.location?.city,
                }),
-               ...(user.address?.region && {
-                  addressRegion: user.address?.region,
+               ...(user.location?.region && {
+                  addressRegion: user.location?.district,
                }),
-               ...(user.address?.postalCode && {
-                  postalCode: user.address?.zipCode,
+               ...(user.location?.postalCode && {
+                  postalCode: user.location?.zipCode,
                }),
-               ...(user.address?.country && {
-                  addressCountry: user.address?.country,
+               ...(user.location?.country && {
+                  addressCountry: user.location?.country,
                }),
             },
          }),
