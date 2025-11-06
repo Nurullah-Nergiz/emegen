@@ -7,7 +7,7 @@ export function proxy(req) {
 
    const token = cookies.get("auth-token")?.value || "";
    const loggedInUserNotAccessPaths = ["/auth/login", "/auth/register"];
-   // console.log("🔵 Middleware - Current Pathname:", pathname);
+   console.log("🔵 Middleware - Current Pathname:", pathname);
 
    if (process.env.NODE_ENV !== "production") {
       if (!pathname.startsWith("/@")) {
@@ -38,6 +38,6 @@ export const config = {
        * - _next/static (static files)
        * - favicon.ico (favicon file)
        */
-      "/((?!api|_next/static|favicon.ico|logo.png|sitemaps|robots.txt).*)",
+      "/((?!api|_next/|favicon.ico|logo.png|sitemaps|robots.txt).*)",
    ],
 };
