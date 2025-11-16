@@ -102,7 +102,9 @@ export async function generateMetadata({ params }) {
                "emegen",
                "emegen.com.tr",
             ],
-
+            metadataBase: new URL(
+               process.env.NEXT_PUBLIC_CDN_URL || "http://localhost:3000"
+            ),
             openGraph: {
                title: `${user?.name} - (@${user?.userName}) - Emegen`,
                description: user?.bio || "Bu kullanıcı hakkında bilgi yok.",
