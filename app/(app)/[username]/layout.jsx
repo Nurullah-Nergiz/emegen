@@ -102,9 +102,7 @@ export async function generateMetadata({ params }) {
                "emegen",
                "emegen.com.tr",
             ],
-            metadataBase: new URL(
-               process.env?.NEXT_PUBLIC_CDN_URL
-            ),
+            metadataBase: new URL("http://cdn.emegen.com.tr"),
             openGraph: {
                title: `${user?.name} - (@${user?.userName}) - Emegen`,
                description: user?.bio || "Bu kullanıcı hakkında bilgi yok.",
@@ -124,7 +122,13 @@ export async function generateMetadata({ params }) {
                   card: "summary_large_image",
                   title: `${user?.name} - (@${user?.userName}) - Emegen`,
                   description: user?.bio || "Bu kullanıcı hakkında bilgi yok.",
-                  images: [user?.profilePicture],
+                  images: [
+                     {
+                        url: user?.profilePicture,
+                        width: 1200,
+                        height: 630,
+                     },
+                  ],
                },
             },
             locale:

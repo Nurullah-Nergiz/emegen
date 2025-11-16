@@ -89,28 +89,28 @@ export async function generateMetadata({ params }) {
          default: "Emegen - Emegene özel içerikler ve hizmetler",
       },
       alternates: {},
-      openGraph: {
-         title: {
-            default: "Emegen",
-            template: "%s | Emegen",
-         },
-         description: {
-            default: "Emegen - Emegene özel içerikler ve hizmetler",
-         },
-         images: [
-            {
-               url: "https://cdn.emegen.com.tr/emegen-logo.png",
-               width: 800,
-               height: 600,
-               alt: "Emegen Logo",
-            },
-         ],
-      },
-      twitter: {
-         card: "summary_large_image",
-         title: `Emegen`,
-         description: "Emegen - Emegene özel içerikler ve hizmetler",
-         images: ["https://cdn.emegen.com.tr/emegen-logo.png"],
-      },
+      // openGraph: {
+      //    title: {
+      //       default: "Emegen",
+      //       template: "%s | Emegen",
+      //    },
+      //    description: {
+      //       default: "Emegen - Emegene özel içerikler ve hizmetler",
+      //    },
+      //    images: [
+      //       {
+      //          url: "https://cdn.emegen.com.tr/emegen-logo.png",
+      //          width: 800,
+      //          height: 600,
+      //          alt: "Emegen Logo",
+      //       },
+      //    ],
+      // },
+      // twitter: {
+      //    card: "summary_large_image",
+      //    title: `Emegen`,
+      //    description: "Emegen - Emegene özel içerikler ve hizmetler",
+      //    images: ["https://cdn.emegen.com.tr/emegen-logo.png"],
+      // },
    };
 }
