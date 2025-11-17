@@ -59,7 +59,7 @@ export default function ProfileInfoHeader({
                         </span>
                      </div>
                      <h3 className="font-semibold">
-                        <ul className="flex items-center gap-2">
+                        <ul className="flex items-center gap0">
                            {user?.tags &&
                               (typeof user?.tags[0] === "object"
                                  ? user.tags[0]
