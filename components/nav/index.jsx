@@ -18,8 +18,11 @@ export const Nav = ({ menu }) => {
    }, []);
 
    return (
-      <nav className="sm:max-w-[25%] sm:h-screen sm:sticky sm:top-0 left-0  sm:shadow-md sm:shadow-tertiary overflow-hidden">
-         <section className="hidden max-h-screen w-min h-full px-10 pb-4 sm:block  text-secondary hover:overflow-y-auto">
+      <nav
+         className={`${
+            navbar ? "sm:min-w-72" : "sm:min-w-20"
+         } sm:max-w-[25%] sm:h-screen sm:sticky sm:top-0 left-0  sm:shadow-md sm:shadow-tertiary overflow-hidden`}>
+         <section className="hidden max-h-screen  h-full px-10 pb-4 sm:block  text-secondary hover:overflow-y-auto">
             <Link href="/" className="h-20 flex items-center gap-4">
                <Logo mode={navbar ? "full" : "icon"} />
             </Link>
