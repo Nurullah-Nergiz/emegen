@@ -51,7 +51,7 @@ export const AvatarImg = ({
          width={size}
          height={size}
          className={twMerge(
-            `p-1 rounded-full border border-primary border-r-transparent border-b-transparent aspect-square`,
+            `p-1 bg-main rounded-full border border-primary border-r-transparent border-b-transparent aspect-square`,
             className
          )}
          alt={alt}
@@ -68,7 +68,7 @@ export const CoverImage = ({
    className = "",
 }) => {
    return (
-      <div className="before:block before:pt-[25%] main h-min !bg-secondary relative">
+      <div className="before:block before:pt-[25%] h-min !bg-secondary relative">
          {src ? (
             <Image
                src={
