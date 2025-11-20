@@ -63,8 +63,8 @@ export default function ProfileSchemas({ user = {} }) {
          typeof user.address === "object" && {
             address: {
                "@type": "PostalAddress",
-               ...(user.address?.street && {
-                  streetAddress: user.address?.street,
+               ...(user.address?.streetAddress && {
+                  streetAddress: user.address?.streetAddress,
                }),
                ...(user.address?.city && {
                   addressLocality: user.address?.city,
