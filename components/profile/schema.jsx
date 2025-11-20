@@ -59,24 +59,24 @@ export default function ProfileSchemas({ user = {} }) {
       ...(Array.isArray(user?.phoneNumbers) &&
          user.phoneNumbers[0] && { telephone: user.phoneNumbers[0] }),
       ...(user?.email && { email: user?.publicEmail }),
-      ...(user?.location &&
-         typeof user.location === "object" && {
+      ...(user?.address &&
+         typeof user.address === "object" && {
             address: {
                "@type": "PostalAddress",
-               ...(user.location?.street && {
-                  streetAddress: user.location?.street,
+               ...(user.address?.street && {
+                  streetAddress: user.address?.street,
                }),
-               ...(user.location?.city && {
-                  addressLocality: user.location?.city,
+               ...(user.address?.city && {
+                  addressLocality: user.address?.city,
                }),
-               ...(user.location?.region && {
-                  addressRegion: user.location?.district,
+               ...(user.address?.region && {
+                  addressRegion: user.address?.district,
                }),
-               ...(user.location?.postalCode && {
-                  postalCode: user.location?.zipCode,
+               ...(user.address?.postalCode && {
+                  postalCode: user.address?.zipCode,
                }),
-               ...(user.location?.country && {
-                  addressCountry: user.location?.country,
+               ...(user.address?.country && {
+                  addressCountry: user.address?.country,
                }),
             },
          }),
