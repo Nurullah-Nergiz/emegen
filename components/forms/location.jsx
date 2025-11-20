@@ -34,9 +34,9 @@ export default function LocationInput({ defaultValue, title = "Konum" }) {
 
       // Filter out empty values if needed, or perform validation
       console.log("Submitting location data:", locationData);
-      delete locationData.streetAddress;
-      delete locationData.city;
-      delete locationData.district;
+      // delete locationData.streetAddress;
+      // delete locationData.city;
+      // delete locationData.district;
 
       putUser({
          address: locationData,
