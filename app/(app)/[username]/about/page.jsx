@@ -1,5 +1,27 @@
 import { getUser } from "@/services/user";
 
+export async function generateMetadata({ params }) {
+   const { username } = await params;
+
+   if (!username) {
+      return {
+         title: "Kullanıcı Bulunamadı",
+      };
+   } else {
+      const normalizedUsername = username
+         .replace(/%40/g, "")
+         .replace(/^@/, "")
+         .trim();
+   
+      return {
+         // title: `Hakkında - @${normalizedUsername}`,
+         alternates: {
+            canonical: `https://emegen.com.tr/@${normalizedUsername}/about`,
+         },
+      }
+   }
+}
+
 export default async function AboutPage({ params }) {
    const { username } = (await params) || "";
    const normalizedUsername = username
@@ -79,17 +101,19 @@ export default async function AboutPage({ params }) {
                      {user.email}
                   </a>
                </p>
-            ) : ""}
-            {user?.phoneNumbers?.length > 0 ? (
-               user?.phoneNumbers.map((phone, index) => (
-                  <p key={index} className="flex items-center gap-2">
-                     <i className="bx bx-phone"></i>
-                     <a href={`tel:${phone}`} className="hover:underline">
-                        {phone}
-                     </a>
-                  </p>
-               ))
-            ) : ""}
+            ) : (
+               ""
+            )}
+            {user?.phoneNumbers?.length > 0
+               ? user?.phoneNumbers.map((phone, index) => (
+                    <p key={index} className="flex items-center gap-2">
+                       <i className="bx bx-phone"></i>
+                       <a href={`tel:${phone}`} className="hover:underline">
+                          {phone}
+                       </a>
+                    </p>
+                 ))
+               : ""}
          </div>
       </section>
    );
