@@ -5,16 +5,16 @@ import { putUser } from "@/services/user";
 import { setAuthenticationUser } from "@/utils/auth";
 
 const defaultLocation = {
-   address: "",
+   streetAddress: "",
    city: "",
-   state: "",
+   district: "",
    country: "",
    zipCode: "",
 };
 
 export default function LocationInput({ defaultValue, title = "Konum" }) {
    const [location, setLocation] = useState({
-      // ...defaultLocation,
+      ...defaultLocation,
       ...defaultValue,
    });
 
@@ -33,8 +33,13 @@ export default function LocationInput({ defaultValue, title = "Konum" }) {
       }
 
       // Filter out empty values if needed, or perform validation
+      console.log("Submitting location data:", locationData);
+      delete locationData.streetAddress;
+      delete locationData.city;
+      delete locationData.district;
+
       putUser({
-         location: locationData,
+         address: locationData,
       })
          .then(({ data }) => {
             setAuthenticationUser(data.user);
@@ -51,11 +56,11 @@ export default function LocationInput({ defaultValue, title = "Konum" }) {
             <label className="w-full flex flex-col gap-1">
                <span className="text-sm">Address</span>
                <input
-                  name="full_address"
+                  name="streetAddress"
                   type="text"
                   className="w-full bg-transparent outline-none input"
                   placeholder="Enter your address"
-                  value={location.full_address}
+                  value={location.streetAddress || ""}
                   onChange={handleChange}
                />
             </label>
@@ -67,7 +72,7 @@ export default function LocationInput({ defaultValue, title = "Konum" }) {
                      type="text"
                      className="w-full bg-transparent outline-none input"
                      placeholder="City"
-                     value={location.city}
+                     value={location.city || ""}
                      onChange={handleChange}
                   />
                </label>
@@ -78,29 +83,34 @@ export default function LocationInput({ defaultValue, title = "Konum" }) {
                      type="text"
                      className="w-full bg-transparent outline-none input"
                      placeholder="State"
-                     value={location.district}
+                     value={location.district || ""}
                      onChange={handleChange}
                   />
                </label>
                <label className="w-full flex flex-col gap-1">
                   <span className="text-sm">Country</span>
-                  <input
+                  <select
                      name="country"
-                     type="text"
                      className="w-full bg-transparent outline-none input"
-                     placeholder="Country"
-                     value={location.country}
-                     onChange={handleChange}
-                  />
+                     value={location.country || "Turkey"}
+                     onChange={handleChange}>
+                     <option value="">Select Country</option>
+                     <option value="Turkey">Turkey</option>
+                     <option value="United States">United States</option>
+                     <option value="United Kingdom">United Kingdom</option>
+                     <option value="Germany">Germany</option>
+                     <option value="France">France</option>
+                     {/* Add more countries as needed */}
+                  </select>
                </label>
                <label className="w-full flex flex-col gap-1">
                   <span className="text-sm">Zip Code</span>
                   <input
                      name="zipCode"
-                     type="text"
+                     type="number"
                      className="w-full bg-transparent outline-none input"
                      placeholder="Zip Code"
-                     value={location.zipCode}
+                     value={location.zipCode || ""}
                      onChange={handleChange}
                   />
                </label>
@@ -112,3 +122,4 @@ export default function LocationInput({ defaultValue, title = "Konum" }) {
       </form>
    );
 }
+
