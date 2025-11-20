@@ -72,7 +72,7 @@ export default function ProfileSchemas({ user = {} }) {
                ...(user.address?.region && {
                   addressRegion: user.address?.district,
                }),
-               ...(user.address?.postalCode && {
+               ...(user.address?.zipCode && {
                   postalCode: user.address?.zipCode,
                }),
                ...(user.address?.country && {
