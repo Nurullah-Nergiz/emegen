@@ -26,13 +26,14 @@
       --secondary: "#717489";
       --tertiary: "#f5f6ff";
       --main: "#26262e";
+      --accent: rgba(0, 0, 0, 0.12);
    }
 }
 
 html {
    font-size: clamp(12px, 1vw, 32px);
 
-   @apply w-screen bg-headerBackground overflow-x-hidden dark:bg-[#1c1d22] dark:text-[#f5f6ff];
+   @apply w-screen max-w-[99wh] bg-headerBackground overflow-x-hidden dark:bg-[#1c1d22] dark:text-[#f5f6ff];
 }
 
 body {
