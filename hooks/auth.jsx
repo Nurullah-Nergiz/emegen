@@ -37,6 +37,12 @@ export async function useIsAuthUser() {
          : false || false;
 }
 
+export async function useAuthUserName() {
+   const cookieStore = await cookies();
+   if (!cookieStore.get("user")?.value) return "";
+   else return JSON.parse(cookieStore.get("user")?.value)?.userName || "";
+}
+
 export async function useSetAuthUser(user, token) {
    const cookieStore = await cookies();
    cookieStore.set("user", JSON.stringify(user));
