@@ -11,22 +11,14 @@ export const getUserServices = async (username) => {
    }
 };
 
-export const getServiceById = async (username, serviceId) => {
-   try {
-      return await serviceInstance.get(
-         `/users/${username}/services/${serviceId}`
-      );
-   } catch (error) {
-      if (error.response?.status === 404) {
-         return { data: null, status: 404 };
-      }
-      // throw error;
-   }
+export const getServiceById = async (serviceId) => {
+   return await serviceInstance.get(`/services/${serviceId}`);
 };
 
-export const createUserService = async ( serviceData) => {
-   return await serviceInstance.post(
-      `/services`,
-      serviceData
-   );
+export const createUserService = async (serviceData) => {
+   return await serviceInstance.post(`/services`, serviceData);
+};
+
+export const updateUserService = async (serviceId, serviceData) => {
+   return await serviceInstance.put(`/services/${serviceId}`, serviceData);
 };

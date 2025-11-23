@@ -18,7 +18,12 @@ const formatPrice = (price, currency) => {
    return formatter.format(price.value);
 };
 
-export default function ProfileServices({ children, services = [] }) {
+export default function ProfileServices({
+   children,
+   services = [],
+   isOwner = false,
+   moreButton = true,
+}) {
    const pathname = usePathname();
 
    return (
@@ -26,13 +31,15 @@ export default function ProfileServices({ children, services = [] }) {
          <div className="flex flex-col gap-4 w-full">
             <div className="flex justify-between items-center ">
                <h3 className="text-2xl font-bold mb-4">Hizmetler</h3>
-               <Link
-                  href={`${pathname}/services`}
-                  className="text-primary hover:underline">
-                  Hizmetleri Görüntüle
-               </Link>
+               {moreButton && (
+                  <Link
+                     href={`${pathname}/services`}
+                     className="text-primary hover:underline">
+                     Hizmetleri Görüntüle
+                  </Link>
+               )}
             </div>
-            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
                {services.length > 0 ? (
                   services.map((service, i) => (
                      <li
@@ -51,20 +58,26 @@ export default function ProfileServices({ children, services = [] }) {
                               </span>
                            )}
                         </div>
-                        <div className="absolute top-0 right-0 p-2">
-                           <Link
-                              href={`/services/${service._id}/edit`}
-                              className="text-sm text-primary hover:underline">
-                              Düzenle
-                           </Link>
-                           <button
-                              onClick={() =>
-                                 alert("Hizmet silme işlemi henüz uygulanmadı.")
-                              }
-                              className="ml-2 text-sm text-red-600 hover:underline">
-                              Sil
-                           </button>
-                        </div>
+                        {isOwner ? (
+                           <div className="absolute top-0 right-0 p-2">
+                              <Link
+                                 href={`${pathname}/services/${service._id}/edit`}
+                                 className="text-sm text-primary hover:underline">
+                                 Düzenle
+                              </Link>
+                              <button
+                                 onClick={() =>
+                                    alert(
+                                       "Hizmet silme işlemi henüz uygulanmadı."
+                                    )
+                                 }
+                                 className="ml-2 text-sm text-red-600 hover:underline">
+                                 Sil
+                              </button>
+                           </div>
+                        ) : (
+                           <></>
+                        )}
                      </li>
                   ))
                ) : (

@@ -1,12 +1,28 @@
 "use client";
 import { PrimaryBtn } from "@/components/btn";
-import { createUserService } from "@/services/services";
+import {
+   createUserService,
+   getServiceById,
+   updateUserService,
+} from "@/services/services";
+import { useEffect, useState } from "react";
 import { iconList } from "@/utils/iconList";
 import { useRouter } from "next/navigation";
 
-export default function NewPage({ children }) {
+export default function NewPage({ params }) {
+   const [serviceData, setServiceData] = useState({});
    const router = useRouter();
-   
+
+   useEffect(() => {
+      params.then(({ username, id = "" }) => {
+         // console.log({ username, id });
+
+         getServiceById(id).then((res) => {
+            setServiceData({ ...res.data });
+         });
+      });
+   }, []);
+
    const handleSubmit = (e) => {
       e.preventDefault();
 
@@ -21,7 +37,7 @@ export default function NewPage({ children }) {
          value: isRange ? null : priceParts[0],
       };
 
-      createUserService({
+      updateUserService(serviceData._id, {
          title: e.target.title.value,
          icon: {
             type: "boxicons",
@@ -31,7 +47,7 @@ export default function NewPage({ children }) {
          price: pricePayload,
          currency: e.target.currency.value,
       })
-         .then(async(response) => {
+         .then(async (response) => {
             const { username } = await params;
             router.push(`/${username}/services`);
          })
@@ -40,10 +56,9 @@ export default function NewPage({ children }) {
          });
    };
 
-   
    return (
       <div className="container mx-auto py-10">
-         <h1 className="text-3xl font-bold mb-6">Yeni Bir Hizmet Oluştur</h1>
+         <h1 className="text-3xl font-bold mb-6">Hizmet Bilgilerini Düzenle</h1>
          <form className="space-y-8" onSubmit={handleSubmit}>
             <div className="space-y-2">
                <label
@@ -57,6 +72,7 @@ export default function NewPage({ children }) {
                   id="title"
                   className="w-full h-10 px-3 py-2 !bg-transparent border border-tertiary shadow shadow-tertiary rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="örn., Full-Stack Web Geliştirme"
+                  defaultValue={serviceData.title || ""}
                />
             </div>
 
@@ -73,6 +89,7 @@ export default function NewPage({ children }) {
                   list="icon-list"
                   className="w-full h-10 px-3 py-2 !bg-transparent border border-tertiary shadow shadow-tertiary rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="örn., bx-code-alt"
+                  defaultValue={serviceData.icon?.url || ""}
                />
                <datalist id="icon-list">
                   {iconList.map((icon) => (
@@ -95,6 +112,7 @@ export default function NewPage({ children }) {
                   rows={4}
                   className="block w-full px-3 py-2 !bg-transparent border border-tertiary shadow shadow-tertiary rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
                   placeholder="Sunduğunuz hizmeti ayrıntılı olarak açıklayın."
+                  defaultValue={serviceData.description || ""}
                />
             </div>
 
@@ -108,7 +126,7 @@ export default function NewPage({ children }) {
                   <select
                      id="currency"
                      name="currency"
-                     defaultValue="TRY"
+                     defaultValue={serviceData.currency || "TRY"}
                      className="block w-full h-10 px-3 !bg-transparent border border-tertiary shadow shadow-tertiary rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm">
                      <option value="TRY">TRY - Türk Lirası</option>
                      <option value="USD">USD - ABD Doları</option>
@@ -130,6 +148,7 @@ export default function NewPage({ children }) {
                      id="price"
                      className="block w-full h-10 px-3 !bg-transparent border border-tertiary shadow shadow-tertiary rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
                      placeholder="100 veya 100-200"
+                     defaultValue={serviceData.price?.value || ""}
                   />
                </div>
             </div>
@@ -142,7 +161,7 @@ export default function NewPage({ children }) {
                      İptal
                   </button>
                   <PrimaryBtn type="submit" className="ml-3">
-                     Hizmeti Oluştur
+                     Kaydet
                   </PrimaryBtn>
                </div>
             </div>
