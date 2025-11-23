@@ -31,7 +31,7 @@ export const Header = async () => {
                      name={`${user.name} `}
                      userName={user.userName}
                      src={user?.profilePicture}
-                     className="sm:flex hidden"
+                     detailsClassName="sm:block hidden"
                   />
                </>
             ) : (

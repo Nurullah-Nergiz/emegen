@@ -9,6 +9,7 @@ export const Avatar = ({
    userName = "",
    className = "",
    children,
+   detailsClassName = "",
 }) => {
    return (
       <section
@@ -18,7 +19,11 @@ export const Avatar = ({
          )}>
          <Link href={`/@${userName}`} className="flex items-center gap-2">
             <AvatarImg src={src} alt={name} />
-            <div className="max-w-60 overflow-hidden">
+            <div
+               className={twMerge(
+                  "max-w-60 overflow-hidden",
+                  detailsClassName
+               )}>
                <b
                   className="w-full inline-block
                 text-sm overflow-hidden whitespace-nowrap text-ellipsis">

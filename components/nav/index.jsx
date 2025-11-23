@@ -22,7 +22,7 @@ export const Nav = ({ menu }) => {
          className={`${
             navbar ? "sm:min-w-72" : "sm:min-w-20"
          } sm:max-w-[25%] sm:h-screen sm:sticky sm:top-0 left-0  sm:shadow-md sm:shadow-tertiary overflow-hidden`}>
-         <section className="hidden max-h-screen  h-full px-10 pb-4 sm:block  text-secondary hover:overflow-y-auto">
+         <div className="hidden max-h-screen  h-full px-10 pb-4 sm:block  text-secondary hover:overflow-y-auto">
             <Link href="/" className="h-20 flex items-center gap-4">
                <Logo mode={navbar ? "full" : "icon"} />
             </Link>
@@ -47,8 +47,8 @@ export const Nav = ({ menu }) => {
                ))}
             </div>
             {/* {navbar && <CookieConsentPopup />} */}
-         </section>
-         <section className="main fixed right-0 bottom-0 left-0 sm:hidden bg-main border-t border-tertiary p-2 z-50">
+         </div>
+         <div className="main fixed right-0 bottom-0 left-0 sm:hidden bg-main border-t border-tertiary p-2 z-50">
             <div className="flex justify-evenly items-center">
                <ItemLink
                   icon="bx bx-home-alt-2"
@@ -58,31 +58,42 @@ export const Nav = ({ menu }) => {
                   activeSartsWith={true}
                />
                <ItemLink
-                  icon="bx bx-search"
-                  link="/explore"
+                  icon="bx bx-bar-chart-alt-2"
+                  link="/analytics"
                   mode="col"
                   className="text-2xl"
                />
+
+               <div className="w-14 h-14 bg-secondary flex justify-center items-center relative -top-6 rounded-full shadow-lg shadow-secondary/40">
+                  <Link
+                     href="/new-post"
+                     className="bx bx-plus !rounded-full !p-0  !text-5xl text-center text-white leading-14"
+                  >
+
+                  </Link>
+                  
+                  {/* <ItemLink
+                     // icon="bx bx-plus-circle"
+                     mode="col"
+                     // className=""
+                     // link="/create"
+                  /> */}
+               </div>
+
                <ItemLink
-                  icon="bx bx-plus-circle"
-                  link="/new-post"
-                  mode="col"
-                  className="text-3xl"
-               />
-               <ItemLink
-                  icon="bx bx-bell"
-                  link="/notifications"
+                  icon="bx bx-gift"
+                  link="/tenders"
                   mode="col"
                   className="text-2xl"
                />
                <ItemLink
                   icon="bx bx-user-circle"
-                  link={user ? `/@${user.userName}` : "/login"}
+                  link={"/"}
                   mode="col"
                   className="text-2xl"
                />
             </div>
-         </section>
+         </div>
       </nav>
    );
 };
