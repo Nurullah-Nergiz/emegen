@@ -51,4 +51,6 @@ export const iconList = [
    { name: "ZoomIn", value: "bx-zoom-in" },
    { name: "ZoomOut", value: "bx-zoom-out" },
    { name: "Spa", value: "bx-spa" },
+   { name: "BuildingHouse", value: "bx-building-house" },
+   { name: "StoreAlt", value: "bx-store-alt" },
 ];

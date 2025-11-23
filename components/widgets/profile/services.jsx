@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { deleteUserService } from "@/services/services";
 
 const formatPrice = (price, currency) => {
    const options = {
@@ -41,45 +42,49 @@ export default function ProfileServices({
             </div>
             <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
                {services.length > 0 ? (
-                  services.map((service, i) => (
-                     <li
-                        key={`service-${service?.id}-${i}`}
-                        className="main !bg-accent flex gap-2  relative">
-                        <i
-                           className={`bx ${service.icon?.url} !text-5xl text-primary`}></i>
-                        <div className="flex flex-col gap-1">
-                           <b className="text-xl font-semibold ">
-                              {service.title}
-                           </b>
-                           <p className="">{service.description}</p>
-                           {service?.price && (
-                              <span className="text-green-600 font-bold">
-                                 {formatPrice(service.price, service.currency)}
-                              </span>
-                           )}
-                        </div>
-                        {isOwner ? (
-                           <div className="absolute top-0 right-0 p-2">
-                              <Link
-                                 href={`${pathname}/services/${service._id}/edit`}
-                                 className="text-sm text-primary hover:underline">
-                                 Düzenle
-                              </Link>
-                              <button
-                                 onClick={() =>
-                                    alert(
-                                       "Hizmet silme işlemi henüz uygulanmadı."
-                                    )
-                                 }
-                                 className="ml-2 text-sm text-red-600 hover:underline">
-                                 Sil
-                              </button>
+                  services.map((service, i) => {
+                     const priceString = formatPrice(
+                        service.price,
+                        service.currency
+                     );
+                     return (
+                        <li
+                           key={`service-${service?.id}-${i}`}
+                           className="main !bg-accent flex gap-2  relative">
+                           <i
+                              className={`bx ${service.icon?.url} !text-5xl text-primary`}></i>
+                           <div className="flex flex-col gap-1">
+                              <b className="text-xl font-semibold ">
+                                 {service.title}
+                              </b>
+                              <p className="">{service.description}</p>
+                              {service.price?.value !== 0 && (
+                                 <span className="text-green-600 font-bold">
+                                    {priceString}
+                                 </span>
+                              )}
                            </div>
-                        ) : (
-                           <></>
-                        )}
-                     </li>
-                  ))
+                           {isOwner ? (
+                              <div className="absolute top-0 right-0 p-2">
+                                 <Link
+                                    href={`${pathname}/services/${service._id}/edit`}
+                                    className="text-sm text-primary hover:underline">
+                                    Düzenle
+                                 </Link>
+                                 <button
+                                    onClick={async () =>
+                                       await deleteUserService(service._id)
+                                    }
+                                    className="ml-2 text-sm text-red-600 hover:underline">
+                                    Sil
+                                 </button>
+                              </div>
+                           ) : (
+                              <></>
+                           )}
+                        </li>
+                     );
+                  })
                ) : (
                   <>
                      <div className="col-span-full text-center py-10">

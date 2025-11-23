@@ -81,6 +81,59 @@ export default async function Layout({ children, params }) {
 }
 
 export async function generateMetadata({ params }) {
+   function generateDynamicMetaDescription(data) {
+      const { name, bio, tags, address, followerCount, postCount } = data;
+      let descriptionParts = [];
+      let socialString = "";
+      let tagString = "";
+
+      // 1. Temel Yapı (Name ve Bio) - Zorunlu
+      const shortBio = bio
+         ? bio.substring(0, 80).trim()
+         : "Profesyonel hizmetler sunan bir işletme.";
+
+      // 2. Sosyal Kanıt Ekleme (Yeni Adım)
+      if (followerCount && followerCount > 0) {
+         // Takipçi sayısını formatlayın (Örn: 12.5K)
+         const formattedFollower =
+            followerCount / 1000 > 1
+               ? `${(followerCount / 1000).toFixed(1)}K`
+               : followerCount;
+         socialString = ` ${formattedFollower}+ takipçi ve ${
+            postCount || "yüzlerce"
+         } proje ile.`; // postCount yoksa 'yüzlerce' kullanıldı
+      }
+
+      // Cümleyi birleştirme sırası değişti: Name + Social + Bio
+      descriptionParts.push(`${name}.${socialString} ${shortBio}...`);
+
+      // 3. Anahtar Kelimeler (Tags)
+      if (tags && tags.length > 0 && tags[0].length > 0) {
+         const relevantTags = tags[0].slice(0, 3).join(", ");
+         tagString = ` Uzmanlık: ${relevantTags}.`;
+      }
+      descriptionParts.push(tagString);
+
+      // 4. Konum Bilgisi
+      let locationString = "";
+      if (address && address.city && address.district) {
+         locationString = ` ${address.district}/${address.city} merkezli.`;
+      } else if (address && address.city) {
+         locationString = ` ${address.city} merkezli.`;
+      }
+      descriptionParts.push(locationString);
+
+      // Metinleri birleştirin ve 155 karakteri aşmamaya dikkat edin.
+      let finalDescription = descriptionParts.join("").trim();
+
+      // Son uzunluk kontrolü
+      if (finalDescription.length > 160) {
+         finalDescription = finalDescription.substring(0, 157) + "...";
+      }
+
+      return finalDescription;
+   }
+
    const { username } = await params;
 
    if (username && username[0] !== "@") {
@@ -90,7 +143,17 @@ export async function generateMetadata({ params }) {
       if (status === 200 && user && (!Array.isArray(user) || user.length !== 0))
          return {
             title: `${user?.name} - (@${user?.userName})`,
-            description: user?.bio || "Bu kullanıcı hakkında bilgi yok.",
+            description:
+               // user?.bio ||
+               generateDynamicMetaDescription({
+                  name: user?.name || "",
+                  bio: user?.bio || "",
+                  tags: user?.tags || [],
+                  address: user?.address || {},
+                  followerCount: user?.followerCount || 0,
+                  postCount: user?.postCount || 0,
+                  followingCount: user?.followingCount || 0,
+               }),
             alternates: {
                canonical: `https://emegen.com.tr/@${user?.userName}`,
             },
@@ -114,6 +177,10 @@ export async function generateMetadata({ params }) {
                   },
                ],
                type: "profile",
+               username: user?.userName,
+               firstName: user?.name,
+               lastName: user?.surname,
+               gender: user?.gender,
                profile: {
                   firstName: user?.name || "",
                   username: user?.userName || "",
@@ -145,6 +212,8 @@ export async function generateMetadata({ params }) {
             },
             category: "profile",
             other: {
+               name: user?.name,
+               userName: user?.userName,
                locale:
                   typeof user?.location === "string" ? user.location : "tr-TR",
             },

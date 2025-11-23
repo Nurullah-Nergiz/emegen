@@ -2,11 +2,12 @@
 import { PrimaryBtn } from "@/components/btn";
 import { createUserService } from "@/services/services";
 import { iconList } from "@/utils/iconList";
+import { cleanUserName } from "@/utils/user";
 import { useRouter } from "next/navigation";
 
-export default function NewPage({ children }) {
+export default function NewPage({ children, params }) {
    const router = useRouter();
-   
+
    const handleSubmit = (e) => {
       e.preventDefault();
 
@@ -31,16 +32,17 @@ export default function NewPage({ children }) {
          price: pricePayload,
          currency: e.target.currency.value,
       })
-         .then(async(response) => {
+         .then(async (response) => {
+            console.log("Hizmet oluşturuldu:", response);
+            
             const { username } = await params;
-            router.push(`/${username}/services`);
+            router.push(`/@${cleanUserName(username)}/services`);
          })
          .catch((error) => {
             console.error("Hizmet oluşturulamadı:", error);
          });
    };
 
-   
    return (
       <div className="container mx-auto py-10">
          <h1 className="text-3xl font-bold mb-6">Yeni Bir Hizmet Oluştur</h1>

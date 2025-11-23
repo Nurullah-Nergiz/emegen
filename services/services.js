@@ -22,3 +22,6 @@ export const createUserService = async (serviceData) => {
 export const updateUserService = async (serviceId, serviceData) => {
    return await serviceInstance.put(`/services/${serviceId}`, serviceData);
 };
+
+export const deleteUserService = async (serviceId) =>
+   await serviceInstance.delete(`/services/${serviceId}`);
