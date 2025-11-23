@@ -47,7 +47,7 @@ export default async function Layout({ children, params }) {
     */
    const isAuthenticatedUser = (await useAuthUser())?._id === user?._id;
 
-   if (status !== 200 || !user) notFound();
+   if (status === 404 || !user) notFound();
 
    return (
       <>
