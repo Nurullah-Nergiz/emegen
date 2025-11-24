@@ -1,4 +1,5 @@
 import { getUser } from "@/services/user";
+import { cleanUserName } from "@/utils/user";
 
 export async function generateMetadata({ params }) {
    const { username } = await params;
@@ -8,17 +9,14 @@ export async function generateMetadata({ params }) {
          title: "Kullanıcı Bulunamadı",
       };
    } else {
-      const normalizedUsername = username
-         .replace(/%40/g, "")
-         .replace(/^@/, "")
-         .trim();
-   
+      const normalizedUsername = cleanUserName(username);
+
       return {
          // title: `Hakkında - @${normalizedUsername}`,
          alternates: {
             canonical: `https://emegen.com.tr/@${normalizedUsername}/about`,
          },
-      }
+      };
    }
 }
 
@@ -84,12 +82,10 @@ export default async function AboutPage({ params }) {
 
          <div className="main !bg-accent">
             <h5 className="text-xl font-semibold ">Konum Ve İletişim</h5>
-            {user?.location ? (
+            {user?.address ? (
                <p className="flex items-center gap-2">
                   <i className="bx bx-map"></i>
-                  {typeof user.location === "string"
-                     ? user.location
-                     : user.location?.full_address}
+                  {`${user.address?.streetAddress} ${user.address?.zipCode}, ${user.address?.district}, ${user.address?.city}, ${user.address?.country}`}
                </p>
             ) : (
                <p>Bu kullanıcı konum bilgisi sağlamamıştır.</p>
