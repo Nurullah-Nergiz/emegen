@@ -28,6 +28,15 @@ export const getInvitedTenderList = () => {
    return TendersInstance.get("/tenders/invited");
 };
 
-export const getUserTenders = (username) => {
-   return TendersInstance.get(`/users/${username}/tenders`);
-}
+export const getUserTenders = (
+   username,
+   filter = {},
+   paginationOptions = {
+      page: 0,
+      limit: 10,
+   }
+) => {
+   return TendersInstance.get(
+      `/users/${username}/tenders?page=${paginationOptions.page}&limit=${paginationOptions.limit}`
+   );
+};

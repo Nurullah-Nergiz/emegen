@@ -1,6 +1,6 @@
-import { getTender } from "@/services/tender";
 import { getUserTenders } from "@/services/user";
-import TenderList, { UserTenders } from "@/components/widgets/tenders";
+import TenderList from "@/components/widgets/tenders/TenderList";
+import { cleanUserName } from "@/utils/user";
 
 export async function generateMetadata({ params }) {
    const { username } = await params;
@@ -30,18 +30,21 @@ export default async function TendersPage({ params }) {
    console.clear();
    if (!username) {
    }
-   // const { status, data: tenders } = await getUserTenders(
-   //    username.split("/")[0].replace(/%40/g, "").trim()
-   // );
-   // // console.log("file: page.jsx:7 => tenders=>", tenders);
+   const { status, data: tenders } = await getUserTenders(
+      username.split("/")[0].replace(/%40/g, "").trim()
+   );
+   // console.log("file: page.jsx:7 => tenders=>", tenders);
    // if (status !== 200) {
    // }
 
    return (
       <>
          <section className="">
-            <UserTenders
-               // data={tenders}
+            <TenderList
+               initialData={tenders}
+               mode="user"
+               username={cleanUserName(username)}
+               isFilterActive={true}
             />
          </section>
       </>

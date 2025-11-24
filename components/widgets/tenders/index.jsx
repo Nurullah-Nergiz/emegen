@@ -35,7 +35,7 @@ export function UserTenders({ username, isFilterActive = false }) {
    return (
       <>
          <TenderList
-            // initialData={initialData}
+            initialData={tenders}
             isFilterActive={isFilterActive}
          />
       </>

@@ -5,17 +5,17 @@ import { Avatar, AvatarImg } from "@/components/widgets/avatar";
 import { useAuthUserId } from "@/hooks/auth";
 import getRelativeTime from "@/utils/getRelativeTime ";
 import Link from "next/link";
-import { getMyTenders, getTenders } from "@/services/tender";
+import { getMyTenders, getTenders, getUserTenders } from "@/services/tender";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import TendersFilter from "./filter";
 
 export default function TenderList({
-   dataFetchMode = "getTenders",
    isFilterActive = false,
    initialData = [],
+   mode = "all", // all, user, invited
+   username = "",
 }) {
-   console.log(initialData);
-
    const searchParams = useSearchParams();
    const searchQuery = searchParams.get("query") || "";
 
@@ -25,6 +25,29 @@ export default function TenderList({
       query: searchQuery,
       offerType: "",
    });
+   const [isLoading, setIsLoading] = useState(false);
+
+   useEffect(() => {
+      let loadTenders;
+      if (mode === "user")
+         loadTenders = getUserTenders.bind(null, username, filter);
+      else if (mode === "invited")
+         loadTenders = getMyTenders.bind(null, filter);
+      else loadTenders = getTenders.bind(null, filter);
+
+      if (isLoading) {
+         loadTenders().then(({ status, data }) => {
+            if (status === 200) {
+               setTenders(data);
+            } else {
+               setTenders([]);
+            }
+         });
+      }
+
+      setIsLoading(true);
+      console.log(mode,filter);
+   }, [mode, username, filter]);
 
    const handleFilterChange = (key = "", val = "") => {
       setFilter((prev) => ({ ...prev, [key]: val }));
@@ -34,22 +57,29 @@ export default function TenderList({
       <>
          {/* {isFilterActive && Tender} */}
          <section className="flex flex-col gap-4 ">
+            {isFilterActive && (
+               <TendersFilter filter={filter} setFilter={setFilter} />
+            )}
             {/* {initialData.length + " " + JSON.stringify(initialData, null, 2)} */}
-            {typeof tenders !== "undefined"
-               ? tenders?.map((tender, i) => {
-                    return (
-                       <Tender tender={tender} key={tender._id + "-" + i} />
-                    );
-                 })
-               : ""}
+            {tenders.length > 0 ? (
+               tenders?.map((tender, i) => {
+                  return <Tender tender={tender} key={tender._id + "-" + i} />;
+               })
+            ) : (
+               <>
+                  <p className="text-center text-gray-500">
+                     Gösterilecek ihale bulunamadı.
+                  </p>
+               </>
+            )}
          </section>
       </>
    );
 }
 
 export const Tender = ({ children, tender }) => {
-   console.log(tender);
-   
+   // console.log(tender);
+
    const user = !tender?.author?._id ? tender?.author[0] : tender?.author;
    const invitedUsers = tender?.invitedUsers?.slice(0, 3) || [];
    const [isAuthorSelf, setIsAuthorSelf] = useState(false);
