@@ -47,23 +47,25 @@ export const AvatarImg = ({
    size = 48,
 }) => {
    return (
-      <Image
-         src={
-            src
-               ? `http://cdn.emegen.com.tr/${src}`
-               : "http://cdn.emegen.com.tr/avatars/user.png"
-         }
-         width={size}
-         height={size}
-         className={twMerge(
-            `p-1 bg-main rounded-full border border-primary border-r-transparent border-b-transparent aspect-square`,
-            className
-         )}
-         alt={alt}
-         // onError={(e) => {
-         //    e.target.src = "https://picsum.photos/seed/picsum/600/200";
-         // }}
-      />
+      <div className="bg-main rounded-full overflow-hidden inline-block">
+         <Image
+            src={
+               src
+                  ? `http://cdn.emegen.com.tr/${src}`
+                  : "http://cdn.emegen.com.tr/avatars/user.png"
+            }
+            width={size}
+            height={size}
+            className={twMerge(
+               `p-1 border border-primary border-r-transparent border-b-transparent rounded-full aspect-square`,
+               className
+            )}
+            alt={alt}
+            // onError={(e) => {
+            //    e.target.src = "https://picsum.photos/seed/picsum/600/200";
+            // }}
+         />
+      </div>
    );
 };
 
