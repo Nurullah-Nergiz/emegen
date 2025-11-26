@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { twMerge } from "tailwind-merge";
+import { useEffect, useState } from "react";
 
 /**
  *
@@ -27,31 +28,34 @@ export const ItemLink = ({
    activeSartsWith = false,
 }) => {
    const pathName = usePathname();
-   const active =
-      link === pathName ||
-      (link !== "/" && activeSartsWith && pathName.startsWith(link));
+   const navbar = useSelector((state) => state.ui.navbar) === true;
 
-   const navbar =
-      useSelector((state) => state.ui.navbar) === true ? true : false;
+   // Prevent hydration mismatches by deferring dynamic path/navbar dependent styling until after mount
+   const [mounted, setMounted] = useState(false);
+   useEffect(() => {
+      setMounted(true);
+   }, []);
+
+   const active =
+      mounted &&
+      (link === pathName ||
+         (link !== "/" && activeSartsWith && pathName.startsWith(link)));
+
+   const orientationClass = mounted && navbar ? "flex-row" : "flex-col";
+   const iconClass = icon
+      ? `${active ? icon.replace("bx-", "bxs-") + " sm:text-primary" : icon} text-2xl`
+      : "";
 
    return (
       <Link
          href={link}
          className={twMerge(
-            `${active ? activeClass : ""} flex ${
-               navbar === true ? "flex-row" : "flex-col"
-            } items-center gap-3 relative`,
+            `${active ? activeClass : ""} flex ${orientationClass} items-center gap-3 relative`,
             className
          )}
-         title={text}>
-         {icon && (
-            <i
-               className={`${
-                  active
-                     ? icon.replace("bx-", "bxs-") + " sm:text-primary"
-                     : icon
-               } text-2xl`}></i>
-         )}
+         title={text}
+         suppressHydrationWarning>
+         {icon && <i className={iconClass}></i>}
          {type !== "col" ? (
             <p
                className={`${
