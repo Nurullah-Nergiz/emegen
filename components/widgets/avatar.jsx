@@ -7,6 +7,7 @@ export const Avatar = ({
    src = "",
    name = "",
    userName = "",
+   bio = "",
    className = "",
    children,
    detailsClassName = "",
@@ -14,24 +15,29 @@ export const Avatar = ({
    return (
       <section
          className={twMerge(
-            "flex items-center justify-between gap-2",
+            "max-w-60 flex items-center justify-between gap-2",
             className
          )}>
          <Link href={`/@${userName}`} className="flex items-center gap-2">
             <AvatarImg src={src} alt={name} />
             <div
                className={twMerge(
-                  "max-w-60 overflow-hidden",
+                  "overflow-hidden flex flex-col justify-center gap-0.5",
                   detailsClassName
                )}>
-               <b
-                  className="w-full inline-block
-                text-sm overflow-hidden whitespace-nowrap text-ellipsis">
+               <b className="w-full inline-block text-sm overflow-hidden whitespace-nowrap text-ellipsis">
                   {name}
                </b>
                <p className="w-full text-xs whitespace-nowrap text-ellipsis overflow-hidden">
                   @{userName}
                </p>
+               {bio && (
+                  <p
+                     className="max-h-12
+                        text-secondary dark:text-tertiary  text-ellipsis overflow-hidden">
+                     {bio}
+                  </p>
+               )}
             </div>
          </Link>
          {children}
