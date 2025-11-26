@@ -18,7 +18,7 @@ export default function ProfileInfoHeader({
             <section className="flex items-start justify-between gap-4 px-4 -mt-16 sm:-mt-24 z-10">
                <AvatarImg
                   src={user?.profilePicture}
-                  className="w-auto h-full max-w-32 max-h-32 sm:max-w-48 sm:max-h-48 p-1 bg-background rounded-full border-2"
+                  className="w-auto h-full max-w-32 max-h-32 sm:max-w-48 sm:max-h-48 p-1 bg-background rounded-full border-4"
                   size={128 * 4}
                />
                <div className="pt-16 sm:pt-28 flex items-center gap-4">
@@ -64,9 +64,9 @@ export default function ProfileInfoHeader({
                <div className="flex flex-col">
                   <h1 className="inline-flex items-center gap-2 text-2xl font-bold">
                      {user?.name}
-                     {user?.isVerified && (
+                     {user?.isVerified ? (
                         <i className="bx bxs-check-circle text-primary"></i>
-                     )}
+                     ) : null}
                   </h1>
                   <p className="text-tertiary text-base">@{user?.userName}</p>
                </div>
