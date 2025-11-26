@@ -43,9 +43,13 @@ export default function ProfileInfoHeader({
                         />
                         {user.primaryBtn?.type === "price" ||
                         user.primaryBtn?.type === "" ? (
-                           <Link href={`/tenders/request/${user?._id}/`}>
-                              <PrimaryBtn>Fiyat Teklif İste</PrimaryBtn>
-                           </Link>
+                           // <Link href={`/tenders/request/${user?._id}/`}>
+                                 <PrimaryBtn
+                                    onClick={() => {
+                                       
+                                 }}
+                                 >Fiyat Teklif İste</PrimaryBtn>
+                           // </Link>
                         ) : user.primaryBtn?.type === "custom" ? (
                            <Link
                               href={user.primaryBtn?.url}

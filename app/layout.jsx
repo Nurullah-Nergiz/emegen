@@ -24,7 +24,7 @@ export default async function Layout({ children }) {
             svc.interceptors.request.use(
                async (config) => {
                   config.headers.authorization = token;
-                  
+
                   // console.log(config);
 
                   return config;
@@ -86,7 +86,7 @@ export async function generateMetadata({ params }) {
          template: "%s | Emegen",
       },
       description: {
-         default: "Emegen - Emegene özel içerikler ve hizmetler",
+         default: "Emegen - Emegen özel içerikler ve hizmetler",
       },
       alternates: {},
       // openGraph: {
