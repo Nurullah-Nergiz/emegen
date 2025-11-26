@@ -53,4 +53,7 @@ export const iconList = [
    { name: "Spa", value: "bx-spa" },
    { name: "BuildingHouse", value: "bx-building-house" },
    { name: "StoreAlt", value: "bx-store-alt" },
+   { name: "PaintRoll", value: "bx-paint-roll" },
+   { name: "Water", value: "bx-water" },
+   { name: "Leaf", value: "bx-leaf" },
 ];
