@@ -3,7 +3,7 @@ import Link from "next/link";
 import { PrimaryBtn, SecondaryBtn } from "@/components/btn";
 import { RecommendedPeopleWidget } from "../../../components/widgets/RecommendedPeople";
 import { getUser } from "@/services/user";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 // import removed: useAuthUser (client hook not allowed in this server component)
 import { Ad } from "@/components/AdBanner";
 
@@ -37,7 +37,7 @@ export default async function Layout({ children, params }) {
       userResponse = await getUser(cleanUsername);
    } catch (err) {
       console.error("Failed to fetch user:", err);
-      notFound();
+      // notFound();
    }
    const { status, data: user } = userResponse || { status: 500, data: null };
    // if (process.env.NODE_ENV !== "production") console.log(user);
@@ -47,7 +47,24 @@ export default async function Layout({ children, params }) {
     */
    const isAuthenticatedUser = (await useAuthUser())?._id === user?._id;
 
-   if (status === 404 || !user) notFound();
+   if (status === 404 || !user) {
+      // Başındaki @ işaretini temizle
+
+      const parts = cleanUsername.split("-");
+      const last = parts[parts.length - 1];
+
+      // ObjectId kontrolü — 24 chars hex
+      const isMongoId = /^[a-fA-F0-9]{24}$/.test(last);
+      console.log(isMongoId );
+
+      if (isMongoId) {
+         parts.pop(); // id kısmını kaldır
+         // parts.join("");
+         console.log(parts);
+
+         redirect(`/@${parts.join("-")}`);
+      } else notFound();
+   }
 
    return (
       <>
