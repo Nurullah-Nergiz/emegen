@@ -9,7 +9,7 @@ export const Search = () => {
 
    const submit = (e) => {
       e.code == "Enter"
-         ? router.push(`/search/${e.target.value.trim().replaceAll(" ", "+")}`)
+         ? router.push(`/search?q=${e.target.value.trim().replaceAll(" ", "+")}`)
          : "";
    };
 
