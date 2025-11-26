@@ -63,9 +63,9 @@ export default async function RootLayout({ children }) {
    return (
       <>
          <Nav menu={menu} />
-         <section className="w-full pb-20 sm:pb-0 flex-1 ">
+         <section className=" pb-20 sm:pb-0 flex-1 ">
             <Header />
-            <section className="h-full sm:px-10 px-4 flex flex-col lg:flex-row gap-6">
+            <section className="max-w-full w-full h-full sm:px-10 px-4 flex flex-col lg:flex-row gap-6">
                <Suspense>{children}</Suspense>
             </section>
          </section>
