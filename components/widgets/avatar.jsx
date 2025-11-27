@@ -25,10 +25,10 @@ export const Avatar = ({
                   "overflow-hidden flex flex-col justify-center gap-0.5",
                   detailsClassName
                )}>
-               <b className="w-full inline-block text-sm overflow-hidden whitespace-nowrap text-ellipsis">
+               <b className="max-w-40 w-fulls inline-block text-sm overflow-hidden whitespace-nowrap text-ellipsis">
                   {name}
                </b>
-               <p className="w-min text-xs whitespace-nowrap text-ellipsis overflow-hidden">
+               <p className="max-w-40 text-xs whitespace-nowrap text-ellipsis overflow-hidden">
                   @{userName}
                </p>
                {bio && (
