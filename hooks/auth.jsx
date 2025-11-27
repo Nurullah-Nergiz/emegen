@@ -23,24 +23,18 @@ export async function useAuthToken() {
 }
 
 export async function useAuthUserId() {
-   const cookieStore = await cookies();
-   if (!cookieStore.get("user")?.value) return "";
-   else return JSON.parse(cookieStore.get("user")?.value)?._id || "";
+   const { _id } = await useAuthUser();
+   return _id || "";
 }
 
 export async function useIsAuthUser() {
-   const cookieStore = await cookies();
-   if (!cookieStore.get("user")?.value) return false;
-   else
-      return JSON.parse(cookieStore.get("user")?.value)?._id
-         ? true
-         : false || false;
+   const user = await useAuthUser();
+   return Boolean(user && Object.keys(user).length > 0);
 }
 
 export async function useAuthUserName() {
-   const cookieStore = await cookies();
-   if (!cookieStore.get("user")?.value) return "";
-   else return JSON.parse(cookieStore.get("user")?.value)?.userName || "";
+   const { name } = await useAuthUser();
+   return name || "";
 }
 
 export async function useSetAuthUser(user, token) {
