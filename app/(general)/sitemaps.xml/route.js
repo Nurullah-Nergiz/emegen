@@ -8,7 +8,7 @@ const paths = [
    "/auth/register",
    "/terms",
    "/auth/login",
-   // buraya yeni path'leri ekleyebilirsin
+   "/favicon.ico",
 ];
 
 export function GET() {
