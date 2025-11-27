@@ -56,4 +56,18 @@ export const iconList = [
    { name: "PaintRoll", value: "bx-paint-roll" },
    { name: "Water", value: "bx-water" },
    { name: "Leaf", value: "bx-leaf" },
+   { name: "Dish", value: "bx-dish" },
+   { name: "BowlHot", value: "bx-bowl-hot" },
+   { name: "Restaurant", value: "bx-restaurant" },
+   { name: "FoodMenu", value: "bx-food-menu" },
+   { name: "Coffee", value: "bx-coffee" },
+   { name: "Drink", value: "bx-drink" },
+   { name: "Wine", value: "bx-wine" },
+   { name: "Cake", value: "bx-cake" },
+   { name: "Cookie", value: "bx-cookie" },
+   { name: "Group", value: "bx-group" },
+   { name: "Package", value: "bx-package" },
+
+
+   
 ];
