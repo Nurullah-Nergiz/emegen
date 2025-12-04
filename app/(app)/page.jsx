@@ -9,8 +9,30 @@ import { getExplore } from "@/services/explore";
 import { useEffect, useState } from "react";
 import Posts from "@/components/widgets/post";
 import Footer from "@/components/footer";
+import {NavbarSchema} from "@/components/schema";
 
 export default function Home() {
+   const navbarSchema = [
+      {
+         "@context": "https://schema.org",
+         "@type": "SiteNavigationElement",
+         name: "Ana Sayfa",
+         url: "https://emegen.com.tr/",
+      },
+      {
+         "@context": "https://schema.org",
+         "@type": "SiteNavigationElement",
+         name: "Giris Yap",
+         url: "https://emegen.com.tr/auth/login",
+      },
+      {
+         "@context": "https://schema.org",
+         "@type": "SiteNavigationElement",
+         name: "Kaydol",
+         url: "https://emegen.com.tr/auth/register",
+      },
+   ];
+
    const [posts, setPosts] = useState([]);
    useEffect(() => {
       getExplore().then((res) => {
@@ -44,6 +66,9 @@ export default function Home() {
                <Footer />
             </div>
          </aside>
+         <NavbarSchema
+            schema={navbarSchema}
+         />
       </>
    );
 }
