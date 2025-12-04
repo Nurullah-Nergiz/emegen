@@ -88,7 +88,25 @@ export async function generateMetadata({ params }) {
       description: {
          default: "Emegen - Emegen özel içerikler ve hizmetler",
       },
-      alternates: {},
+      openGraph: {
+         title: {
+            default: "Emegen",
+            template: "%s | Emegen",
+         },
+         description: {
+            default: "Emegen - Emegen özel içerikler ve hizmetler",
+         },
+         images: [
+            {
+               url: "https://cdn.emegen.com.tr/emegen-logo.png",
+               width: 800,
+               height: 600,
+               alt: "Emegen Logo",
+            },
+         ],
+      }
+      
+      // alternates: {},
       // openGraph: {
       //    title: {
       //       default: "Emegen",
