@@ -9,7 +9,7 @@ import { getExplore } from "@/services/explore";
 import { useEffect, useState } from "react";
 import Posts from "@/components/widgets/post";
 import Footer from "@/components/footer";
-import {NavbarSchema} from "@/components/schema";
+import { NavbarSchema } from "@/components/schema";
 
 export default function Home() {
    const navbarSchema = [
@@ -60,15 +60,13 @@ export default function Home() {
             </section>
          </main>
          <aside className=" min-w-96 lg:w-1/3 ">
-            <div className=" sticky top-10 transition-all">
-               {/* <Ad /> */}
-               <RecommendedPeopleWidget />
-               <Footer />
-            </div>
+            {/* <div className="sticky top-0 z-50"> */}
+            {/* <Ad /> */}
+            <RecommendedPeopleWidget />
+            <Footer />
+            {/* </div> */}
          </aside>
-         <NavbarSchema
-            schema={navbarSchema}
-         />
+         <NavbarSchema navbarSchema={navbarSchema} />
       </>
    );
 }
