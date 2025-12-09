@@ -1,4 +1,8 @@
-import { getAuthenticationToken, getAuthenticationUser, removeAuthenticationUser } from "@/utils/auth";
+import {
+   getAuthenticationToken,
+   getAuthenticationUser,
+   removeAuthenticationUser,
+} from "@/utils/auth";
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
@@ -12,12 +16,6 @@ export const authSlice = createSlice({
    initialState,
    reducers: {
       loginSuccess: (state, action) => {
-         Cookies.set("user", JSON.stringify(action.payload), {
-            expires: 364,
-            // secure: true,
-            // sameSite: "strict",
-            // httpOnly: true,
-         });
          state.isLoading = action.payload?.authentication;
          state.user = action.payload?.user;
       },

@@ -25,8 +25,8 @@ export default function Page() {
 
    useEffect(() => {
       setAuthHeaderData({
-         title: "Login",
-         description: "Please log in to use the app",
+         title: "Giriş yap",
+         description: "Uygulamayı kullanmak için lütfen giriş yapın",
       });
    }, []);
 

@@ -4,8 +4,8 @@ import { cookies } from "next/headers";
 
 export default async function useAuthUser() {
    const cookieStore = await cookies();
-   if (!cookieStore.get("user")?.value) return {};
-   else return JSON.parse(cookieStore.get("user")?.value);
+   if (!cookieStore.get("auth-user")?.value) return {};
+   else return JSON.parse(cookieStore.get("auth-user")?.value);
 }
 
 export async function useAuthToken() {
@@ -15,11 +15,8 @@ export async function useAuthToken() {
       else return JSON.parse(cookieStore.get("auth-token")?.value);
    } else {
       const token = Cookies.get("auth-token");
-      return token ? JSON.parse(token) : "";
+      return token ? JSON.parse(token) : null;
    }
-   // const cookieStore = cookies();
-   // if (!cookieStore.get("user")?.value) return "";
-   // else return cookieStore.get("user")?.value;
 }
 
 export async function useAuthUserId() {
@@ -39,13 +36,13 @@ export async function useAuthUserName() {
 
 export async function useSetAuthUser(user, token) {
    const cookieStore = await cookies();
-   cookieStore.set("user", JSON.stringify(user));
+   cookieStore.set("auth-user", JSON.stringify(user));
    if (token) {
       cookieStore.set("auth-token", JSON.stringify(token));
    }
 }
 export async function useRemoveAuthUser() {
    const cookieStore = await cookies();
-   cookieStore.delete("user");
+   cookieStore.delete("auth-user");
    cookieStore.delete("auth-token");
 }
