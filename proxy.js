@@ -7,9 +7,10 @@ export function proxy(req) {
 
    const token = cookies.get("auth-token")?.value || "";
    const loggedInUserNotAccessPaths = ["/auth/login", "/auth/register"];
-   console.log("🔵 Middleware - Current Pathname:", pathname);
+   if (process.env.NODE_ENV !== "production")
+      console.log("🔵 Middleware - Current Pathname:", pathname);
 
-   if (process.env.NODE_ENV !== "production") {
+   if (process.env.NODE_ENV === "production") {
       if (!pathname.startsWith("/@")) {
          if (pathname === "/") {
          } else if (!token) {
