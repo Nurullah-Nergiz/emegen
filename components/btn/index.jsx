@@ -36,7 +36,7 @@ export function SecondaryBtn({
    return (
       <button
          className={twMerge(
-            "!px-4 !py-2 !bg-accent !text-current rounded-md whitespace-nowrap cursor-pointer transition duration-200 shadow-sm",
+            "!px-4 !py-2 !bg-accent !text-current rounded-md whitespace-nowrap cursor-pointer transition duration-200 shadow-md hover:shadow-lg",
             className
          )}
          onClick={() => onClick()}
