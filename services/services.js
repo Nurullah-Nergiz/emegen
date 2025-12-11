@@ -1,4 +1,5 @@
-const { serviceInstance } = require(".");
+import { serviceInstance } from ".";
+
 
 export const getUserServices = async (username) => {
    try {
