@@ -70,3 +70,8 @@ export const serviceInstance = axios.create({
    baseURL: process.env.NEXT_PUBLIC_BACKEND_HOSTNAME,
    headers,
 });
+
+export const GeoResolver = axios.create({
+   baseURL: "https://nominatim.openstreetmap.org/",
+   headers,
+});
