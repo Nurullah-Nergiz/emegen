@@ -13,12 +13,12 @@ export default function AuthHeader({ children }) {
             onClick={() => {
                router.push(`/auth/register?redirect=${pathname}`);
             }}>
-            Kayıt olmak
+            Kayıt ol
          </SecondaryBtn>
          <PrimaryBtn
             className="whitespace-nowrap"
             onClick={() => router.push(`/auth/login?redirect=${pathname}`)}>
-            Giriş yapmak
+            Giriş yap
          </PrimaryBtn>
       </>
    );
