@@ -20,12 +20,23 @@ export const deleteTender = (id) => {
    return TendersInstance.delete(`/tenders/${id}`);
 };
 
-export const getMyTenders = () => {
-   return TendersInstance.get("/tenders/me");
+export const getMyTenders = (filter = {},
+   paginationOptions = {
+      page: 0,
+      limit: 10,
+   }
+) => {
+   return TendersInstance.get(`/tenders/me?page=${paginationOptions.page}&limit=${paginationOptions.limit}`);
 };
 
-export const getInvitedTenderList = () => {
-   return TendersInstance.get("/tenders/invited");
+export const getInvitedTenderList = (
+   filter = {},
+   paginationOptions = {
+      page: 0,
+      limit: 10,
+   }
+) => {
+   return TendersInstance.get(`/tenders/invited?page=${paginationOptions.page}&limit=${paginationOptions.limit}`);
 };
 
 export const getUserTenders = (
