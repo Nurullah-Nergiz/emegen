@@ -26,8 +26,6 @@ export default function ProfileServices({
    moreButton = true,
 }) {
    const pathname = usePathname().split("/")[1];
-   console.log(pathname); 
-
 
    return (
       <>
@@ -116,7 +114,7 @@ export default function ProfileServices({
                               <Link
                                  href={`/${pathname}/services/new`}
                                  className="mt-4 px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark whitespace-nowrap">
-                                 Yeni Hizmet Ekle-{pathname}
+                                 Yeni Hizmet Ekle
                               </Link>
                            </>
                         ) : null}
