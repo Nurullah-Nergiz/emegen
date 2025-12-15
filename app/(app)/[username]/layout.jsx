@@ -12,6 +12,7 @@ import CompleteProfile from "@/components/widgets/profile/completeProfile";
 import ProfileInfoHeader from "@/components/profile/header";
 import ProfileNavbar from "@/components/profile/nav";
 import ProfileSchemas from "@/components/profile/schema";
+import { cleanUserName } from "@/utils/user";
 
 // Format user.location object into a readable string
 
@@ -22,7 +23,7 @@ export default async function Layout({ children, params }) {
     * @type {String}
     */
    const { username = "" } = await params;
-   const cleanUsername = username.replace(/%40/g, "").trim();
+   const cleanUsername = cleanUserName(username);
    if (!username.startsWith("%40")) notFound();
 
    // Remove trailing slash from username if present
