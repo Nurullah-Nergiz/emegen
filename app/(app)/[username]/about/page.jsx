@@ -1,4 +1,5 @@
 import { getUser } from "@/services/user";
+import { socialMediaIcons } from "@/utils/iconList";
 import { cleanUserName } from "@/utils/user";
 
 export async function generateMetadata({ params }) {
@@ -29,20 +30,6 @@ export default async function AboutPage({ params }) {
 
    const { data: user } = await getUser(normalizedUsername);
 
-   const icons = {
-      website: "bx bx-globe",
-      github: "bx bxl-github",
-      twitter: "bx bxl-twitter",
-      // x: "bx bxl-x",
-      linkedin: "bx bxl-linkedin",
-      facebook: "bx bxl-facebook",
-      instagram: "bx bxl-instagram",
-      youtube: "bx bxl-youtube",
-      medium: "bx bxl-medium",
-      twitch: "bx bxl-twitch",
-      discord: "bx bxl-discord",
-   };
-
    return (
       <section className="flex flex-col gap-6">
          <div className="">
@@ -67,7 +54,7 @@ export default async function AboutPage({ params }) {
                            className="flex items-center gap-2 hover:underline">
                            <i
                               className={`${
-                                 icons[platform] || "bx bx-link"
+                                 socialMediaIcons[platform] || "bx bx-link"
                               }  `}></i>
                            {platform.charAt(0).toUpperCase() +
                               platform.slice(1)}
