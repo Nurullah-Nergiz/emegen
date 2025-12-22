@@ -67,7 +67,18 @@ export const iconList = [
    { name: "Cookie", value: "bx-cookie" },
    { name: "Group", value: "bx-group" },
    { name: "Package", value: "bx-package" },
-
-
-   
 ];
+
+export const socialMediaIcons = {
+   website: "bx bx-globe",
+   github: "bx bxl-github",
+   twitter: "bx bxl-twitter",
+   // x: "bx bxl-x",
+   linkedin: "bx bxl-linkedin",
+   facebook: "bx bxl-facebook",
+   instagram: "bx bxl-instagram",
+   youtube: "bx bxl-youtube",
+   medium: "bx bxl-medium",
+   twitch: "bx bxl-twitch",
+   discord: "bx bxl-discord",
+};
