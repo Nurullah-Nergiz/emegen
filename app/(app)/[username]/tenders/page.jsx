@@ -6,10 +6,7 @@ export async function generateMetadata({ params }) {
    const { username } = await params;
    return {
       alternates: {
-         canonical: `https://emegen.com.tr/@${username.replace(
-            "%40",
-            "@"
-         )}/tenders`,
+         canonical: `https://emegen.com.tr/@${cleanUserName(username)}tenders`,
       },
    };
 }

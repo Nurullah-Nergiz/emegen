@@ -1,11 +1,12 @@
 import { getUserPosts } from "@/services/user";
 import Posts from "@/components/widgets/post";
+import { cleanUserName } from "@/utils/user";
 
 export async function generateMetadata({ params }) {
    const { username } = await params;
    return {
       alternates: {
-         canonical: `https://emegen.com.tr/@${username.trim()}/posts`,
+         canonical: `https://emegen.com.tr/@${cleanUserName(username)}/posts`,
       },
    };
 }
