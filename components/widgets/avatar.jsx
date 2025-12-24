@@ -53,7 +53,7 @@ export const AvatarImg = ({
    size = 48,
 }) => {
    return (
-      <div className="bg-main rounded-full overflow-hidden inline-block">
+      <div className="bg-white rounded-full overflow-hidden inline-block">
          <Image
             src={
                src
