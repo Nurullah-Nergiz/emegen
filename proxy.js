@@ -39,6 +39,6 @@ export const config = {
        * - _next/static (static files)
        * - favicon.ico (favicon file)
        */
-      "/((?!api|_next/|favicon.ico|logo.png|sitemaps|robots.txt).*)",
+      "/((?!api|_next/|favicon.ico|logo.png|sitemaps.xml|sitemap-profiles.xml|robots.txt).*)",
    ],
 };
