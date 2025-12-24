@@ -1,5 +1,5 @@
 import Footer from "@/components/footer";
-import { NavbarSchema, SearchActionSchema } from "@/components/schema";
+import { NavbarSchema } from "@/components/schema";
 import Posts from "@/components/widgets/post";
 import { RecommendedPeopleWidget } from "@/components/widgets/RecommendedPeople";
 import { getExplore } from "@/services/explore";
@@ -104,7 +104,7 @@ export default async function Home() {
             {/* </div> */}
          </aside>
          <NavbarSchema navbarSchema={navbarSchema} />
-         <SearchActionSchema />
+         
       </>
    );
 }

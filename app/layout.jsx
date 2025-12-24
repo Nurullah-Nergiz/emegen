@@ -9,6 +9,7 @@ import { headers } from "next/headers";
 
 import * as services from "@/services/index";
 import { useAuthToken } from "@/hooks/auth";
+import { SearchActionSchema } from "@/components/schema";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -70,10 +71,11 @@ export default async function Layout({ children }) {
             <script
                async
                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1933557350242575"
-               crossorigin="anonymous"></script>
+               crossOrigin="anonymous"></script>
          </head>
          <body className={`${inter.className} `}>
             <ReduxProvider>{children}</ReduxProvider>
+            <SearchActionSchema />
          </body>
       </html>
    );
