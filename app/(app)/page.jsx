@@ -27,7 +27,7 @@ export const metadata = {
       "Hizmet Yorumları",
       "Hizmet Fiyatları",
    ],
-   alternate: {
+   alternates: {
       canonical: "https://emegen.com.tr/",
    },
 
@@ -39,7 +39,7 @@ export const metadata = {
       siteName: "Emegen",
       images: [
          {
-            url: "https://cdn.emegen.com.tr/og-image.jpg",
+            url: "https://cdn.emegen.com.tr/logo.png",
             width: 1200,
             height: 630,
          },
