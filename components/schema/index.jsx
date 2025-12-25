@@ -1,4 +1,5 @@
-export const NavbarSchema = ({ schema = [] }) => {
+
+export const SchemaScript = ({ schema }) => {
    return (
       <script
          type="application/ld+json"
@@ -7,6 +8,10 @@ export const NavbarSchema = ({ schema = [] }) => {
          }}
       />
    );
+};
+
+export const NavbarSchema = ({ schema = [] }) => {
+   return <SchemaScript schema={schema} />;
 };
 
 export const PostSchema = ({ post }) => {
@@ -32,14 +37,7 @@ export const PostSchema = ({ post }) => {
       description: post.description,
    };
 
-   return (
-      <script
-         type="application/ld+json"
-         dangerouslySetInnerHTML={{
-            __html: JSON.stringify(postSchema, null, 2),
-         }}
-      />
-   );
+   return <SchemaScript schema={postSchema} />;
 };
 
 export const SearchActionSchema = () => {
@@ -55,12 +53,5 @@ export const SearchActionSchema = () => {
       },
    };
 
-   return (
-      <script
-         type="application/ld+json"
-         dangerouslySetInnerHTML={{
-            __html: JSON.stringify(searchActionSchema, null, 2),
-         }}
-      />
-   );
+   return <SchemaScript schema={searchActionSchema} />;
 };
