@@ -5,11 +5,10 @@ import "./globals.css";
 import ReduxProvider from "../components/provider/redux";
 
 import useTheme from "@/hooks/useTheme";
-import { headers } from "next/headers";
+
 
 import * as services from "@/services/index";
 import { useAuthToken } from "@/hooks/auth";
-import { SearchActionSchema } from "@/components/schema";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -61,7 +60,7 @@ export default async function Layout({ children }) {
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link
                rel="preconnect"
-               href="http://cdn.emegen.com.tr"
+               href="https://cdn.emegen.com.tr"
                crossOrigin="true"
             />
             <meta
@@ -75,7 +74,6 @@ export default async function Layout({ children }) {
          </head>
          <body className={`${inter.className} `}>
             <ReduxProvider>{children}</ReduxProvider>
-            <SearchActionSchema />
          </body>
       </html>
    );
@@ -106,8 +104,8 @@ export async function generateMetadata({ params }) {
                alt: "Emegen Logo",
             },
          ],
-      }
-      
+      },
+
       // alternates: {},
       // openGraph: {
       //    title: {
