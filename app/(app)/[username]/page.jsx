@@ -1,7 +1,6 @@
 import { getUserServices } from "@/services/services";
 import ProfileServices from "@/components/widgets/profile/services";
 import { useAuthUserName } from "@/hooks/auth";
-import { ServiceSchema } from "@/components/schema/profile";
 
 export default async function Page({ params }) {
    const { username } = await params;
@@ -19,14 +18,6 @@ export default async function Page({ params }) {
    return (
       <>
          <ProfileServices services={serviceList} isOwner={isOwner} />
-         
-         {serviceList.length > 0 &&
-            serviceList.map((service) => (
-               <ServiceSchema
-                  key={service._id}
-                  service={service} //
-               />
-            ))}
       </>
    );
 }
