@@ -29,7 +29,9 @@ export default function ProfileServices({
 
    return (
       <>
-         <div className="flex flex-col gap-4 w-full">
+         <div
+         id="profile-services"
+            className="flex flex-col gap-4 w-full">
             <div className="flex justify-between items-center border-b border-current">
                <h3 className="w-full text-2xl font-bold mb-4 ">Hizmetler</h3>
                {moreButton ? (
