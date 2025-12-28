@@ -1,38 +1,129 @@
-import { SchemaScript } from ".";
+import { BreadcrumbSchema, ItemListSchema, SchemaScript } from ".";
 
-export const ProfileSchema = ({ user }) => {
-   const { name, jobTitle, image, description } = user;
-   const schemaData = {
+export const ProfileSchemas = ({ user = {} }) => {
+   const businessSchema = {
       "@context": "https://schema.org",
-      "@type": "ProfilePage",
-      mainEntity: {
-         "@type": "Person",
-         name: name,
-         jobTitle: jobTitle,
-         image: image,
-         description: description,
-      },
+      "@graph": [
+         {
+            "@type": user?.buisnessType || "LocalBusiness",
+            "@id": `https://www.emegen.com.tr/@${user?.userName}#profile-services`,
+            ...(user?.name && { name: user.name }),
+            ...(user?.userName && {
+               url: `https://www.emegen.com.tr/@${user.userName}`,
+            }),
+            ...(user?.profilePicture && {
+               logo: user.profilePicture.startsWith("http")
+                  ? user.profilePicture
+                  : `https://cdn.emegen.com.tr/${String(
+                       user.profilePicture
+                    ).replace(/^\/+/, "")}`,
+            }),
+            ...(user?.coverPicture && {
+               image: user?.coverPicture.startsWith("http")
+                  ? user.coverPicture
+                  : `https://cdn.emegen.com.tr/${String(
+                       user.coverPicture
+                    ).replace(/^\/+/, "")}`,
+            }),
+            ...(user?.bio && { description: user.bio }),
+            ...(Array.isArray(user?.phoneNumbers) &&
+               user.phoneNumbers[0] && { telephone: user.phoneNumbers[0] }),
+            ...(user?.email && { email: user?.publicEmail }),
+            ...(user?.address &&
+               typeof user.address === "object" && {
+                  address: {
+                     "@type": "PostalAddress",
+                     ...(user.address?.streetAddress && {
+                        streetAddress: user.address.streetAddress,
+                     }),
+                     ...(user.address?.city && {
+                        addressLocality: user.address.city,
+                     }),
+                     ...(user.address?.state && {
+                        addressRegion: user.address.state,
+                     }),
+                     ...(user.address?.postalCode && {
+                        postalCode: user.address.postalCode,
+                     }),
+                     ...(user.address?.country && {
+                        addressCountry: user.address.country,
+                     }),
+                  },
+               }),
+            ...(Array.isArray(user?.services) &&
+               user.services.length > 0 && {
+                  hasOfferCatalog: {
+                     "@type": "OfferCatalog",
+                     name: "Services",
+                     itemListElement: user.services.map((service) => ({
+                        "@type": "Offer",
+                        itemOffered: {
+                           "@type": "Service",
+                           name: service.title,
+                           description: service.description,
+                           areaServed: {
+                              "@type": "City",
+                              name: user?.address?.city || "Unknown City",
+                           },
+                           provider: {
+                              "@type": user?.buisnessType || "LocalBusiness",
+                              name: user?.name || "",
+                              url: `https://emegen.com.tr/@${user?.userName}`,
+                              address: {
+                                 "@type": "PostalAddress",
+                                 streetAddress:
+                                    user?.address?.streetAddress ||
+                                    "Unknown Street",
+                                 addressLocality:
+                                    user?.address?.city || "Unknown City",
+                                 addressRegion:
+                                    user?.address?.state || "Unknown State",
+                                 postalCode:
+                                    user?.address?.postalCode || "00000",
+                                 addressCountry:
+                                    user?.address?.country || "Unknown Country",
+                              },
+                           },
+                        },
+                     })),
+                  },
+               }),
+         },
+      ],
    };
 
-   return <SchemaScript schema={schemaData} />;
-};
-
-export const ServiceSchema = ({ service }) => {
-   const schemaData = {
-      "@context": "https://schema.org",
-      "@type": "Service",
-      name: service?.name,
-      description: service?.description,
-      provider: {
-         "@type": service?.user?.buisnessType || "LocalBusiness",
-         name: service?.user?.name,
-         url: `https://emegen.com.tr/@${service?.user?.userName}`,
-      },
-      areaServed: {
-         "@type": "City",
-         name: service?.user?.address?.city || "Unknown City",
-      },
-   };
-
-   return <SchemaScript schema={schemaData} />;
+   return (
+      <>
+         <SchemaScript schema={businessSchema} />
+         <ItemListSchema
+            name="Profil Menüsü"
+            items={[
+               {
+                  name: "Profil",
+                  url: "https://www.emegen.com.tr/@alpaslan-bugday-insaat",
+               },
+               {
+                  name: "Gönderiler",
+                  url: "https://www.emegen.com.tr/@alpaslan-bugday-insaat/posts",
+               },
+               {
+                  name: "Teklifler",
+                  url: "https://www.emegen.com.tr/@alpaslan-bugday-insaat/tenders",
+               },
+               {
+                  name: "Hakkında",
+                  url: "https://www.emegen.com.tr/@alpaslan-bugday-insaat/about",
+               },
+            ]}
+         />
+         <BreadcrumbSchema
+            items={[
+               {
+                  name: user?.name || user?.userName || "Profile",
+                  url: `@${user?.userName}`,
+               },
+            ]}
+         />
+      </>
+   );
 };
