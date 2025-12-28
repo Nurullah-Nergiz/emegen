@@ -1,6 +1,5 @@
 "use server";
-import Link from "next/link";
-import { PrimaryBtn, SecondaryBtn } from "@/components/btn";
+
 import { RecommendedPeopleWidget } from "../../../components/widgets/RecommendedPeople";
 import { getUser } from "@/services/user";
 import { notFound, redirect } from "next/navigation";
@@ -11,10 +10,9 @@ import useAuthUser from "@/hooks/auth";
 import CompleteProfile from "@/components/widgets/profile/completeProfile";
 import ProfileInfoHeader from "@/components/profile/header";
 import ProfileNavbar from "@/components/profile/nav";
-import ProfileSchemas from "@/components/profile/schema";
+import { ProfileSchemas } from "@/components/schema/profile";
 import { cleanUserName } from "@/utils/user";
 
-// Format user.location object into a readable string
 
 export default async function Layout({ children, params }) {
    // console.clear();
@@ -56,7 +54,7 @@ export default async function Layout({ children, params }) {
 
       // ObjectId kontrolü — 24 chars hex
       const isMongoId = /^[a-fA-F0-9]{24}$/.test(last);
-      console.log(isMongoId );
+      console.log(isMongoId);
 
       if (isMongoId) {
          parts.pop(); // id kısmını kaldır
