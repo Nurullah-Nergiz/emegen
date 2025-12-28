@@ -5,7 +5,9 @@ import { ItemLink } from "@/components/nav/itemLink";
 export default function ProfileNavbar({ user = {} }) {
    return (
       <>
-         <nav className="main my-4 flex gap-4 border-b border-secondary">
+         <nav
+         id="profile-main-nav"
+            className="main my-4 flex gap-4 border-b border-secondary">
             {[
                { name: "Ana sayfa", href: "" },
                { name: "Posts", href: "/posts" },
