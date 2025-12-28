@@ -53,7 +53,7 @@ export const AvatarImg = ({
    size = 48,
 }) => {
    return (
-      <div className="bg-white rounded-full overflow-hidden inline-block">
+      <div className="p-px bg-white bg-clip-padding rounded-full overflow-hidden inline-block">
          <Image
             src={
                src
@@ -63,7 +63,7 @@ export const AvatarImg = ({
             width={size}
             height={size}
             className={twMerge(
-               `p-1 border border-primary border-r-transparent border-b-transparent rounded-full aspect-square`,
+               `p-px border-2 border-primary border-r-transparent border-b-transparent rounded-full aspect-square`,
                className
             )}
             alt={alt}
