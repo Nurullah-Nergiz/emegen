@@ -6,7 +6,7 @@ export function proxy(req) {
    const pathname = req.nextUrl.pathname;
 
    const token = cookies.get("auth-token")?.value || "";
-   const loggedInUserNotAccessPaths = ["/auth/login", "/auth/register"];
+   const loggedInUserNotAccessPaths = ["/auth/login", "/auth/register","/auth/forgot-password"];
    if (process.env.NODE_ENV !== "production")
       console.log("🔵 Middleware - Current Pathname:", pathname);
 
@@ -14,11 +14,11 @@ export function proxy(req) {
       if (!pathname.startsWith("/@")) {
          if (pathname === "/") {
          } else if (!token) {
-            if (!loggedInUserNotAccessPaths.includes(pathname)) {
-               return NextResponse.redirect(
-                  new URL(loggedInUserNotAccessPaths[0], url)
-               );
-            }
+            // if (!loggedInUserNotAccessPaths.includes(pathname)) {
+            //    return NextResponse.redirect(
+            //       new URL(loggedInUserNotAccessPaths[0], url)
+            //    );
+            // }
          } else if (token) {
             if (loggedInUserNotAccessPaths.includes(pathname)) {
                console.log('"auth', pathname);
