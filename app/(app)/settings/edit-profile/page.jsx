@@ -2,18 +2,20 @@
 
 import { PrimaryBtn, SecondaryBtn } from "@/components/btn";
 
-import LocationInput from "../../../../components/forms/location";
-import TagsInput from "@/components/forms/tags";
 import { use, useEffect, useState } from "react";
 import CompleteProfile from "@/components/widgets/profile/completeProfile";
 // import FormsWebsite from "@/components/forms/website";
-import BiographyEditor from "@/components/forms/bio";
 
 import { setAuthenticationUser } from "@/utils/auth";
 import userContext from "@/components/provider/userContext";
 
 import { AvatarImg, CoverImage } from "@/components/widgets/avatar";
 import { putUserAvatar, putUserCoverPicture } from "@/services/user";
+import AddressForm from "../../../../components/forms/address";
+import FormsWebsite from "@/components/forms/websites";
+import LocationInput from "@/components/forms/location";
+import { resolveCoordinates } from "@/services/geoResolver";
+import PrimaryFormButton from "@/components/forms/primaryBtn";
 
 // export const metadata = {
 //    title: " Emegen",
@@ -22,6 +24,11 @@ import { putUserAvatar, putUserCoverPicture } from "@/services/user";
 
 export default function EditProfilePage() {
    const [user, setUser] = use(userContext);
+   const [location, setLocation] = useState({
+      latitude: user?.location?.latitude || null,
+      longitude: user?.location?.longitude || null,
+   });
+   const [address, setAddress] = useState({});
 
    // console.log("file: edit-profile.jsx:13 => user=>", user);
    const [uploadingProfile, setUploadingProfile] = useState(false);
@@ -65,6 +72,37 @@ export default function EditProfilePage() {
       // Implement the logic to update personal information
       console.log("Updating personal information with data:", data);
    };
+
+   const handleWebsitesUpdated = (updatedWebsites) => {
+      // merge into user context + auth storage so rest of app sees latest data
+      const nextUser = { ...user, websites: updatedWebsites };
+      setUser(nextUser);
+      setAuthenticationUser(nextUser);
+   };
+
+   useEffect(() => {
+      if (location.latitude && location.longitude) {
+         resolveCoordinates({
+            latitude: location.latitude,
+            longitude: location.longitude,
+         }).then(({ status, data: { address } }) => {
+            if (status === 200) {
+               setUser((prev) => ({
+                  ...prev,
+                  address: {
+                     country: address.country || "",
+                     city: address.province || "",
+                     district: address.town || "",
+                     streetAddress: `${address.road || ""}  ${
+                        address.village
+                     } Mah`.trim(),
+                     zipCode: address.postcode || "",
+                  },
+               }));
+            }
+         });
+      }
+   }, [location.latitude, location.longitude]);
 
    return (
       <>
@@ -126,39 +164,26 @@ export default function EditProfilePage() {
                      </div>
                   </div>
                </div>
-               {/* <div className="main flex flex-col gap-4">
-                  <b>Kişisel Bilgiler</b>
-                  <div className="flex flex-col gap-4">
-                     <label>
-                        <b className="py-2 block">İsim</b>
-                        <input
-                           className="w-full h-9 px-3 py-2 !bg-transparent border relative border-tertiary shadow shadow-tertiary rounded-2xl outline-none"
-                           type="text"
-                           defaultValue={user?.name || ""}
-                           placeholder="İsminizi girin"
-                        />
-                     </label>
-                  </div>
-                  <SecondaryBtn
-                     className="ml-auto"
-                     onClick={() => updatePersonalInformation()}>
-                     Güncelle
-                  </SecondaryBtn>
-               </div> */}
-               <BiographyEditor defaultValue={user?.bio} />
+
+               <PrimaryFormButton />
+                                    
+               <FormsWebsite
+                  websites={user?.websites || {}}
+                  onUpdated={handleWebsitesUpdated}
+               />
+
                <LocationInput
-                  defaultValue={user?.location || {}}
-                  placeholder="Konumunuzu girin"
-                  onChange={(e) => {
-                     console.log("Location changed:", e);
+                  onChange={(loc) => {
+                     setLocation({
+                        latitude: loc.lat,
+                        longitude: loc.lng,
+                     });
                   }}
                />
-               <TagsInput
-                  tags={user?.tags}
-                  placeholder="İlgi alanlarınızı girin"
-                  onChange={(e) => {
-                     console.log("Tags changed:", e);
-                  }}
+
+               <AddressForm
+                  defaultValue={user?.address ?? {}}
+                  placeholder="Konumunuzu girin"
                />
             </section>
          </main>
