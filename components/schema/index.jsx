@@ -1,4 +1,3 @@
-
 export const SchemaScript = ({ schema }) => {
    return (
       <script
@@ -54,4 +53,50 @@ export const SearchActionSchema = () => {
    };
 
    return <SchemaScript schema={searchActionSchema} />;
+};
+
+export const BreadcrumbSchema = ({ items = [] }) => {
+   const breadcrumbItems = [
+      {
+         "@type": "ListItem",
+         position: 1,
+         name: "Ana Sayfa",
+         item: "",
+      },
+      ...items,
+   ].map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: {
+         "@type": "WebPage",
+         "@id": `https://emegen.com.tr/${item.url ?? ""}`,
+      },
+   }));
+
+   const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      name: "Breadcrumb List",
+      itemListElement: breadcrumbItems,
+   };
+
+   return <SchemaScript schema={breadcrumbSchema} />;
+};
+
+export const ItemListSchema = ({ items = [], name = "Item List" }) => {
+   const itemListSchema = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "@id": "https://www.emegen.com.tr/@alpaslan-bugday-insaat#profile-main-nav",
+      name: name,
+      itemListElement: items.map((item, index) => ({
+         "@type": "ListItem",
+         position: index + 1,
+         url: item.url,
+         name: item.name,
+      })),
+   };
+
+   return <SchemaScript schema={itemListSchema} />;
 };
