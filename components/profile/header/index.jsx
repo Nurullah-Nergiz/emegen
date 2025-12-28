@@ -4,12 +4,27 @@ import { AvatarImg, CoverImage } from "@/components/widgets/avatar";
 import Link from "next/link";
 import { PrimaryBtn, SecondaryBtn } from "@/components/btn";
 import FollowBtn from "@/components/btn/Follow";
+import { cleanUserName } from "@/utils/user";
+import { useState, useCallback } from "react";
+import dynamic from "next/dynamic";
+
+const LazyComponent = dynamic(
+   () => import("@/components/widgets/popup/tender"),
+   {
+      ssr: false,
+      // loading: () => <p>Yükleniyor...</p>,
+   }
+);
 
 export default function ProfileInfoHeader({
    user = {},
    isAuthenticatedUser = false,
 }) {
-   const cleanUsername = user?.userName || "";
+   const cleanUsername = cleanUserName(user?.userName || "");
+
+   const [modalOpen, setModalOpen] = useState(false);
+   const openModal = useCallback(() => setModalOpen(true), []);
+   const closeModal = useCallback(() => setModalOpen(false), []);
 
    return (
       <>
@@ -41,16 +56,7 @@ export default function ProfileInfoHeader({
                            type="secondary"
                            className=""
                         />
-                        {user.primaryBtn?.type === "price" ||
-                        user.primaryBtn?.type === "" ? (
-                           // <Link href={`/tenders/request/${user?._id}/`}>
-                                 <PrimaryBtn
-                                    onClick={() => {
-                                       
-                                 }}
-                                 >Fiyat Teklif İste</PrimaryBtn>
-                           // </Link>
-                        ) : user.primaryBtn?.type === "custom" ? (
+                        {user.primaryBtn?.type === "custom" ? (
                            <Link
                               href={user.primaryBtn?.url}
                               target="_blank"
@@ -58,26 +64,32 @@ export default function ProfileInfoHeader({
                               <PrimaryBtn>{user.primaryBtn.text}</PrimaryBtn>
                            </Link>
                         ) : (
-                           ""
+                           <PrimaryBtn
+                           // onClick={openModal}
+                           >
+                              Fiyat Teklif İste
+                           </PrimaryBtn>
                         )}
                      </>
                   )}
                </div>
             </section>
-            <section className="flex flex-col gap-4 px-4 -mt-4">
+            <section className="flex flex-col gap-2 px-4 -mt-4">
                <div className="flex flex-col">
                   <h1 className="inline-flex items-center gap-2 text-2xl font-bold">
                      {user?.name}
                      {user?.isVerified ? (
                         <i className="bx bxs-check-circle text-primary"></i>
-                     ) : null}
+                     ) : (
+                        "null"
+                     )}
                   </h1>
-                  <p className="text-tertiary text-base">@{user?.userName}</p>
+                  <h2 className="text-tertiary text-base">@{user?.userName}</h2>
                </div>
 
-               <h2 className="overflow-hidden whitespace-pre-line text-ellipsis text-sm">
+               <h3 className="overflow-hidden whitespace-pre-line text-ellipsis text-sm">
                   {user?.bio || "Bu kullanıcı hakkında bilgi yok."}
-               </h2>
+               </h3>
 
                <div className="flex gap-4">
                   <Link href={`/@${cleanUsername}/followers`} className="">
@@ -102,11 +114,39 @@ export default function ProfileInfoHeader({
                      )?.map((tag) => (
                         <li
                            key={tag}
-                           className="w-min px-2 py-1 rounded-md bg-accent text-sm underline">
+                           className="w-min px-0 py-1 rounded-md bg-accent text-sm underline">
                            #{tag}
                         </li>
                      ))}
                </ul>
+               {/* Working hours */}
+               {formatWorkingHours([
+                  { day: "Pazartesi", open: "08:30", close: "18:00" },
+                  { day: "Salı", open: "08:30", close: "18:00" },
+                  { day: "Çarşamba", open: "08:30", close: "18:00" },
+                  { day: "Perşembe", open: "08:30", close: "18:00" },
+                  { day: "Cuma", open: "08:30", close: "18:00" },
+                  { day: "Cumartesi", open: "09:00", close: "16:00" },
+                  { day: "Pazar", open: null, close: null },
+               ]) && (
+                  <div className="text-sm text-tertiary">
+                     <span className="font-semibold">Çalışma Saatleri: </span>
+                     <span>
+                        {formatWorkingHours(
+                           [
+                              { day: "mon", open: "08:30", close: "18:00" },
+                              { day: "tue", open: "08:30", close: "18:00" },
+                              { day: "wed", open: "08:30", close: "18:00" },
+                              { day: "thu", open: "08:30", close: "18:00" },
+                              { day: "fri", open: "08:30", close: "18:00" },
+                              { day: "sat", open: "09:00", close: "16:00" },
+                              { day: "sun", open: null, close: null },
+                           ]
+                           // user?.workingHours
+                        )}
+                     </span>
+                  </div>
+               )}
                {isAuthenticatedUser && (
                   <div className="w-full flex sm:hidden flex-col sm:flex-row justify-end items-center  gap-4">
                      <SecondaryBtn className="bx bx-share-alt !w-full py-2 px-4">
@@ -116,45 +156,51 @@ export default function ProfileInfoHeader({
                )}
             </section>
          </header>
+         {/* <LazyComponent open={modalOpen} data={user._id} onClose={closeModal} /> */}
       </>
    );
 }
 
-function formatLocation(loc) {
-   // Return empty string for falsy values
-   if (!loc) return "";
-   // Pass through strings
-   if (typeof loc === "string") return loc;
-   // Try to assemble a nice string from common location fields
-   if (typeof loc === "object") {
-      const {
-         city,
-         district,
-         region,
-         country,
-         full_address,
-         zipCode,
-         postalCode,
-      } = loc || {};
-      const primary = [city, district || region, country]
-         .filter(Boolean)
-         .join(", ");
-      if (primary) return primary;
-      const fallback = [
-         full_address,
-         city,
-         district || region,
-         zipCode || postalCode,
-         country,
-      ]
-         .filter(Boolean)
-         .join(", ");
-      return fallback || "";
+function formatWorkingHours(workingHours) {
+   if (!workingHours || workingHours.length === 0) return null;
+
+   const daysMap = {
+      mon: "Pzt",
+      tue: "Sal",
+      wed: "Çar",
+      thu: "Per",
+      fri: "Cum",
+      sat: "Cmt",
+      sun: "Paz",
+   };
+
+   const groupedHours = [];
+   let currentGroup = null;
+
+   workingHours.forEach(({ day, open, close }) => {
+      const hours = open && close ? `${open}-${close}` : "Kapalı";
+
+      if (currentGroup && currentGroup.hours === hours) {
+         currentGroup.days.push(day);
+      } else {
+         if (currentGroup) {
+            groupedHours.push(currentGroup);
+         }
+         currentGroup = { days: [day], hours };
+      }
+   });
+
+   if (currentGroup) {
+      groupedHours.push(currentGroup);
    }
-   // Last-resort stringification
-   try {
-      return String(loc);
-   } catch {
-      return "";
-   }
+
+   return groupedHours
+      .map(({ days, hours }) => {
+         const dayRange =
+            days.length > 1
+               ? `${daysMap[days[0]]}-${daysMap[days[days.length - 1]]}`
+               : daysMap[days[0]];
+         return `${dayRange} ${hours}`;
+      })
+      .join(", ");
 }
