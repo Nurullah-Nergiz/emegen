@@ -1,5 +1,9 @@
 import Footer from "@/components/footer";
-import { NavbarSchema, SearchActionSchema } from "@/components/schema";
+import {
+   BreadcrumbSchema,
+   NavbarSchema,
+   SearchActionSchema,
+} from "@/components/schema";
 import Posts from "@/components/widgets/post";
 import { RecommendedPeopleWidget } from "@/components/widgets/RecommendedPeople";
 import { getExplore } from "@/services/explore";
@@ -46,31 +50,10 @@ export const metadata = {
       ],
       locale: "tr_TR",
       type: "website",
-   }
+   },
 };
 
 export default async function Home() {
-   const navbarSchema = [
-      {
-         "@context": "https://schema.org",
-         "@type": "SiteNavigationElement",
-         name: "Ana Sayfa",
-         url: "https://emegen.com.tr/",
-      },
-      {
-         "@context": "https://schema.org",
-         "@type": "SiteNavigationElement",
-         name: "Giris Yap",
-         url: "https://emegen.com.tr/auth/login",
-      },
-      {
-         "@context": "https://schema.org",
-         "@type": "SiteNavigationElement",
-         name: "Kaydol",
-         url: "https://emegen.com.tr/auth/register",
-      },
-   ];
-
    let posts = [];
    // try {
    //    const res = await getExplore();
@@ -103,7 +86,29 @@ export default async function Home() {
             <Footer />
             {/* </div> */}
          </aside>
-         <NavbarSchema navbarSchema={navbarSchema} />
+         <NavbarSchema
+            navbarSchema={[
+               {
+                  "@context": "https://schema.org",
+                  "@type": "SiteNavigationElement",
+                  name: "Ana Sayfa",
+                  url: "https://emegen.com.tr/",
+               },
+               {
+                  "@context": "https://schema.org",
+                  "@type": "SiteNavigationElement",
+                  name: "Giris Yap",
+                  url: "https://emegen.com.tr/auth/login",
+               },
+               {
+                  "@context": "https://schema.org",
+                  "@type": "SiteNavigationElement",
+                  name: "Kaydol",
+                  url: "https://emegen.com.tr/auth/register",
+               },
+            ]}
+         />
+         <BreadcrumbSchema items={[]} />
          <SearchActionSchema />
       </>
    );
