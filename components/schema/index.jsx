@@ -70,7 +70,7 @@ export const BreadcrumbSchema = ({ items = [] }) => {
       name: item.name,
       item: {
          "@type": "WebPage",
-         "@id": `https://emegen.com.tr/${item.url ?? ""}`,
+         "@id": `https://emegen.com.tr${item.url ?? "/"}`,
       },
    }));
 
