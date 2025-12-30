@@ -100,19 +100,19 @@ export const ProfileSchemas = ({ user = {} }) => {
             items={[
                {
                   name: "Profil",
-                  url: "https://www.emegen.com.tr/@alpaslan-bugday-insaat",
+                  url: "https://emegen.com.tr/@alpaslan-bugday-insaat",
                },
                {
                   name: "Gönderiler",
-                  url: "https://www.emegen.com.tr/@alpaslan-bugday-insaat/posts",
+                  url: "https://emegen.com.tr/@alpaslan-bugday-insaat/posts",
                },
                {
                   name: "Teklifler",
-                  url: "https://www.emegen.com.tr/@alpaslan-bugday-insaat/tenders",
+                  url: "https://emegen.com.tr/@alpaslan-bugday-insaat/tenders",
                },
                {
                   name: "Hakkında",
-                  url: "https://www.emegen.com.tr/@alpaslan-bugday-insaat/about",
+                  url: "https://emegen.com.tr/@alpaslan-bugday-insaat/about",
                },
             ]}
          />
