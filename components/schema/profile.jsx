@@ -6,7 +6,7 @@ export const ProfileSchemas = ({ user = {} }) => {
       "@graph": [
          {
             "@type": user?.buisnessType || "LocalBusiness",
-            "@id": `https://www.emegen.com.tr/@${user?.userName}#profile-services`,
+            "@id": `https://www.emegen.com.tr/@${user?.userName}#business`,
             ...(user?.name && { name: user.name }),
             ...(user?.userName && {
                url: `https://www.emegen.com.tr/@${user.userName}`,
@@ -66,23 +66,7 @@ export const ProfileSchemas = ({ user = {} }) => {
                               name: user?.address?.city || "Unknown City",
                            },
                            provider: {
-                              "@type": user?.buisnessType || "LocalBusiness",
-                              name: user?.name || "",
-                              url: `https://emegen.com.tr/@${user?.userName}`,
-                              address: {
-                                 "@type": "PostalAddress",
-                                 streetAddress:
-                                    user?.address?.streetAddress ||
-                                    "Unknown Street",
-                                 addressLocality:
-                                    user?.address?.city || "Unknown City",
-                                 addressRegion:
-                                    user?.address?.state || "Unknown State",
-                                 postalCode:
-                                    user?.address?.postalCode || "00000",
-                                 addressCountry:
-                                    user?.address?.country || "Unknown Country",
-                              },
+                              "âid": `https://www.emegen.com.tr/@${user?.userName}#business`,
                            },
                         },
                      })),
