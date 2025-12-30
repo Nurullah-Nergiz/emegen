@@ -1,6 +1,7 @@
 import { getUserTenders } from "@/services/user";
 import TenderList from "@/components/widgets/tenders/TenderList";
 import { cleanUserName } from "@/utils/user";
+import { BreadcrumbSchema } from "@/components/schema";
 
 export async function generateMetadata({ params }) {
    const { username } = await params;
@@ -24,7 +25,8 @@ export default async function TendersPage({ params }) {
    // });
 
    const { username } = await params;
-   console.clear();
+   const cleanUsername = cleanUserName(username);
+
    if (!username) {
    }
    const { status, data: tenders } = await getUserTenders(
@@ -44,6 +46,18 @@ export default async function TendersPage({ params }) {
                isFilterActive={true}
             />
          </section>
+         <BreadcrumbSchema
+            items={[
+               {
+                  name: `${cleanUsername}` || "Profile-tenders",
+                  url: `/@${cleanUsername}`,
+               },
+               {
+                  name: "Posts",
+                  url: `/@${cleanUsername}/tenders`,
+               },
+            ]}
+         />
       </>
    );
 }
