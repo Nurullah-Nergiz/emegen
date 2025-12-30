@@ -1,6 +1,7 @@
 import { getUserServices } from "@/services/services";
 import ProfileServices from "@/components/widgets/profile/services";
 import { useAuthUserName } from "@/hooks/auth";
+import { BreadcrumbSchema } from "@/components/schema";
 
 export default async function Page({ params }) {
    const { username } = await params;
@@ -18,6 +19,15 @@ export default async function Page({ params }) {
    return (
       <>
          <ProfileServices services={serviceList} isOwner={isOwner} />
+
+         <BreadcrumbSchema
+            items={[
+               {
+                  name: `${cleanUsername}` || "Profile",
+                  url: `/@${cleanUsername}`,
+               },
+            ]}
+         />
       </>
    );
 }
