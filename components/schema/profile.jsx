@@ -5,11 +5,11 @@ export const ProfileSchemas = ({ user = {} }) => {
       "@context": "https://schema.org",
       "@graph": [
          {
-            "@type": user?.buisnessType || "LocalBusiness",
-            "@id": `https://www.emegen.com.tr/@${user?.userName}#business`,
+            "@type": user?.businessType || "LocalBusiness",
+            "@id": `https://emegen.com.tr/@${user?.userName}#business`,
             ...(user?.name && { name: user.name }),
             ...(user?.userName && {
-               url: `https://www.emegen.com.tr/@${user.userName}`,
+               url: `https://emegen.com.tr/@${user.userName}`,
             }),
             ...(user?.profilePicture && {
                logo: user.profilePicture.startsWith("http")
@@ -66,7 +66,7 @@ export const ProfileSchemas = ({ user = {} }) => {
                               name: user?.address?.city || "Unknown City",
                            },
                            provider: {
-                              "âid": `https://www.emegen.com.tr/@${user?.userName}#business`,
+                              "@id": `https://emegen.com.tr/@${user?.userName}#business`,
                            },
                         },
                      })),
