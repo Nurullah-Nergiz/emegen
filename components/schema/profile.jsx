@@ -1,4 +1,4 @@
-import { BreadcrumbSchema, ItemListSchema, SchemaScript } from ".";
+import { ItemListSchema, SchemaScript } from ".";
 
 export const ProfileSchemas = ({ user = {} }) => {
    const businessSchema = {
@@ -113,14 +113,6 @@ export const ProfileSchemas = ({ user = {} }) => {
                {
                   name: "Hakkında",
                   url: "https://www.emegen.com.tr/@alpaslan-bugday-insaat/about",
-               },
-            ]}
-         />
-         <BreadcrumbSchema
-            items={[
-               {
-                  name: user?.name || user?.userName || "Profile",
-                  url: `@${user?.userName}`,
                },
             ]}
          />
