@@ -88,7 +88,7 @@ export const ItemListSchema = ({ items = [], name = "Item List" }) => {
    const itemListSchema = {
       "@context": "https://schema.org",
       "@type": "ItemList",
-      "@id": "https://www.emegen.com.tr/@alpaslan-bugday-insaat#profile-main-nav",
+      "@id": "https://emegen.com.tr/@alpaslan-bugday-insaat#profile-main-nav",
       name: name,
       itemListElement: items.map((item, index) => ({
          "@type": "ListItem",
