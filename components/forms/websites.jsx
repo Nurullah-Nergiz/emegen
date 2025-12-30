@@ -104,9 +104,9 @@ export default function FormsWebsite({
       <form onSubmit={handleSubmit} className="main flex flex-col gap-4">
          <span className="font-medium">Web Siteleri</span>
 
-         <div className="flex flex-col gap-3 mt-2">
+         <ul className="flex flex-col gap-4 mt-2">
             {entries.map(([key, value]) => (
-               <div key={key} className="flex items-stretch gap-2">
+               <li key={key} className="flex items-stretch gap-2">
                   <div className="flex items-center gap-2">
                      <i
                         className={`bx ${
@@ -146,7 +146,7 @@ export default function FormsWebsite({
                      />
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-end gap-2">
                      <button
                         className="bx bx-plus-circle text-2xl "
                         type="button"
@@ -156,12 +156,12 @@ export default function FormsWebsite({
                         onClick={() => handleRemove(key)}
                         className="bx bx-minus-circle text-2xl "></button>
                   </div>
-               </div>
+               </li>
             ))}
-         </div>
-         <div className="justify-self-end">
+         </ul>
+         <div className="justify-self-end ml-auto">
             <SecondaryBtn type="submit" disabled={submitting}>
-               {submitting ? "Kaydediliyor..." : "Kaydet"}
+               {submitting ? "Kaydediliyor..." : "Değişiklikleri Kaydet"}
             </SecondaryBtn>
          </div>
       </form>
