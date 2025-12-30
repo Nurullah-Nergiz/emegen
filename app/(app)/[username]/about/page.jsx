@@ -1,3 +1,4 @@
+import { BreadcrumbSchema } from "@/components/schema";
 import { getUser } from "@/services/user";
 import { socialMediaIcons } from "@/utils/iconList";
 import { cleanUserName } from "@/utils/user";
@@ -98,6 +99,18 @@ export default async function AboutPage({ params }) {
                  ))
                : ""}
          </div>
+         <BreadcrumbSchema
+            items={[
+               {
+                  name: `${cleanUsername}` || "Profile-About",
+                  url: `/@${cleanUsername}`,
+               },
+               {
+                  name: "Posts",
+                  url: `/@${cleanUsername}/about`,
+               },
+            ]}
+         />
       </section>
    );
 }
