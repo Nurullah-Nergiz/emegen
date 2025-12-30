@@ -1,5 +1,6 @@
 import { Header } from "@/components/header/index";
 import { Nav } from "@/components/nav";
+import { SearchActionSchema } from "@/components/schema";
 import useAuthUser from "@/hooks/auth";
 import { Suspense } from "react";
 
@@ -71,6 +72,7 @@ export default async function RootLayout({ children }) {
                >{children}</Suspense>
             </section>
          </section>
+         <SearchActionSchema />
       </>
    );
 }

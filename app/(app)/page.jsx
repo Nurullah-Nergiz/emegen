@@ -2,7 +2,6 @@ import Footer from "@/components/footer";
 import {
    BreadcrumbSchema,
    NavbarSchema,
-   SearchActionSchema,
 } from "@/components/schema";
 import Posts from "@/components/widgets/post";
 import { RecommendedPeopleWidget } from "@/components/widgets/RecommendedPeople";
@@ -109,7 +108,7 @@ export default async function Home() {
             ]}
          />
          <BreadcrumbSchema items={[]} />
-         <SearchActionSchema />
+         
       </>
    );
 }
