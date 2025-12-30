@@ -16,6 +16,7 @@ import FormsWebsite from "@/components/forms/websites";
 import LocationInput from "@/components/forms/location";
 import { resolveCoordinates } from "@/services/geoResolver";
 import PrimaryFormButton from "@/components/forms/primaryBtn";
+import FormsBusinessType from "@/components/forms/businessType";
 
 // export const metadata = {
 //    title: " Emegen",
@@ -28,7 +29,6 @@ export default function EditProfilePage() {
       latitude: user?.location?.latitude || null,
       longitude: user?.location?.longitude || null,
    });
-   const [address, setAddress] = useState({});
 
    // console.log("file: edit-profile.jsx:13 => user=>", user);
    const [uploadingProfile, setUploadingProfile] = useState(false);
@@ -167,81 +167,7 @@ export default function EditProfilePage() {
 
                <PrimaryFormButton />
 
-               <div className="main">
-                  {/* buisiness type */}
-                  <div className="mb-4">
-                     <label
-                        htmlFor="businessType"
-                        className="block mb-2 font-medium">
-                        İşletme Türü
-                     </label>
-                     <select
-                        id="businessType"
-                        name="businessType"
-                        defaultValue={user?.businessType || ""}
-                        className="w-full text-black border border-gray-300 rounded-md p-2"
-                        onChange={(e) =>
-                           setUser((prev) => ({
-                              ...prev,
-                              businessType: e.target.value,
-                           }))
-                        }>
-                        {[
-                           "LocalBusiness",
-                           "ConstructionBusiness", //
-                           "HomeAndConstructionBusiness",
-                           "ProfessionalService",
-                           "Restaurant",
-                           "CafeOrCoffeeShop",
-                           "Bakery",
-                           "FoodEstablishment",
-                           "LegalService",
-                           "AccountingService",
-                           "RealEstateAgent",
-                           "AutoRepair",
-                           "AutoDealer",
-                           "GasStation",
-                           "Store",
-                           "ClothingStore",
-                           "ElectronicsStore",
-                           "GroceryStore",
-                           "GeneralContractor",
-                           "Electrician",
-                           "Plumber",
-                           "HVACBusiness",
-                           "Locksmith",
-                           "CleaningService",
-                           "MovingCompany",
-                           "LandscapeService",
-                           "HairSalon",
-                           "BeautySalon",
-                           "NailSalon",
-                           "DaySpa",
-                           "HealthClub",
-                           "MedicalBusiness",
-                           "Dentist",
-                           "CafeOrCoffeeShop",
-                           "BarOrPub",
-                           "FastFoodRestaurant",
-                           "Attorney",
-                           "AccountingService",
-                           "InsuranceAgency",
-                           "AutoDealer",
-                           "School",
-                           "ChildCare",
-                           "TravelAgency",
-                           "PetStore",
-                           "DryCleaningOrLaundry",
-                        ].map((type, i) => (
-                           <option
-                              key={`buisiness-type${type}-${i}`}
-                              value={type}>
-                              {type}
-                           </option>
-                        ))}
-                     </select>
-                  </div>
-               </div>
+               <FormsBusinessType user={user} setUser={setUser} />
 
                <FormsWebsite
                   websites={user?.websites || {}}
