@@ -66,7 +66,9 @@ export default async function RootLayout({ children }) {
          <section className=" pb-20 sm:pb-0 flex-1 overflow-x-hidden">
             <Header />
             <section className="max-w-full w-full h-full sm:px-10 px-4 flex flex-col lg:flex-row gap-6 overflow-x-hidden">
-               <Suspense>{children}</Suspense>
+               <Suspense
+                  loading={<div>Yükleniyor...</div>}
+               >{children}</Suspense>
             </section>
          </section>
       </>
