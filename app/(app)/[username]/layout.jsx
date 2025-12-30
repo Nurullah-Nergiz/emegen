@@ -12,7 +12,7 @@ import ProfileInfoHeader from "@/components/profile/header";
 import ProfileNavbar from "@/components/profile/nav";
 import { ProfileSchemas } from "@/components/schema/profile";
 import { cleanUserName } from "@/utils/user";
-
+import Footer from "@/components/footer";
 
 export default async function Layout({ children, params }) {
    // console.clear();
@@ -80,11 +80,12 @@ export default async function Layout({ children, params }) {
 
             <main className="w-full main">{children}</main>
          </section>
-         <aside className="min-w-96 w-full lg:w-1/3 hidden lg:flex flex-col gap-4 sticky top-20 self-start">
+         <aside className="min-w-96 w-full lg:w-1/3 hidden lg:flex flex-col gap-4 sticky top-0 self-start">
             {!isAuthenticatedUser ? (
                <>
                   <Ad />
                   <RecommendedPeopleWidget />
+                  <Footer />
                </>
             ) : (
                <>
