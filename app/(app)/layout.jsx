@@ -64,7 +64,7 @@ export default async function RootLayout({ children }) {
    return (
       <>
          <Nav menu={menu} />
-         <section className=" pb-20 sm:pb-0 flex-1 overflow-x-hidden">
+         <section className=" pb-20 sm:pb-0 flex-1 overflow-hidden">
             <Header />
             <section className="max-w-full w-full h-full sm:px-10 px-4 flex flex-col lg:flex-row gap-6 overflow-x-hidden">
                <Suspense
