@@ -17,6 +17,7 @@ import LocationInput from "@/components/forms/location";
 import { resolveCoordinates } from "@/services/geoResolver";
 import PrimaryFormButton from "@/components/forms/primaryBtn";
 import FormsBusinessType from "@/components/forms/businessType";
+import FormsOpenHours from "@/components/forms/openHours";
 
 // export const metadata = {
 //    title: " Emegen",
@@ -169,6 +170,8 @@ export default function EditProfilePage() {
 
                <FormsBusinessType user={user} setUser={setUser} />
 
+               <FormsOpenHours user={user} setUser={setUser} />
+               
                <FormsWebsite
                   websites={user?.websites || {}}
                   onUpdated={handleWebsitesUpdated}
