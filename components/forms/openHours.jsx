@@ -1,5 +1,8 @@
+"use client";
+
 import { useOpenHoursLogic } from "@/hooks/useOpenHoursLogic";
 import { SecondaryBtn } from "@/components/btn";
+import { useState } from "react";
 
 // Sub-component: Handles the list of selectable days
 const DaySelector = ({ selectedDays, onToggle, days }) => (
@@ -59,9 +62,7 @@ const TimeInputs = ({ opens, closes, onTimeChange }) => (
    </div>
 );
 
-export default function FormsOpenHours({
-   user: { workingHours: defaultWorkingHours },
-}) {
+export default function FormsOpenHours({ user }) {
    const {
       workingHours,
       handleTimeChange,
@@ -70,7 +71,7 @@ export default function FormsOpenHours({
       days,
       addSchedule,
       removeSchedule,
-   } = useOpenHoursLogic(defaultWorkingHours);
+   } = useOpenHoursLogic(user?.workingHours);
 
    return (
       <form

@@ -1,5 +1,5 @@
 import { putUser } from "@/services/user.js";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 export const DAYS = [
    { label: "Pazartesi", value: "Monday" },
@@ -11,21 +11,29 @@ export const DAYS = [
    { label: "Pazar", value: "Sunday" },
 ];
 
-export function useOpenHoursLogic(
-   initialWorkingHours = [
-      {
-         dayOfWeek: [],
-         opens: "",
-         closes: "",
-      },
-      {
-         dayOfWeek: ["Sunday"],
-         opens: "",
-         closes: "",
-      },
-   ]
-) {
-   const [workingHours, setWorkingHours] = useState([...initialWorkingHours]);
+const DEFAULT_HOURS = [
+   {
+      dayOfWeek: [],
+      opens: "",
+      closes: "",
+   },
+   {
+      dayOfWeek: ["Sunday"],
+      opens: "",
+      closes: "",
+   },
+];
+
+export function useOpenHoursLogic(initialWorkingHours) {
+   const [workingHours, setWorkingHours] = useState(
+      initialWorkingHours || DEFAULT_HOURS
+   );
+
+   useEffect(() => {
+      if (initialWorkingHours) {
+         setWorkingHours(initialWorkingHours);
+      }
+   }, [initialWorkingHours]);
 
    const handleTimeChange = useCallback((index, field, value) => {
       setWorkingHours((prev) => {
