@@ -23,11 +23,10 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function AboutPage({ params }) {
-   const { username } = (await params) || "";
-   const normalizedUsername = username
-      .replace(/%40/g, "")
-      .replace(/^@/, "")
-      .trim();
+   const { username = "" } = await params;
+   const normalizedUsername = cleanUserName(username);
+   
+   
 
    const { data: user } = await getUser(normalizedUsername);
 
@@ -102,12 +101,12 @@ export default async function AboutPage({ params }) {
          <BreadcrumbSchema
             items={[
                {
-                  name: `${cleanUsername}` || "Profile-About",
-                  url: `/@${cleanUsername}`,
+                  name: `${normalizedUsername}` || "Profile-About",
+                  url: `/@${normalizedUsername}`,
                },
                {
                   name: "Posts",
-                  url: `/@${cleanUsername}/about`,
+                  url: `/@${normalizedUsername}/about`,
                },
             ]}
          />
