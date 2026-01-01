@@ -77,10 +77,10 @@ export default function FormsWebsite({
       handleRemove,
       handleAdd,
       handleSubmit,
-   } = useWebsiteLogic(websites, onUpdated);
+   } = useWebsiteLogic(websites || {}, onUpdated);
 
    return (
-      <form onSubmit={handleSubmit} className="w-full space-y-6">
+      <form onSubmit={handleSubmit} className="main w-full space-y-6">
          <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold">{title}</h3>
             <button
