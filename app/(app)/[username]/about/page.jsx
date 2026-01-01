@@ -30,86 +30,127 @@ export default async function AboutPage({ params }) {
 
    const { data: user } = await getUser(normalizedUsername);
 
+   const hasSocialLinks = user?.websites && Object.keys(user.websites).length > 0;
+   const hasAddress = !!user?.address;
+   const hasPhoneNumbers = user?.phoneNumbers?.length > 0;
+
    return (
-      <section className="flex flex-col gap-6">
-         <div className="">
-            <h3 className="text-2xl font-bold mb-4">Hakkında </h3>
-            <p className="text-lg whitespace-pre-wrap">
-               {user?.bio ||
-                  "Bu kullanıcı kendisi hakkında herhangi bir bilgi sağlamamıştır."}
+      <section className="flex flex-col gap-8 max-w-3xl">
+         {/* Bio Section */}
+         <article className="space-y-3">
+            <h3 className="text-2xl font-bold text-foreground tracking-tight">
+               Hakkında
+            </h3>
+            <p className="text-lg leading-relaxed text-muted-foreground whitespace-pre-wrap">
+               {user?.bio || "Bu kullanıcı kendisi hakkında herhangi bir bilgi sağlamamıştır."}
             </p>
-         </div>
-         <div className="">
-            <h4 className="text-xl font-semibold mt-6 mb-2">
+         </article>
+
+         {/* Social Links Section */}
+         <article className="space-y-4">
+            <h4 className="text-xl font-semibold text-foreground">
                Sosyal Bağlantılar
             </h4>
-            {user?.websites && Object.keys(user.websites).length > 0 ? (
-               <ul className="">
+            {hasSocialLinks ? (
+               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {Object.entries(user.websites).map(([platform, link]) => (
-                     <li key={platform}>
-                        <a
-                           href={link}
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           className="flex items-center gap-2 hover:underline">
-                           <i
-                              className={`${
-                                 socialMediaIcons[platform] || "bx bx-link"
-                              }  `}></i>
-                           {platform.charAt(0).toUpperCase() +
-                              platform.slice(1)}
-                        </a>
-                     </li>
+                     <SocialLinkItem 
+                        key={platform} 
+                        platform={platform} 
+                        link={link} 
+                     />
                   ))}
                </ul>
             ) : (
-               <p>Bu kullanıcı sosyal bağlantılar sağlamamıştır.</p>
+               <p className="text-muted-foreground">Bu kullanıcı sosyal bağlantılar sağlamamıştır.</p>
             )}
-         </div>
+         </article>
 
-         <div className="main !bg-accent">
-            <h5 className="text-xl font-semibold ">Konum Ve İletişim</h5>
-            {user?.address ? (
-               <p className="flex items-center gap-2">
-                  <i className="bx bx-map"></i>
-                  {`${user.address?.streetAddress} ${user.address?.zipCode}, ${user.address?.district}, ${user.address?.city}, ${user.address?.country}`}
-               </p>
-            ) : (
-               <p>Bu kullanıcı konum bilgisi sağlamamıştır.</p>
-            )}
-            {user?.publicEmail ? (
-               <p className="flex items-center gap-2">
-                  <i className="bx bx-envelope"></i>
-                  <a href={`mailto:${user.email}`} className="hover:underline">
-                     {user.email}
-                  </a>
-               </p>
-            ) : (
-               ""
-            )}
-            {user?.phoneNumbers?.length > 0
-               ? user?.phoneNumbers.map((phone, index) => (
-                    <p key={index} className="flex items-center gap-2">
-                       <i className="bx bx-phone"></i>
-                       <a href={`tel:${phone}`} className="hover:underline">
-                          {phone}
-                       </a>
-                    </p>
-                 ))
-               : ""}
-         </div>
+         {/* Contact & Location Section */}
+         <article className="p-6 rounded-xl bg-accent/50 border border-border space-y-4">
+            <h5 className="text-xl font-semibold text-foreground mb-4">
+               Konum ve İletişim
+            </h5>
+            
+            <div className="space-y-3 text-muted-foreground">
+               {hasAddress ? (
+                  <ContactItem icon="bx-map">
+                     {`${user.address?.streetAddress} ${user.address?.zipCode}, ${user.address?.district}, ${user.address?.city}, ${user.address?.country}`}
+                  </ContactItem>
+               ) : (
+                  <p className="text-sm italic">Konum bilgisi mevcut değil.</p>
+               )}
+
+               {user?.publicEmail && (
+                  <ContactItem icon="bx-envelope">
+                     <a 
+                        href={`mailto:${user.email}`} 
+                        className="hover:text-primary transition-colors hover:underline decoration-primary/50"
+                     >
+                        {user.email}
+                     </a>
+                  </ContactItem>
+               )}
+
+               {hasPhoneNumbers && user.phoneNumbers.map((phone, index) => (
+                  <ContactItem key={index} icon="bx-phone">
+                     <a 
+                        href={`tel:${phone}`} 
+                        className="hover:text-primary transition-colors hover:underline decoration-primary/50"
+                     >
+                        {phone}
+                     </a>
+                  </ContactItem>
+               ))}
+            </div>
+         </article>
+
          <BreadcrumbSchema
             items={[
                {
-                  name: `${normalizedUsername}` || "Profile-About",
+                  name: `${normalizedUsername}` || "Profile",
                   url: `/@${normalizedUsername}`,
                },
                {
-                  name: "Posts",
+                  name: "About",
                   url: `/@${normalizedUsername}/about`,
                },
             ]}
          />
       </section>
+   );
+}
+
+// Sub-components for cleaner separation of concerns
+
+function SocialLinkItem({ platform, link }) {
+   const iconClass = socialMediaIcons[platform] || "bx bx-link";
+   const label = platform.charAt(0).toUpperCase() + platform.slice(1);
+
+   return (
+      <li>
+         <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 p-3 rounded-lg bg-card hover:bg-accent border border-transparent hover:border-border transition-all duration-200 group"
+         >
+            <i className={`${iconClass} text-xl text-muted-foreground group-hover:text-primary transition-colors`}></i>
+            <span className="font-medium text-foreground group-hover:text-primary transition-colors">
+               {label}
+            </span>
+         </a>
+      </li>
+   );
+}
+
+function ContactItem({ icon, children }) {
+   return (
+      <div className="flex items-start gap-3">
+         <i className={`bx ${icon} text-xl mt-0.5 text-primary`}></i>
+         <span className="text-base leading-snug break-words">
+            {children}
+         </span>
+      </div>
    );
 }
