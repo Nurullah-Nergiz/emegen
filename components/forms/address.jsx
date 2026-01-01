@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SecondaryBtn } from "@/components/btn";
 import { putUser } from "@/services/user";
 import { setAuthenticationUser } from "@/utils/auth";
@@ -18,6 +18,12 @@ const useAddressForm = (defaultValue) => {
       ...defaultValue,
    });
    const [loading, setLoading] = useState(false);
+
+   useEffect(() => {
+      if (defaultValue) {
+         setLocation((prev) => ({ ...prev, ...defaultValue }));
+      }
+   }, [defaultValue]);
 
    const handleChange = (e) => {
       const { name, value } = e.target;
