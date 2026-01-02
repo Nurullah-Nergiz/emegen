@@ -6,7 +6,7 @@ export default function ProfileNavbar({ user = {} }) {
    return (
       <>
          <nav
-         id="profile-main-nav"
+            id="profile-main-nav"
             className="main my-4 flex gap-4 border-b border-secondary">
             {[
                { name: "Ana sayfa", href: "" },
