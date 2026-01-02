@@ -20,14 +20,14 @@ export default async function Page({ params }) {
       <>
          <ProfileServices services={serviceList} isOwner={isOwner} />
 
-         <BreadcrumbSchema
+         {/* <BreadcrumbSchema
             items={[
                {
                   name: `${cleanUsername}` || "Profile",
                   url: `/@${cleanUsername}`,
                },
             ]}
-         />
+         /> */}
       </>
    );
 }
