@@ -72,7 +72,7 @@ export default async function RootLayout({ children }) {
                >{children}</Suspense>
             </section>
          </section>
-         <SearchActionSchema />
+         {/* <SearchActionSchema /> */}
       </>
    );
 }
