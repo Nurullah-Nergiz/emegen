@@ -15,7 +15,7 @@ export const Search = () => {
 
    return (
       <div className="search hidden sm:flex max-w-80 text-secondary relative">
-         <label className="bx bx-search py-2 px-3 flex items-center gap-2 border border-current rounded-2xl text-2xl">
+         <label className="bx bx-search py-2 px-3 flex items-center gap-2 border border-secondary rounded-2xl text-2xl">
             <input
                type="text"
                className="w-full bg-transparent text-base outline-none "
