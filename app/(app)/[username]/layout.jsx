@@ -61,7 +61,7 @@ export default async function Layout({ children, params }) {
          // parts.join("");
          console.log(parts);
 
-         redirect(`/@${parts.join("-")}`, { status: 301 });
+         redirect(`/@${parts.join("-")}`, { status: 302 });
       } else notFound();
    }
 
