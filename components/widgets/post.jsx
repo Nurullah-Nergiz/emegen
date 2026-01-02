@@ -2,13 +2,16 @@
 import Post from "@/components/post/index";
 import { VList, WindowVirtualizer } from "virtua";
 
-export default function Posts({ posts = [] }) {
+export default function Posts({
+   posts = [],
+   emptyStateText = "Henüz gönderi yok.",
+}) {
    return (
       <>
          {!posts || posts.length === 0 ? (
             <>
                <div className="flex flex-col items-center justify-center py-12 text-center text-sm text-muted-foreground">
-                  <p>No posts yet.</p>
+                  <p>{emptyStateText}</p>
                </div>
             </>
          ) : Array.isArray(posts) ? (

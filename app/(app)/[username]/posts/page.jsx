@@ -38,7 +38,9 @@ export default async function Page({ params }) {
    return (
       <section className="">
          <h4 className="py-2">Posts</h4>
-         <Posts posts={fetchedPosts.posts} />
+         <Posts posts={fetchedPosts.posts}
+            emptyStateText={` Henüz gönderi yok. @${cleanUsername}`}
+         />
          {/* {posts?.map((post) => {
             return <Post key={post._id} post={post} />;
          })} */}
