@@ -7,6 +7,7 @@ import FollowBtn from "@/components/btn/Follow";
 import { cleanUserName } from "@/utils/user";
 import { useState, useCallback } from "react";
 import dynamic from "next/dynamic";
+import HeaderWorkingHours from "./workingHours";
 
 const LazyComponent = dynamic(
    () => import("@/components/widgets/popup/tender"),
@@ -120,33 +121,9 @@ export default function ProfileInfoHeader({
                      ))}
                </ul>
                {/* Working hours */}
-               {formatWorkingHours([
-                  { day: "Pazartesi", open: "08:30", close: "18:00" },
-                  { day: "Salı", open: "08:30", close: "18:00" },
-                  { day: "Çarşamba", open: "08:30", close: "18:00" },
-                  { day: "Perşembe", open: "08:30", close: "18:00" },
-                  { day: "Cuma", open: "08:30", close: "18:00" },
-                  { day: "Cumartesi", open: "09:00", close: "16:00" },
-                  { day: "Pazar", open: null, close: null },
-               ]) && (
-                  <div className="text-sm text-tertiary">
-                     <span className="font-semibold">Çalışma Saatleri: </span>
-                     <span>
-                        {formatWorkingHours(
-                           [
-                              { day: "mon", open: "08:30", close: "18:00" },
-                              { day: "tue", open: "08:30", close: "18:00" },
-                              { day: "wed", open: "08:30", close: "18:00" },
-                              { day: "thu", open: "08:30", close: "18:00" },
-                              { day: "fri", open: "08:30", close: "18:00" },
-                              { day: "sat", open: "09:00", close: "16:00" },
-                              { day: "sun", open: null, close: null },
-                           ]
-                           // user?.workingHours
-                        )}
-                     </span>
-                  </div>
-               )}
+               <HeaderWorkingHours
+                  workingHours={user?.workingHours}
+                />
                {isAuthenticatedUser && (
                   <div className="w-full flex sm:hidden flex-col sm:flex-row justify-end items-center  gap-4">
                      <SecondaryBtn className="bx bx-share-alt !w-full py-2 px-4">
@@ -161,46 +138,4 @@ export default function ProfileInfoHeader({
    );
 }
 
-function formatWorkingHours(workingHours) {
-   if (!workingHours || workingHours.length === 0) return null;
 
-   const daysMap = {
-      mon: "Pzt",
-      tue: "Sal",
-      wed: "Çar",
-      thu: "Per",
-      fri: "Cum",
-      sat: "Cmt",
-      sun: "Paz",
-   };
-
-   const groupedHours = [];
-   let currentGroup = null;
-
-   workingHours.forEach(({ day, open, close }) => {
-      const hours = open && close ? `${open}-${close}` : "Kapalı";
-
-      if (currentGroup && currentGroup.hours === hours) {
-         currentGroup.days.push(day);
-      } else {
-         if (currentGroup) {
-            groupedHours.push(currentGroup);
-         }
-         currentGroup = { days: [day], hours };
-      }
-   });
-
-   if (currentGroup) {
-      groupedHours.push(currentGroup);
-   }
-
-   return groupedHours
-      .map(({ days, hours }) => {
-         const dayRange =
-            days.length > 1
-               ? `${daysMap[days[0]]}-${daysMap[days[days.length - 1]]}`
-               : daysMap[days[0]];
-         return `${dayRange} ${hours}`;
-      })
-      .join(", ");
-}
