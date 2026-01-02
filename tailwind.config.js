@@ -11,7 +11,7 @@ module.exports = {
             primary: "#d81f26",
             secondary: "#304455",
             tertiary: "#829bb0",
-            main: "#121212",
+            main: "#252525",
             accent: "rgba(0, 0, 0, 0.05)",
             headerBackground:"#f2f2f2"
          },
