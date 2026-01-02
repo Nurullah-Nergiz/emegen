@@ -50,6 +50,15 @@ export const ProfileSchemas = ({ user = {} }) => {
                      }),
                   },
                }),
+            ...(Array.isArray(user?.workingHours) &&
+               user.workingHours.length > 0 && {
+                  openingHoursSpecification: user.workingHours.map((hours) => ({
+                     "@type": "OpeningHoursSpecification",
+                     dayOfWeek: hours.dayOfWeek,
+                     opens: hours.opens,
+                     closes: hours.closes,
+                  })),
+               }),
             ...(Array.isArray(user?.services) &&
                user.services.length > 0 && {
                   hasOfferCatalog: {
