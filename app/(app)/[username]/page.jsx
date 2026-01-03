@@ -18,7 +18,15 @@ export default async function Page({ params }) {
 
    return (
       <>
-         <ProfileServices services={serviceList} isOwner={isOwner} />
+         <ProfileServices
+            services={serviceList}
+            isOwner={isOwner}
+            emptyStateText={`${
+               isOwner
+                  ? "Henüz bir hizmet eklemediniz."
+                  :  `@${cleanUsername} henüz bir hizmet eklememiş.`
+            }`}
+         />
 
          {/* <BreadcrumbSchema
             items={[

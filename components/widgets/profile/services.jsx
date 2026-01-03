@@ -22,6 +22,7 @@ const formatPrice = (price, currency) => {
 export default function ProfileServices({
    children,
    services = [],
+   emptyStateText = "Henüz bir hizmet eklenmemiş.",
    isOwner = false,
    moreButton = true,
 }) {
@@ -29,9 +30,7 @@ export default function ProfileServices({
 
    return (
       <>
-         <div
-         id="profile-services"
-            className="flex flex-col gap-4 w-full">
+         <div id="profile-services" className="flex flex-col gap-4 w-full">
             <div className="flex justify-between items-center border-b border-current">
                <h3 className="w-full text-2xl font-bold mb-4 ">Hizmetler</h3>
                {moreButton ? (
@@ -109,7 +108,7 @@ export default function ProfileServices({
                               d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
                         </svg>
                         <p className="text-gray-500">
-                           Henüz bir hizmet eklenmemiş.
+                           {emptyStateText}
                         </p>
                         {isOwner ? (
                            <>
