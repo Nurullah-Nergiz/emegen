@@ -31,7 +31,7 @@ export default async function Layout({ children }) {
                },
                (error) => {
                   console.error("❌ [Request Errors]:", error);
-                  return Promise.reject(error);
+                  // return Promise.reject(error);
                }
             );
 
