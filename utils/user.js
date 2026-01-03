@@ -6,5 +6,5 @@ export const getAuthenticationUser = () => {
 };
 
 export const cleanUserName = (username) => {
-   return username.replace(/%40/g, "").trim();
+   return username.replaceAll(/@|%40/g, "").trim();
 };
