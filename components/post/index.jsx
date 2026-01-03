@@ -16,7 +16,7 @@ import { SecondaryBtn } from "@/components/btn";
  * @param {Object} post
  * @returns React.Component
  */
-export default function Post({ post = {} }) {
+export default function PostItem({ post = {} }) {
    const [isOwner, setIsOwner] = useState(false);
    const [isContentExpanded, setIsContentExpanded] = useState(false);
    const author =
@@ -44,26 +44,30 @@ export default function Post({ post = {} }) {
 
    const handleShare = async () => {
       try {
-         const url = window.location.protocol + '//' + window.location.host + `/posts/${post._id}`;
+         const url =
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            `/posts/${post._id}`;
 
          if (navigator.clipboard && window.isSecureContext) {
-         await navigator.clipboard.writeText(url);
-         console.log("URL copied to clipboard");
-         } else {
-         const textarea = document.createElement("textarea");
-         textarea.value = url;
-         textarea.style.position = "fixed";
-         textarea.style.left = "-9999px";
-         document.body.appendChild(textarea);
-         textarea.focus();
-         textarea.select();
-         const successful = document.execCommand("copy");
-         document.body.removeChild(textarea);
-         if (successful) {
+            await navigator.clipboard.writeText(url);
             console.log("URL copied to clipboard");
          } else {
-            console.warn("Copy command was unsuccessful");
-         }
+            const textarea = document.createElement("textarea");
+            textarea.value = url;
+            textarea.style.position = "fixed";
+            textarea.style.left = "-9999px";
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            const successful = document.execCommand("copy");
+            document.body.removeChild(textarea);
+            if (successful) {
+               console.log("URL copied to clipboard");
+            } else {
+               console.warn("Copy command was unsuccessful");
+            }
          }
       } catch (error) {
          console.error("Failed to copy URL:", error);
@@ -82,7 +86,7 @@ export default function Post({ post = {} }) {
                <Link
                   key={index}
                   href={`/hashtags/${tag}`}
-                  className="text-blue-500 hover:underline">
+                  className="text-blue-600 hover:text-blue-800 hover:underline font-medium">
                   {part}
                </Link>
             );
@@ -92,40 +96,42 @@ export default function Post({ post = {} }) {
    };
 
    return (
-      <div className="mb-4 main overflow-hidden ">
-         <header className="flex flex-col gap-4">
-            <Avatar
-               src={author?.profilePicture}
-               name={author?.name}
-               userName={author?.userName}
-               fallowViable={true}>
-               <details className="relative">
-                  <summary className="bx bx-dots-vertical-rounded"></summary>
-                  <div className="p-4 bg-main absolute top-0 right-0">
-                     <SecondaryBtn
-                        className="w-full text-left px-4 py-2 whitespace-nowrap"
-                        onClick={handleShare}>
-                        Paylaş
-                     </SecondaryBtn>
-                     {isOwner ? (
-                        <Link
-                           href={`/posts/${post._id}/edit`}
-                           className="block px-4 py-2 whitespace-nowrap">
-                           Gönderiyi Düzenle
-                        </Link>
-                     ) : (
-                        <SecondaryBtn className="w-full text-left px-4 py-2 whitespace-nowrap">
-                           Gönderiyi Bildir
+      <article className="bg-main rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 p-5 sm:p-6 mb-6">
+         <header className="flex items-start justify-between mb-4 shadow-sm pb-4 px-1">
+            <div className="flex-1">
+               <Avatar
+                  src={author?.profilePicture}
+                  name={author?.name}
+                  userName={author?.userName}
+                  fallowViable={true}>
+                  {/* Options Menu */}
+                  <details className="relative ml-auto">
+                     <summary className="bx bx-dots-horizontal-rounded text-xl text-gray-400 hover:text-gray-600 cursor-pointer list-none p-1"></summary>
+                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 z-10 overflow-hidden">
+                        <SecondaryBtn
+                           className="w-full text-left px-4 py-3 hover:bg-gray-50 text-sm text-gray-700 transition-colors"
+                           onClick={handleShare}>
+                           Paylaş
                         </SecondaryBtn>
-                     )}
-                  </div>
-               </details>
-            </Avatar>
+                        {isOwner ? (
+                           <Link
+                              href={`/posts/${post._id}/edit`}
+                              className="block w-full text-left px-4 py-3 hover:bg-gray-50 text-sm text-gray-700 transition-colors">
+                              Gönderiyi Düzenle
+                           </Link>
+                        ) : (
+                           <SecondaryBtn className="w-full text-left px-4 py-3 hover:bg-gray-50 text-sm text-red-600 transition-colors">
+                              Gönderiyi Bildir
+                           </SecondaryBtn>
+                        )}
+                     </div>
+                  </details>
+               </Avatar>
+            </div>
          </header>
-         <main
-            className=" my-4 flex flex-col gap-2"
-            onDoubleClick={handleDoubleClick}>
-            <p className="whitespace-pre-wrap">
+
+         <main className="mb-4" onDoubleClick={handleDoubleClick}>
+            <div className="text-gray-800 text-base leading-relaxed whitespace-pre-wrap mb-3">
                {renderContentWithHashtags(
                   canBeTruncated && !isContentExpanded
                      ? `${content.substring(0, 250)}...`
@@ -134,32 +140,51 @@ export default function Post({ post = {} }) {
                {canBeTruncated && !isContentExpanded && (
                   <button
                      onClick={() => setIsContentExpanded(true)}
-                     className="text-gray-500 ml-1">
+                     className="text-gray-500 hover:text-gray-700 font-medium ml-1 text-sm hover:underline">
                      daha fazla göster
                   </button>
                )}
-            </p>
-            <div className="">
+            </div>
+
+            <div className="rounded-xl overflow-hidden shadow-sm border border-gray-100">
                <PostSlider items={post.media ?? []} aspectRatio="16/9" />
             </div>
          </main>
-         <footer className="flex items-baseline gap-4 text-2xl">
-            <BtnLiked isLiked={post.isLiked ?? false} id={post._id} />
-            <button
-               className="bx bx-message-rounded"
-               onClick={() => setCommentVisible(!commentVisible)}></button>
-            <button className="bx bx-send"></button>
-            <BtnBookmarked
-               className="ml-auto"
-               isBookmarked={post.isBookmarked ?? false}
-               id={post._id}
-            />
+
+         <footer className="flex items-center justify-between pt-4 mt-2 border-t border-gray-50">
+            <div className="flex items-center space-x-6 text-2xl text-gray-400">
+               <div className="hover:text-red-500 transition-colors duration-200 flex items-center">
+                  <BtnLiked isLiked={post.isLiked ?? false} id={post._id} />
+               </div>
+
+               <button
+                  className="bx bx-message-rounded hover:text-blue-500 transition-colors duration-200"
+                  onClick={() => setCommentVisible(!commentVisible)}
+                  aria-label="Yorum yap"></button>
+
+               <button
+                  className="bx bx-share-alt hover:text-green-500 transition-colors duration-200"
+                  onClick={handleShare}
+                  aria-label="Paylaş"></button>
+            </div>
+
+            <div className="text-2xl text-gray-400 hover:text-yellow-500 transition-colors duration-200">
+               <BtnBookmarked
+                  isBookmarked={post.isBookmarked ?? false}
+                  id={post._id}
+               />
+            </div>
          </footer>
-         <details open={commentVisible} className="">
-            <summary className="!hidden">a</summary>
-            <CommentEditor postId={post._id} />
-            <CommentView comments={post.comments} />
+
+         <details open={commentVisible} className="group">
+            <summary className="hidden">Comments</summary>
+            <div className="mt-4 pt-4 border-t border-gray-100 animate-in fade-in slide-in-from-top-2 duration-300">
+               <CommentEditor postId={post._id} />
+               <div className="mt-4">
+                  <CommentView comments={post.comments} />
+               </div>
+            </div>
          </details>
-      </div>
+      </article>
    );
 }
