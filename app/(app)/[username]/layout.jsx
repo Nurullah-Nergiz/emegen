@@ -67,7 +67,7 @@ export default async function Layout({ children, params }) {
 
    return (
       <>
-         {/* <ProfileSchemas user={user} /> */}
+         <ProfileSchemas user={user} />
 
          <section className="flex-1">
             <ProfileInfoHeader
@@ -93,93 +93,6 @@ export default async function Layout({ children, params }) {
                </>
             )}
          </aside>
-         <script type="application/ld+json">
-            {JSON.stringify(
-               {
-                  "@context": "https://schema.org",
-                  "@graph": [
-                     {
-                        "@type": "ConstructionBusiness",
-                        "@id": "https://emegen.com.tr/@alpaslan-bugday-insaat#business",
-                        name: "Alpaslan Buğday İnşaat",
-                        url: "https://emegen.com.tr/@alpaslan-bugday-insaat",
-                        logo: "https://cdn.emegen.com.tr/avatars/68ed2f9451d8cb2a2077292b.png",
-                        image: "https://cdn.emegen.com.tr/coverPictures/68ed2f9451d8cb2a2077292b.jpg",
-                        description:
-                           "Alpaslan Buğday İnşaat, konut ve ticari yapı projelerinde 20 yılı aşkın tecrübesiyle güven ve kaliteyi bir araya getirir.",
-                        telephone: "+900000000000",
-                        address: {
-                           "@type": "PostalAddress",
-                           streetAddress: "İzzet Bey Mahallesi 72447 Sokak",
-                           addressLocality: "Konya",
-                           addressCountry: "TR",
-                        },
-                        openingHoursSpecification: [
-                           {
-                              "@type": "OpeningHoursSpecification",
-                              dayOfWeek: [
-                                 "Monday",
-                                 "Tuesday",
-                                 "Wednesday",
-                                 "Thursday",
-                                 "Friday",
-                                 "Saturday",
-                              ],
-                              opens: "09:00",
-                              closes: "18:00",
-                           },
-                        ],
-                        hasOfferCatalog: {
-                           "@type": "OfferCatalog",
-                           name: "İnşaat Hizmetleri",
-                           itemListElement: [
-                              {
-                                 "@type": "Offer",
-                                 itemOffered: {
-                                    "@type": "Service",
-                                    name: "Ticari Dükkan ve Mağaza İnşaatı",
-                                    provider: {
-                                       "@id": "https://emegen.com.tr/@alpaslan-bugday-insaat#business",
-                                    },
-                                 },
-                              },
-                              {
-                                 "@type": "Offer",
-                                 itemOffered: {
-                                    "@type": "Service",
-                                    name: "Dubleks Villa İnşaatı",
-                                    provider: {
-                                       "@id": "https://emegen.com.tr/@alpaslan-bugday-insaat#business",
-                                    },
-                                 },
-                              },
-                           ],
-                        },
-                     },
-                     {
-                        "@type": "BreadcrumbList",
-                        "@id": "https://emegen.com.tr/@alpaslan-bugday-insaat#breadcrumb",
-                        itemListElement: [
-                           {
-                              "@type": "ListItem",
-                              position: 1,
-                              name: "Ana Sayfa",
-                              item: "https://emegen.com.tr/",
-                           },
-                           {
-                              "@type": "ListItem",
-                              position: 2,
-                              name: "Alpaslan Buğday İnşaat",
-                              item: "https://emegen.com.tr/@alpaslan-bugday-insaat",
-                           },
-                        ],
-                     },
-                  ],
-               },
-               null,
-               2
-            )}
-         </script>
       </>
    );
 }

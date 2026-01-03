@@ -28,14 +28,14 @@ export default async function Page({ params }) {
             }`}
          />
 
-         {/* <BreadcrumbSchema
+         <BreadcrumbSchema
             items={[
                {
                   name: `${cleanUsername}` || "Profile",
                   url: `/@${cleanUsername}`,
                },
             ]}
-         /> */}
+         />
       </>
    );
 }
