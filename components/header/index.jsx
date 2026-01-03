@@ -8,15 +8,14 @@ import NavbarBtn from "./navbarBtn";
 import useAuthUser from "@/hooks/auth";
 import Logo from "@/components/Logo";
 
-
 export const Header = async () => {
    // const users = await useIsAuthUser();
    const user = await useAuthUser();
 
    return (
-      <header className="h-20 mx-1 px-8  dark:!text-white z-50">
-         <section className="flex items-center justify-between">
-            <div className="flex-1 flex items-center gap-4">
+      <header className="h-20 mx-1 px-8 py-2  dark:!text-white  z-50">
+         <section className="flex items-center justify-between relative">
+            <div className="flex-1 flex items-center gap-4 ">
                <Link href="/" className="sm:hidden">
                   <Logo />
                </Link>
@@ -24,6 +23,9 @@ export const Header = async () => {
                <Search />
             </div>
             <div className=" p-1 flex items-center justify-end gap-4 overflow-hidden">
+               <label
+                  className="bx bx-search sm:hidden text-secondary dark:!text-inherit text-2xl"
+                  htmlFor="header-search-input"></label>
                {user?._id ? (
                   <>
                      <button className="bx bx-message-rounded-dots text-secondary dark:!text-inherit text-2xl "></button>
